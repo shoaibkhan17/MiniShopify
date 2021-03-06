@@ -1,0 +1,5 @@
+language: java
+deploy:
+  provider: heroku
+  api-key: $HEROKU_API_KEY
+  app: minishopifyapp
