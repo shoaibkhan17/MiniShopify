@@ -10,5 +10,8 @@ public interface repo extends CrudRepository<Merchant, Long> {
 
     List<Merchant> findAll();
     List<Merchant> findByUsername(String username);
+    List<Merchant> findByName(String name);
+    List<Merchant> findByEmail(String email);
+    List<Merchant> findByNumber(String number);
     Merchant findById(long id);
 }

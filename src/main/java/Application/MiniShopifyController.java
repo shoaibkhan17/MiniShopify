@@ -25,12 +25,11 @@ public class MiniShopifyController {
         return "merchants-page";
     }
 
-    @PostMapping("/createAccount")
+    @PostMapping("/home")
     public String signingIn(@ModelAttribute Merchant merchant, Model model) {
-        System.out.println("username: " + merchant.getUsername());
-        System.out.println("password: " + merchant.getPassword());
+        System.out.println(merchant);
         merchants.save(merchant);
-        return "index";
+        return "home";
     }
 
     @GetMapping("/createAccount")

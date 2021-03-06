@@ -7,22 +7,46 @@ import javax.persistence.Id;
 @Entity
 public class Merchant {
 	private String username;
+	private String name;
 	private String password;
 	private String number;
 	private String email;
-	
 	private Long id;
-	
+
+	public Merchant() {
+		username = "";
+		name = "";
+		password = "";
+		number = "";
+		email = "";
+	};
+
 	public Merchant(String username, String password) {
 		this.username = username;
-		this.setPassword(password);
+		this.password = password;
 	}
 	
-	public Merchant() {};
-	
-	public void setAll(String name, String number, String email)
+	public Merchant(String username, String name, String password, String number, String email)
 	{
-		this.username = name;
+		this.username = username;
+		this.name = name;
+		this.password = password;
+		this.number = number;
+		this.email = email;
+	}
+
+	public Merchant(Merchant merchant) {
+		this.username = merchant.username;
+		this.name = merchant.name;
+		this.password = merchant.password;
+		this.number = merchant.number;
+		this.email = merchant.email;
+	}
+
+	public void setAll(String username, String name, String password, String number, String email) {
+		this.username = username;
+		this.name = name;
+		this.password = password;
 		this.number = number;
 		this.email = email;
 	}
@@ -43,6 +67,14 @@ public class Merchant {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String Name) {
+		this.name = name;
 	}
 
 	public String getNumber() {
@@ -67,5 +99,14 @@ public class Merchant {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String toString() {
+		String string = "Username: " + username + "\n";
+		string += "Name: " + name + "\n";
+		string += "Number: " + number + "\n";
+		string += "Email: " + email + "\n";
+		string += "Password: " + password + "\n";
+		return string;
 	}
 }
