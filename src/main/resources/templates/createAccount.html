@@ -1,17 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-    <head>
-        <title>Spring Boot User Authentication</title>
-    </head>
-    <body>
-        <form role="form" th:action="@{/createAccount}" th:method="post" th:object="${merchant}">
-            <lable>Username</lable>
-            <input type="text" id="username" name="username" th:field="*{username}">
+<head>
+<title>Spring Boot User Authentication</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+	<section class="section has-background-black-ter">
+		<div class="box">
+			<h1 class="title">Mini Shopify</h1>
 
-            <lable>Password</lable>
-            <input type="password" id="password" name="password" th:field="*{password}">
+			<p class="subtitle">Create your account!</p>
+		</div>
+	</section>
 
-            <input type="submit">
-        </form>
-    </body>
+
+	<section class="section">
+		<div class="box has-text-white has-background-black-ter">
+
+			<form class="box" role="form" th:action="@{/createAccount}"
+				th:method="post" th:object="${merchant}">
+
+				<div class="field">
+					<lable class="label">Username</lable>
+					<div class="control">
+						<input class="input" type="text" id="username" name="username"
+							th:field="*{username}">
+					</div>
+				</div>
+
+				<div class="field">
+					<lable class="label">Password</lable>
+					<div class="control">
+						<input class="input" type="password" id="password" name="password"
+							th:field="*{password}">
+					</div>
+				</div>
+
+				<input class="button is-primary" value = "Create Account" type="submit">
+			</form>
+
+		</div>
+	</section>
+</body>
 </html>
