@@ -9,6 +9,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface repo extends CrudRepository<Merchant, Long> {
 
     List<Merchant> findAll();
-    List<Merchant> findByName(String name);
+    List<Merchant> findByUsername(String username);
     Merchant findById(long id);
 }
