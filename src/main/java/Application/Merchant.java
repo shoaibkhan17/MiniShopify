@@ -15,8 +15,10 @@ public class Merchant {
 	
 	public Merchant(String username, String password) {
 		this.username = username;
-		this.password = password;
+		this.setPassword(password);
 	}
+	
+	public Merchant() {};
 	
 	public void setAll(String name, String number, String email)
 	{
@@ -53,5 +55,17 @@ public class Merchant {
 
 	public String getEmail() {
 		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

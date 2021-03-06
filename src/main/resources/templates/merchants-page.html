@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Shopify</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+
+<body>
+	<section class="section has-background-black-ter">
+		<div class="box">
+			<h1 class="title">Mini Shopify</h1>
+
+			<p class="subtitle">Merchants</p>
+		</div>
+	</section>
+
+
+	<section class="section">
+		<div class="box has-background-black-ter">
+			<tr th:each="m: ${merchants}">
+				<td>Merchant</td>
+				<br>
+				<td>Name:</td>
+				<td th:text="${m.name}" />
+				<br>
+				<td>Password:</td>
+				<td th:text="${m.password}" />
+				<br>
+			</tr>
+		</div>
+	</section>
+</body>
+
+</html>
