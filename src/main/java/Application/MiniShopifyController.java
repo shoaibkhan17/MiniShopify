@@ -15,10 +15,10 @@ public class MiniShopifyController {
 	private repo merchants;
 	
     @GetMapping("/")
-    public String getAddressBookContents(Model model) {
+    public String indexContents(Model model) {
         return "index";
     }
-    
+   
     @GetMapping("/merchants")
     public String getMerchants(Model model) {
     	model.addAttribute("merchants",merchants.findAll());
@@ -26,10 +26,22 @@ public class MiniShopifyController {
     }
 
     @PostMapping("/home")
-    public String signingIn(@ModelAttribute Merchant merchant, Model model) {
+    public String createAccount(@ModelAttribute Merchant merchant, Model model) {
         System.out.println(merchant);
         merchants.save(merchant);
         return "home";
+    }
+    
+    @PostMapping("/")
+    public String signIn(@ModelAttribute Merchant merchant, Model model) {
+    	Merchant m = merchants.findByUsername(merchant.getUsername());
+   
+    	if(m != null) {
+    		if(m.getPassword().equals(merchant.getPassword())) {
+    			return "home";
+    		}
+    	}
+        return "index";
     }
 
     @GetMapping("/createAccount")
