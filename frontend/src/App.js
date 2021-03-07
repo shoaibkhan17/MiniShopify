@@ -1,5 +1,6 @@
 import './App.css';
 import Main from './components/Main';
+import 'react-app-polyfill/stable';
 
 function App() {
   return (

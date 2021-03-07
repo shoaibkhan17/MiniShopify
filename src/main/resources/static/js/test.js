@@ -1,3 +1,0 @@
-function authenticate(){
-    alert("testing");
-}

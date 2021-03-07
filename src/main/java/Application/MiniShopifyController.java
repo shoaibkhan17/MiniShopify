@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("api/")
 public class MiniShopifyController {
