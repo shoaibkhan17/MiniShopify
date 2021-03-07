@@ -16,6 +16,7 @@ public class MiniShopifyController {
 	
     @GetMapping("/")
     public String indexContents(Model model) {
+        model.addAttribute("merchant", new Merchant());
         return "index";
     }
    
@@ -41,6 +42,8 @@ public class MiniShopifyController {
     			return "home";
     		}
     	}
+
+        model.addAttribute("merchant", new Merchant());
         return "index";
     }
 
