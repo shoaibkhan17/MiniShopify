@@ -24,6 +24,7 @@ class Main extends React.Component {
             <div>
                 <TopMenu title={"Setup your own shop!"}/>
                 {this.state.createAccountFlag ? <CreateAccount updateFlag={this.setCreateAccountFlag} /> : <SignIn updateFlag={this.setCreateAccountFlag} />}
+                <UserComponent />
             </div>
         )
     }

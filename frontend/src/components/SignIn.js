@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Section} from 'react-bulma-components';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
+import UserService from '../services/UserService';
 
 
 class SignIn extends React.Component {
@@ -35,6 +36,7 @@ class SignIn extends React.Component {
             password: this.state.password
         }
         console.table(obj);
+        UserService.authenticateMerchant(obj);
     }
 
     render() {
