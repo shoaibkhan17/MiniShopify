@@ -1,33 +1,87 @@
 import React from "react";
 import "react-bulma-components/dist/react-bulma-components.min.css";
-import UserComponent from "./UserComponent";
-import TopMenu from "./TopMenu";
-import SignIn from "./SignIn";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import CreateAccount from "./CreateAccount";
+import SignIn from "./SignIn";
+import TopMenu from "./TopMenu";
+import UserComponent from "./UserComponent";
 
+var isAuthenticated = false;
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      createAccountFlag: false,
+      isAuthenticated: false,
     };
-    this.setCreateAccountFlag = this.setCreateAccountFlag.bind(this);
+    this.setAuthenticated = this.setAuthenticated.bind(this);
   }
 
-  setCreateAccountFlag(flag) {
-    this.setState({ createAccountFlag: flag });
+  setAuthenticated(flag) {
+    this.setState({ isAuthenticated: flag });
   }
 
+  componentDidUpdate(prevProps, nextState) {
+    console.log(
+      "isAuthenticated",
+      nextState.isAuthenticated,
+      this.state.isAuthenticated
+    );
+  }
+
+  // PrivateRoute = ({ component: Component, ...rest }) => {
+  //   <Route
+  //     {...rest}
+  //     render={(props) =>
+  //       fakeAuth.isAuthenticated === true ? (
+  //         <Component {...props} />
+  //       ) : (
+  //         <Redirect to="/login" />
+  //       )
+  //     }
+  //   />;
+  // };
+
+  componentDidMount() {
+    console.log("main mounting");
+  }
   render() {
     return (
       <div>
-        <TopMenu title={"Setup your own shop!"} />
-        {this.state.createAccountFlag ? (
-          <CreateAccount updateFlag={this.setCreateAccountFlag} />
-        ) : (
-          <SignIn updateFlag={this.setCreateAccountFlag} />
-        )}
-        <UserComponent />
+        <Router>
+          <Switch>
+            <Route
+              path="/sign-in"
+              exact
+              component={() => (
+                <SignIn setAuthenticated={this.setAuthenticated} />
+              )}
+            />
+
+            <Route
+              path="/create-account"
+              component={() => (
+                <CreateAccount setAuthenticated={this.setAuthenticated} />
+              )}
+            />
+
+            <Route path="/home" component={() => <UserComponent />} />
+
+            <Route
+              render={() => {
+                return this.state.isAuthenticated ? (
+                  <Redirect to="/home" />
+                ) : (
+                  <Redirect to="/sign-in" />
+                );
+              }}
+            />
+          </Switch>
+        </Router>
       </div>
     );
   }

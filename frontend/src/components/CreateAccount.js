@@ -3,6 +3,8 @@ import { Section, Box, Button } from "react-bulma-components";
 import "react-bulma-components/dist/react-bulma-components.min.css";
 import UserService from "../services/UserService";
 import FormField from "./FormField";
+import TopMenu from "./TopMenu";
+import { Redirect } from "react-router";
 
 class CreateAccount extends React.Component {
   constructor(props) {
@@ -13,13 +15,9 @@ class CreateAccount extends React.Component {
       number: "",
       email: "",
       password: "",
+      redirectToSignIn: false,
     };
-    this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleClick() {
-    this.props.updateFlag(false);
   }
 
   handleSubmit() {
@@ -37,6 +35,12 @@ class CreateAccount extends React.Component {
   render() {
     return (
       <div>
+        {this.state.redirectToSignIn && (
+          <Redirect to={{ pathname: "/sign-in" }} />
+        )}
+
+        <TopMenu title={"Create your account!"} />
+
         <Section style={{ textAlign: "left" }}>
           <Box className="has-background-black-ter">
             <Box>
@@ -90,7 +94,10 @@ class CreateAccount extends React.Component {
               </Button>
             </Box>
 
-            <a onClick={this.handleClick} className="has-text-white">
+            <a
+              onClick={() => this.setState({ redirectToSignIn: true })}
+              className="has-text-white"
+            >
               If you already have an account, click here to sign in.
             </a>
           </Box>
