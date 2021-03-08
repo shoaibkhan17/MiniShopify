@@ -30,9 +30,13 @@ public class MiniShopifyController {
 	}
 
 	@PostMapping("authenticate")
-	public void authenticate(@RequestBody Merchant merchant) {
+	public ResponseEntity authenticate(@RequestBody Merchant merchant) {
 		if (merchant != null) {
-			System.out.println("Authenticate merchant");
+			Merchant m = merchants.findByUsername(merchant.getUsername());
+			if (m != null && m.getPassword().equals(merchant.getPassword())) {
+				return ResponseEntity.ok().body("{'authenticate': true}");
+			}
 		}
+		return ResponseEntity.ok().body("{'authenticate': false}");
 	}
 }
