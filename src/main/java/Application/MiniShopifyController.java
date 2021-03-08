@@ -23,10 +23,12 @@ public class MiniShopifyController {
     }
 
     @PostMapping("addMerchant")
-	public void addMerchant(@RequestBody Merchant merchant) {
+	public ResponseEntity addMerchant(@RequestBody Merchant merchant) {
 		if (merchant != null) {
 			merchants.save(merchant);
+			return ResponseEntity.ok().body("{\"merchantAdded\": true, \"authenticate\": true}");
 		}
+		return ResponseEntity.ok().body("{\"merchantAdded\": false, \"authenticate\": false}");
 	}
 
 	@PostMapping("authenticate")
@@ -34,9 +36,9 @@ public class MiniShopifyController {
 		if (merchant != null) {
 			Merchant m = merchants.findByUsername(merchant.getUsername());
 			if (m != null && m.getPassword().equals(merchant.getPassword())) {
-				return ResponseEntity.ok().body("{'authenticate': true}");
+				return ResponseEntity.ok().body("{\"authenticate\": true}");
 			}
 		}
-		return ResponseEntity.ok().body("{'authenticate': false}");
+		return ResponseEntity.ok().body("{\"authenticate\": false}");
 	}
 }

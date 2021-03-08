@@ -10,15 +10,18 @@ class SignIn extends React.Component {
     this.state = {
       username: "",
       password: "",
+      isAuthenticated: undefined,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.displayErrorMessage = this.displayErrorMessage.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
       nextState.username !== this.state.username ||
-      nextState.password !== this.state.password
+      nextState.password !== this.state.password ||
+      nextState.isAuthenticated !== this.state.isAuthenticated
     ) {
       return true;
     }
@@ -29,13 +32,18 @@ class SignIn extends React.Component {
     this.props.updateFlag(true);
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     var obj = {
       username: this.state.username,
       password: this.state.password,
     };
-    console.table(obj);
-    UserService.authenticateMerchant(obj);
+
+    var authenticateResponse = await UserService.authenticateMerchant(obj);
+    this.setState({ isAuthenticated: authenticateResponse });
+  }
+
+  displayErrorMessage() {
+    return;
   }
 
   render() {
@@ -44,6 +52,11 @@ class SignIn extends React.Component {
         <Section style={{ textAlign: "left" }}>
           <Box className="has-background-black-ter">
             <Box>
+              {this.state.isAuthenticated === false && (
+                <label className="label has-danger">
+                  Invalid username and password!
+                </label>
+              )}
               <FormField
                 label="Username"
                 value={this.state.username}
