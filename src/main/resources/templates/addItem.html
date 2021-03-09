@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Shopify</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script type="text/javascript" href="/js/test.js"></script>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+
+    <section class="section has-background-black-ter">
+        <div class="box">
+            <h1 class="title">Mini Shopify</h1>
+            <p class="subtitle">Create A Shop</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="box has-text-white has-background-black-ter">
+            <form class="box" role="form" th:action="@{/home}"
+                  th:method="post" th:object="${merchant}">
+
+                <div class="field">
+                    <lable class="label">Item Name</lable>
+                    <div class="control">
+                        <input class="input" type="text" id="shopName" name="shopName"
+                               th:field="*{shopName}" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <lable class="label">Item Description</lable>
+                    <div class="control">
+                        <input class="input" type="text" id="shopDescription" name="shopDescription"
+                               th:field="*{shopDescription}">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <lable class="label">Quantity</lable>
+                    <div class="control">
+                        <input class="input" type="number" id="quantity" name="quantity"
+                               th:field="*{quantity}">
+                    </div>
+                </div>
+                <div class="field">
+                    <lable class="label">Price</lable>
+                    <div class="control">
+                        <input class="input" type="number" step=".01" id="price" name="price"
+                               th:field="*{price}">
+                    </div>
+                </div>
+
+                <input class="button is-primary" id="saveShop" value = "Add Item" type="submit">
+                <p><a href="">Go Back to the Shop Page</a></p>
+
+            </form>
+
+        </div>
+    </section>
+
+
+
+</body>
+</html>
