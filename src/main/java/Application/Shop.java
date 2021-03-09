@@ -1,6 +1,8 @@
 package Application;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
+@Entity
 
 public class Shop {
 
