@@ -8,72 +8,46 @@ import {
 } from "react-router-dom";
 import CreateAccount from "./CreateAccount";
 import SignIn from "./SignIn";
-import TopMenu from "./TopMenu";
 import UserComponent from "./UserComponent";
+import { connect } from "react-redux";
 
-var isAuthenticated = false;
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.isAuthenticated };
+};
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isAuthenticated: false,
-    };
-    this.setAuthenticated = this.setAuthenticated.bind(this);
+    this.state = {};
   }
 
-  setAuthenticated(flag) {
-    this.setState({ isAuthenticated: flag });
-  }
+  componentDidUpdate(prevProps, nextState) {}
 
-  componentDidUpdate(prevProps, nextState) {
-    console.log(
-      "isAuthenticated",
-      nextState.isAuthenticated,
-      this.state.isAuthenticated
-    );
-  }
+  componentDidMount() {}
 
-  // PrivateRoute = ({ component: Component, ...rest }) => {
-  //   <Route
-  //     {...rest}
-  //     render={(props) =>
-  //       fakeAuth.isAuthenticated === true ? (
-  //         <Component {...props} />
-  //       ) : (
-  //         <Redirect to="/login" />
-  //       )
-  //     }
-  //   />;
-  // };
-
-  componentDidMount() {
-    console.log("main mounting");
-  }
   render() {
     return (
       <div>
         <Router>
           <Switch>
-            <Route
-              path="/sign-in"
-              exact
-              component={() => (
-                <SignIn setAuthenticated={this.setAuthenticated} />
-              )}
-            />
+            <Route path="/sign-in" exact component={() => <SignIn />} />
+
+            <Route path="/create-account" component={() => <CreateAccount />} />
 
             <Route
-              path="/create-account"
-              component={() => (
-                <CreateAccount setAuthenticated={this.setAuthenticated} />
-              )}
+              path="/home"
+              component={() =>
+                this.props.isAuthenticated ? (
+                  <UserComponent />
+                ) : (
+                  <Redirect to="/sign-in" />
+                )
+              }
             />
-
-            <Route path="/home" component={() => <UserComponent />} />
 
             <Route
               render={() => {
-                return this.state.isAuthenticated ? (
+                return this.props.isAuthenticated ? (
                   <Redirect to="/home" />
                 ) : (
                   <Redirect to="/sign-in" />
@@ -87,4 +61,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default connect(mapStateToProps, {})(Main);

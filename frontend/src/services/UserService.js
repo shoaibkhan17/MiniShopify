@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const USERS_REST_API_URL = '/api/merchants';
-const CREATE_USER_REST_API_URL = '/api/addMerchant';
-const AUTHENTICATE_REST_API_URL = '/api/authenticate';
+const USERS_REST_API_URL = "/api/merchants";
+const CREATE_USER_REST_API_URL = "/api/addMerchant";
+const AUTHENTICATE_REST_API_URL = "/api/authenticate";
 
 class UserService {
   getUsers() {
@@ -27,7 +27,6 @@ class UserService {
     return await axios.post(AUTHENTICATE_REST_API_URL, data).then(
       (response) => {
         if (response && response.data) {
-          console.log(response.data.authenticate);
           return response.data.authenticate;
         }
         return false;
