@@ -5,6 +5,12 @@ import { Redirect } from "react-router";
 import UserService from "../services/UserService";
 import FormField from "./FormField";
 import TopMenu from "./TopMenu";
+import { connect } from "react-redux";
+import { setAuthenticated } from "../redux/actions";
+
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.isAuthenticated };
+};
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -12,7 +18,7 @@ class SignIn extends React.Component {
     this.state = {
       username: "",
       password: "",
-      isAuthenticated: undefined,
+      authenticateFailed: false,
       redirectToCreateAccount: false,
     };
 
@@ -23,7 +29,8 @@ class SignIn extends React.Component {
     if (
       nextState.username !== this.state.username ||
       nextState.password !== this.state.password ||
-      nextState.isAuthenticated !== this.state.isAuthenticated ||
+      nextProps.isAuthenticated !== this.props.isAuthenticated ||
+      nextState.authenticateFailed !== this.state.authenticateFailed ||
       nextState.redirectToCreateAccount !== this.state.redirectToCreateAccount
     ) {
       return true;
@@ -38,11 +45,12 @@ class SignIn extends React.Component {
     };
 
     var authenticateResponse = await UserService.authenticateMerchant(obj);
-    this.setState({ isAuthenticated: authenticateResponse });
 
-    if (authenticateResponse) {
-      this.props.setAuthenticated(true);
+    if (!authenticateResponse) {
+      this.setState({ authenticateFailed: true });
     }
+
+    this.props.setAuthenticated(authenticateResponse);
   }
 
   render() {
@@ -52,12 +60,14 @@ class SignIn extends React.Component {
           <Redirect to={{ pathname: "/create-account" }} />
         )}
 
+        {this.props.isAuthenticated && <Redirect to={{ pathname: "/" }} />}
+
         <TopMenu title={"Sign In"} />
 
         <Section style={{ textAlign: "left" }}>
           <Box className="has-background-black-ter">
             <Box>
-              {this.state.isAuthenticated === false && (
+              {this.state.authenticateFailed && (
                 <label className="label has-text-danger">
                   Invalid username and password!
                 </label>
@@ -75,6 +85,7 @@ class SignIn extends React.Component {
               <FormField
                 label="Password"
                 value={this.state.password}
+                type="password"
                 onChange={(event) =>
                   this.setState({ password: event.target.value })
                 }
@@ -99,4 +110,4 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+export default connect(mapStateToProps, { setAuthenticated })(SignIn);

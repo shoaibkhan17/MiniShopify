@@ -1,7 +1,11 @@
 import React from "react";
 import UserService from "../services/UserService";
+import TopMenu from "./TopMenu";
+import { Box, Section, Button } from "react-bulma-components";
+import { connect } from "react-redux";
+import { setAuthenticated } from "../redux/actions";
 
-class UserComponent extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,6 +13,7 @@ class UserComponent extends React.Component {
     };
 
     this.test = this.test.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   componentDidMount() {
@@ -21,11 +26,19 @@ class UserComponent extends React.Component {
     });
   }
 
+  signOut() {
+    this.props.setAuthenticated(false);
+  }
+
   render() {
     return (
       <div>
+        <TopMenu title="Home Page" />
+        <Button onClick={this.signOut} className="is-primary">
+          Sign Out
+        </Button>
         <h1> USERS TABLE </h1>
-        <table>
+        <table class="table">
           <thead>
             <tr>
               <td> Username </td>
@@ -52,4 +65,4 @@ class UserComponent extends React.Component {
   }
 }
 
-export default UserComponent;
+export default connect(null, { setAuthenticated })(Home);

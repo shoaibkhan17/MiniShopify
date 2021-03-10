@@ -86,6 +86,7 @@ class CreateAccount extends React.Component {
                 onChange={(event) =>
                   this.setState({ password: event.target.value })
                 }
+                type="password"
                 placeholder={"**********"}
               />
 
