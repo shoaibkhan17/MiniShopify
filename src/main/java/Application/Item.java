@@ -1,6 +1,8 @@
 package Application;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Item {
@@ -8,12 +10,37 @@ public class Item {
     private String description;
     private int quantity;
     private double price;
+    private Long id;
+
+    public Item() {
+        this.name = "";
+        this.description = "";
+        this.quantity = 0;
+        this.price = 0;
+    }
 
     public Item(String name, String description, int quantity, double price) {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public Item(Item item) {
+        this.name = item.name;
+        this.description = item.description;
+        this.quantity = item.quantity;
+        this.price = item.price;
+    }
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

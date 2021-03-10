@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(collectionResourceRel = "AddressBook", path = "books")
+@RepositoryRestResource(collectionResourceRel = "Merchants", path = "merchant")
 public interface repo extends CrudRepository<Merchant, Long> {
 
     List<Merchant> findAll();
