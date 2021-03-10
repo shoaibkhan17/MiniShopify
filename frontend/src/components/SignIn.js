@@ -85,6 +85,7 @@ class SignIn extends React.Component {
               <FormField
                 label="Password"
                 value={this.state.password}
+                type="password"
                 onChange={(event) =>
                   this.setState({ password: event.target.value })
                 }

@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import CreateAccount from "./CreateAccount";
 import SignIn from "./SignIn";
-import UserComponent from "./UserComponent";
+import Home from "./Home";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
@@ -38,7 +38,7 @@ class Main extends React.Component {
               path="/home"
               component={() =>
                 this.props.isAuthenticated ? (
-                  <UserComponent />
+                  <Home />
                 ) : (
                   <Redirect to="/sign-in" />
                 )
