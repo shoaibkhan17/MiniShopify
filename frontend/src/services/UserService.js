@@ -1,21 +1,42 @@
-import axios from 'axios'
+import axios from "axios";
 
 const USERS_REST_API_URL = '/api/merchants';
 const CREATE_USER_REST_API_URL = '/api/addMerchant';
 const AUTHENTICATE_REST_API_URL = '/api/authenticate';
 
 class UserService {
-    getUsers() {
-        return axios.get(USERS_REST_API_URL);
-    }
+  getUsers() {
+    return axios.get(USERS_REST_API_URL);
+  }
 
-    createAccount(data) {
-        axios.post(CREATE_USER_REST_API_URL, data)
-    }
+  async createAccount(data) {
+    return await axios.post(CREATE_USER_REST_API_URL, data).then(
+      (response) => {
+        if (response && response.data) {
+          return response.data.authenticate && response.data.merchantAdded;
+        }
+        return false;
+      },
+      (error) => {
+        return false;
+      }
+    );
+  }
 
-    authenticateMerchant(data) {
-        axios.post(AUTHENTICATE_REST_API_URL, data)
-    }
+  async authenticateMerchant(data) {
+    return await axios.post(AUTHENTICATE_REST_API_URL, data).then(
+      (response) => {
+        if (response && response.data) {
+          console.log(response.data.authenticate);
+          return response.data.authenticate;
+        }
+        return false;
+      },
+      (error) => {
+        return false;
+      }
+    );
+  }
 }
 
 export default new UserService();

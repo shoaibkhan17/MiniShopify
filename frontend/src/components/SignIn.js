@@ -1,72 +1,102 @@
-import React from 'react';
-import {Box, Section} from 'react-bulma-components';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
-import UserService from '../services/UserService';
-
+import React from "react";
+import { Box, Section, Button } from "react-bulma-components";
+import "react-bulma-components/dist/react-bulma-components.min.css";
+import { Redirect } from "react-router";
+import UserService from "../services/UserService";
+import FormField from "./FormField";
+import TopMenu from "./TopMenu";
 
 class SignIn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      isAuthenticated: undefined,
+      redirectToCreateAccount: false,
+    };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: ''
-        }
-        this.handleClick = this.handleClick.bind(this);
-        this.usernameOnChange = this.usernameOnChange.bind(this);
-        this.passwordOnChange = this.passwordOnChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextState.username !== this.state.username ||
+      nextState.password !== this.state.password ||
+      nextState.isAuthenticated !== this.state.isAuthenticated ||
+      nextState.redirectToCreateAccount !== this.state.redirectToCreateAccount
+    ) {
+      return true;
     }
+    return false;
+  }
 
-    handleClick() {
-        this.props.updateFlag(true);
+  async handleSubmit() {
+    var obj = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+
+    var authenticateResponse = await UserService.authenticateMerchant(obj);
+    this.setState({ isAuthenticated: authenticateResponse });
+
+    if (authenticateResponse) {
+      this.props.setAuthenticated(true);
     }
+  }
 
-    usernameOnChange(event) {
-        this.setState({username: event.target.value})
-    }
+  render() {
+    return (
+      <div>
+        {this.state.redirectToCreateAccount && (
+          <Redirect to={{ pathname: "/create-account" }} />
+        )}
 
-    passwordOnChange(event) {
-        this.setState({password: event.target.value})
-    }
+        <TopMenu title={"Sign In"} />
 
-    handleSubmit() {
-        var obj = {
-            username: this.state.username,
-            password: this.state.password
-        }
-        console.table(obj);
-        UserService.authenticateMerchant(obj);
-    }
+        <Section style={{ textAlign: "left" }}>
+          <Box className="has-background-black-ter">
+            <Box>
+              {this.state.isAuthenticated === false && (
+                <label className="label has-text-danger">
+                  Invalid username and password!
+                </label>
+              )}
 
-    render() {
-        return (
-            <div>
-                <Section style={{textAlign: "left"}} >
-                    <Box className = "has-background-black-ter">
-                        <form className="box">
-                            <div className="field">
-                                <label className="label">Username</label>
-                                <div className="control">
-                                    <input value={this.state.username} onChange={this.usernameOnChange} className="input" type="text" required placeholder="e.g. username"/>
-                                </div>
-                            </div>
+              <FormField
+                label="Username"
+                value={this.state.username}
+                onChange={(event) =>
+                  this.setState({ username: event.target.value })
+                }
+                placeholder={"e.g. username"}
+              />
 
-                            <div className="field">
-                                <label className="label">Password</label>
-                                <div className="control">
-                                    <input value={this.state.password} onChange={this.passwordOnChange} className="input" type="password" required placeholder="********"/>
-                                </div>
-                            </div>
-                        
-                            <input onClick={this.handleSubmit} className="button is-primary" value = "Sign in"/>
-                        </form>
-                        <a onClick={this.handleClick} className = "has-text-white" >Click here to create an account</a>
-                    </Box>
-                </Section>
-            </div>
-        )
-    }
+              <FormField
+                label="Password"
+                value={this.state.password}
+                onChange={(event) =>
+                  this.setState({ password: event.target.value })
+                }
+                placeholder={"********"}
+              />
+
+              <Button onClick={this.handleSubmit} className="is-primary">
+                Sign In
+              </Button>
+            </Box>
+
+            <a
+              onClick={() => this.setState({ redirectToCreateAccount: true })}
+              className="has-text-white"
+            >
+              Click here to create an account
+            </a>
+          </Box>
+        </Section>
+      </div>
+    );
+  }
 }
 
- export default SignIn;
+export default SignIn;
