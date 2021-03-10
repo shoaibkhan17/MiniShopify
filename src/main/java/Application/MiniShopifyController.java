@@ -49,4 +49,22 @@ public class MiniShopifyController {
         model.addAttribute("merchant", new Merchant());
         return "createAccount";
     }
+
+    // Controller methods to view the html pages temporarily
+
+    @GetMapping("/addItem")
+    public String addItem(Model model) {
+        return "addItem";
+    }
+
+    @GetMapping("/createShop")
+    public String createShop(Model model) {
+        return "createShop";
+    }
+
+    @GetMapping("/editShop")
+    public String editShop(Model model) {
+        return "editShop";
+    }
+
 }
