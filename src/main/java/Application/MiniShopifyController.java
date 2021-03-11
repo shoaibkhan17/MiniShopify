@@ -1,52 +1,44 @@
 package Application;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
+import java.util.List;
+
+@CrossOrigin
+@RestController
+@RequestMapping("api/")
 public class MiniShopifyController {
 
 	@Autowired
 	private repo merchants;
-	
-    @GetMapping("/")
-    public String indexContents(Model model) {
-        return "index";
-    }
-   
-    @GetMapping("/merchants")
-    public String getMerchants(Model model) {
-    	model.addAttribute("merchants",merchants.findAll());
-        return "merchants-page";
+
+	@GetMapping("merchants")
+    public List<Merchant> getMerchants() {
+	    return merchants.findAll();
     }
 
-    @PostMapping("/home")
-    public String createAccount(@ModelAttribute Merchant merchant, Model model) {
-        System.out.println(merchant);
-        merchants.save(merchant);
-        return "home";
-    }
-    
-    @PostMapping("/")
-    public String signIn(@ModelAttribute Merchant merchant, Model model) {
-    	Merchant m = merchants.findByUsername(merchant.getUsername());
-   
-    	if(m != null) {
-    		if(m.getPassword().equals(merchant.getPassword())) {
-    			return "home";
-    		}
-    	}
-        return "index";
-    }
+    @PostMapping("addMerchant")
+	public ResponseEntity addMerchant(@RequestBody Merchant merchant) {
+		if (merchant != null) {
+			merchants.save(merchant);
+			return ResponseEntity.ok().body("{\"merchantAdded\": true, \"authenticate\": true}");
+		}
+		return ResponseEntity.ok().body("{\"merchantAdded\": false, \"authenticate\": false}");
+	}
 
-    @GetMapping("/createAccount")
-    public String accountPage(Model model) {
-        model.addAttribute("merchant", new Merchant());
-        return "createAccount";
-    }
+	@PostMapping("authenticate")
+	public ResponseEntity authenticate(@RequestBody Merchant merchant) {
+		if (merchant != null) {
+			Merchant m = merchants.findByUsername(merchant.getUsername());
+			if (m != null && m.getPassword().equals(merchant.getPassword())) {
+				return ResponseEntity.ok().body("{\"authenticate\": true}");
+			}
+		}
+		return ResponseEntity.ok().body("{\"authenticate\": false}");
+	}
 }

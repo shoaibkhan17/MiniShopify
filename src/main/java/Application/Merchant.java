@@ -73,7 +73,7 @@ public class Merchant {
 		return name;
 	}
 
-	public void setName(String Name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

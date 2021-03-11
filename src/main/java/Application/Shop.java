@@ -1,21 +1,48 @@
 package Application;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
-@Entity
 
+@Entity
 public class Shop {
 
     private String name;
     private String description;
     private int shopID;
     private ArrayList<Item> shopItems;
+    private Long id;
+
+    public Shop() {
+        this.name = "";
+        this.description = "";
+        this.shopID = 0;
+        this.shopItems = new ArrayList<>();
+    }
+
+    public Shop(Shop shop) {
+        this.name = shop.name;
+        this.description = shop.description;
+        this.shopID = shop.shopID;
+        this.shopItems = shop.shopItems;
+    }
 
     public Shop(String name, String description, int shopID, ArrayList<Item> shopItems) {
         this.name = name;
         this.description = description;
         this.shopID = shopID;
         this.shopItems = shopItems;
+    }
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
