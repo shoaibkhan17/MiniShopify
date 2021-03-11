@@ -14,6 +14,9 @@ public class MiniShopifyController {
 	@Autowired
 	private repo merchants;
 
+	@Autowired
+	private shopRepo shopRepo;
+
 	@GetMapping("merchants")
     public List<Merchant> getMerchants() {
 	    return merchants.findAll();
@@ -37,5 +40,10 @@ public class MiniShopifyController {
 			}
 		}
 		return ResponseEntity.ok().body("{\"authenticate\": false}");
+	}
+
+	@GetMapping("getShops")
+	public List<Shop> getShops() {
+		return shopRepo.findAll();
 	}
 }
