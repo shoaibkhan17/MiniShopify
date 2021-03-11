@@ -23,12 +23,12 @@ class UserService {
     return await axios.post(CREATE_USER_REST_API_URL, data).then(
       (response) => {
         if (response && response.data) {
-          return response.data.authenticate && response.data.merchantAdded;
+          return [response.data.authenticate && response.data.merchantAdded, response.data.message];
         }
-        return false;
+        return [false, "Unable to create an account!"];
       },
       (error) => {
-        return false;
+        return [false, "Unable to create an account!"];
       }
     );
   }

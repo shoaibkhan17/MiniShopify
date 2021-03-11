@@ -24,11 +24,19 @@ public class MiniShopifyController {
 
     @PostMapping("addMerchant")
 	public ResponseEntity addMerchant(@RequestBody Merchant merchant) {
-		if (merchant != null) {
+		if (merchant != null && !merchant.getUsername().isBlank()) {
+			//check the repo if the username already exists
+			Merchant m = merchants.findByUsername(merchant.getUsername());
+			
+			//username already exists
+			if(m != null) {
+				return ResponseEntity.ok().body("{\"merchantAdded\": false, \"message\": \"Error: Username already exists!\" , \"authenticate\": false}");
+			}
+			
 			merchants.save(merchant);
-			return ResponseEntity.ok().body("{\"merchantAdded\": true, \"authenticate\": true}");
+			return ResponseEntity.ok().body("{\"merchantAdded\": true,\"message\": \"Success!\"  ,\"authenticate\": true}");
 		}
-		return ResponseEntity.ok().body("{\"merchantAdded\": false, \"authenticate\": false}");
+		return ResponseEntity.ok().body("{\"merchantAdded\": false,\"message\": \"Error: Unable to add merchant.\" ,\"authenticate\": false}");
 	}
 
 	@PostMapping("authenticate")
