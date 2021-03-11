@@ -37,10 +37,12 @@ public class MiniShopifyApplication implements  CommandLineRunner {
 		merchantRepo.save(abdi);
 
 		Shop tamersShop = new Shop("Tamer's Bakery", "Finest delicacies in town!", 1, new ArrayList<Item>());
+		Shop abdisShop = new Shop("Abdi's Corner Store", "For your quick convenience!", 2, new ArrayList<Item>());
 //		Item donuts = new Item("Glazed Donuts", "A dozen donuts glazed using our secret recipe",100, 10.00);
 //		Item cookies = new Item("Chocolate Chip Cookies", "A half dozen chocolate chip cookies that are sure to leave you craving some more",250, 7.50);
 //		tamersShop.addItem(donuts);
 //		tamersShop.addItem(cookies);
 		shopRepo.save(tamersShop);
+		shopRepo.save(abdisShop);
 	}
 }
