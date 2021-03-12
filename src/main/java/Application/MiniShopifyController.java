@@ -47,10 +47,7 @@ public class MiniShopifyController {
 		return shopRepo.findAll();
 	}
 
-	@GetMapping("getShopByID")
-	public Shop getShopByID(long id) {
-		return shopRepo.findById(id);
-	}
+
 
 
 }
