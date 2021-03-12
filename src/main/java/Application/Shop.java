@@ -69,6 +69,10 @@ public class Shop {
         this.shopID = shopID;
     }
 
+    public void addItem(Item item) {
+        shopItems.add(item);
+    }
+
     public ArrayList<Item> getShopItems() {
         return shopItems;
     }
