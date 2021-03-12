@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import CreateAccount from "./CreateAccount";
 import SignIn from "./SignIn";
+import Shop from "./Shop";
 import Home from "./Home";
 import { connect } from "react-redux";
 
@@ -39,6 +40,17 @@ class Main extends React.Component {
               component={() =>
                 this.props.isAuthenticated ? (
                   <Home />
+                ) : (
+                  <Redirect to="/sign-in" />
+                )
+              }
+            />
+
+            <Route
+              path="/shop"
+              component={() =>
+                this.props.isAuthenticated ? (
+                  <Shop />
                 ) : (
                   <Redirect to="/sign-in" />
                 )

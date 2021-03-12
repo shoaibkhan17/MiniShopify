@@ -1,12 +1,22 @@
 import axios from "axios";
 
-const USERS_REST_API_URL = "/api/merchants";
-const CREATE_USER_REST_API_URL = "/api/addMerchant";
-const AUTHENTICATE_REST_API_URL = "/api/authenticate";
+const USERS_REST_API_URL = "http://localhost:8080/api/merchants";
+const CREATE_USER_REST_API_URL = "http://localhost:8080/api/addMerchant";
+const AUTHENTICATE_REST_API_URL = "http://localhost:8080/api/authenticate";
+const GET_ALL_SHOPS_URL = "http://localhost:8080/api/getShops";
+const GET_SHOP_BY_ID_URL = "http://localhost:8080/api/getShopById";
 
 class UserService {
   getUsers() {
     return axios.get(USERS_REST_API_URL);
+  }
+
+  getShopById() {
+    return axios.get(GET_SHOP_BY_ID_URL);
+  }
+
+  getShops() {
+    return axios.get(GET_ALL_SHOPS_URL);
   }
 
   async createAccount(data) {
