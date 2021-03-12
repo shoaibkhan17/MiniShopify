@@ -24,7 +24,7 @@ public class MiniShopifyController {
 
     @PostMapping("addMerchant")
 	public ResponseEntity addMerchant(@RequestBody Merchant merchant) {
-		if (merchant != null && !merchant.getUsername().isBlank()) {
+		if (merchant != null && !merchant.getUsername().isEmpty()) {
 			//check the repo if the username already exists
 			Merchant m = merchants.findByUsername(merchant.getUsername());
 			
