@@ -24,7 +24,11 @@ class Main extends React.Component {
 
   componentDidUpdate(prevProps, nextState) {}
 
-  componentDidMount() {}
+  componentDidMount() {
+    // Temporary
+    // To figure out env settings
+    console.log("deployment setting: ", process.env);
+  }
 
   render() {
     return (
