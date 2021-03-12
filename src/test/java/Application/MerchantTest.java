@@ -1,11 +1,8 @@
 package Application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.ArrayList;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 
 public class MerchantTest {
-
 	Merchant merchant;
 	String name = "Kamal";
 	String username = "Kamalshakiri";
@@ -16,25 +13,20 @@ public class MerchantTest {
 
 	@Test
 	public void testSetName() {
-		
 		merchant = new Merchant();
 		merchant.setName(name);
 		assertEquals(name, merchant.getName());
-		
 	}
 	
 	@Test
 	public void testSetUsername() {
-		
 		merchant = new Merchant();
 		merchant.setUsername(username);
 		assertEquals(username, merchant.getUsername());
-		
 	}
 	
 	@Test
 	public void testSetId() {
-		
 		merchant = new Merchant();
 		merchant.setId(id);
 		assertEquals(id, merchant.getId());	
@@ -42,16 +34,13 @@ public class MerchantTest {
 	
 	@Test
 	public void testSetEmail() {
-		
 		merchant = new Merchant();
 		merchant.setEmail(email);
 		assertEquals(email, merchant.getEmail());
-		
 	}
 	
 	@Test
 	public void testSetPassword() {
-		
 		merchant = new Merchant();
 		merchant.setPassword(password);
 		assertEquals(password, merchant.getPassword());
@@ -59,7 +48,6 @@ public class MerchantTest {
 	
 	@Test
 	public void testSetNumber() {
-		
 		merchant = new Merchant();
 		merchant.setNumber(number);
 		assertEquals(number, merchant.getNumber());
@@ -75,8 +63,5 @@ public class MerchantTest {
 		assertEquals(email, merchant.getEmail());
 		assertEquals(password, merchant.getPassword());
 		assertEquals(number, merchant.getNumber());
-			
 	}
-	
-	
 }
