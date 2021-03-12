@@ -5,6 +5,7 @@ import UserService from "../services/UserService";
 import FormField from "./FormField";
 import TopMenu from "./TopMenu";
 import { Redirect } from "react-router";
+import {toast} from 'bulma-toast'
 
 class CreateAccount extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class CreateAccount extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     var obj = {
       username: this.state.username,
       name: this.state.name,
@@ -28,8 +29,18 @@ class CreateAccount extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-    console.table(obj);
-    UserService.createAccount(obj);
+    var [success, message] = [false, "Please enter username and password."]
+
+    if(obj.username !== "" && obj.password !== ""){
+        [success, message] = await UserService.createAccount(obj);
+    }
+
+    toast({
+      message: message,
+      type: success ? 'is-primary' : 'is-danger',
+      dismissible: true,
+      pauseOnHover: true,
+    })
   }
 
   render() {
@@ -103,6 +114,7 @@ class CreateAccount extends React.Component {
             </a>
           </Box>
         </Section>
+
       </div>
     );
   }
