@@ -7,64 +7,53 @@ This project aims to create a similar to Shopify where merchants create a shop b
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Software you need for the project
 
 ```
-xxxxxxx
+Java
+Maven
+Node.js
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-xxxxxxxxx
+To run the Spring boot backend server
 
 ```
-xxxxxxxxx
+Run the main method in the "MiniShopifyApplication.java" file
 ```
 
-And repeat
+To run the Node.js react server
 
 ```
-until finished
+cd frontend
+npm install
+npm start
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+The project is built and the test cases are ran by Travis.ci
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Deployment
 
+Continuous Integration:
 [Travis.ci](https://travis-ci.com/github/shoaibkhan17/MiniShopify)
+
+Deployment:
 [Heroku App](https://minishopifyapp.herokuapp.com/)
 
 
 ## Built With
 
-* [Maven](https://maven.apache.org/) - Dependency Management
-
+* [Maven](https://maven.apache.org/)
+* [Node.js](https://nodejs.org/en/)
+* [React](https://reactjs.org/)
+* [Redux](https://redux.js.org/)
 
 ## Milestones
 
@@ -82,11 +71,3 @@ Give an example
 * **Kamaluddin Shakiri**
 
 See also the list of [contributors](https://github.com/shoaibkhan17/MiniShopify/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* xxxxxx
