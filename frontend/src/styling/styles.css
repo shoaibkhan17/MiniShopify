@@ -1,0 +1,57 @@
+.LeftGrid {
+  height: 100vh;
+}
+
+.LeftGridPhoto {
+  width: 30%;
+  background-image: url(https://source.unsplash.com/random);
+  background-repeat: no-repeat;
+  background-color: rgb(250, 250, 250);
+  background-size: cover;
+  background-position: center center;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  box-shadow: rgb(0 0 0 / 14%) 0px 0px 9px 7px,
+    rgb(35 33 33 / 8%) 10px 13px 10px 6px;
+  border-radius: 25px;
+  margin-left: 1%;
+  max-width: 460px;
+}
+
+.RightGrid {
+  width: 69%;
+  flex-grow: 1;
+}
+
+.AuthPlacement {
+  padding: 50px 40px 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.AuthRedirectLink {
+  padding-left: 5px;
+  color: rgb(0, 171, 85);
+}
+
+.SignInGrid {
+  margin: 15% 32% 8px 32%;
+  display: flex;
+  flex-direction: column;
+}
+
+.AuthDescriptionBox {
+  display: flex;
+  align-items: center;
+}
+
+.AuthDescription {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.FireboxImg {
+  width: 35px;
+  height: 35px;
+}
