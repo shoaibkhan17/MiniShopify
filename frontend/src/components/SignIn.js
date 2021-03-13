@@ -38,39 +38,6 @@ const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "100vh",
-  },
-  image: {
-    backgroundImage: "url(https://source.unsplash.com/random)",
-    backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 const theme = createMuiTheme({
   spacing: [0, 4, 8, 16, 32, 64],
 });
@@ -174,7 +141,7 @@ class SignIn extends React.Component {
 
                   <Typography
                     component="h1"
-                    variant="h8"
+                    variant="subtitle1"
                     style={{ paddingBottom: "10px", alignSelf: "flex-start" }}
                   >
                     Enter your details below.
@@ -186,13 +153,12 @@ class SignIn extends React.Component {
                     <img
                       className="FireboxImg"
                       src="/static/icons/firebase.png"
-                      ariaLabel="Firebase"
                     />
                   </Tooltip>
                 </div>
               </div>
               {/* <Alert severity="info" variant="filled">
-                <p style={{ textAlign: "center" }}>
+                <p>
                   Use username : test / password : test
                 </p>
               </Alert> */}
