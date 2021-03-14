@@ -1,16 +1,46 @@
 import React from "react";
-import { Box, Section, Button } from "react-bulma-components";
-import "react-bulma-components/dist/react-bulma-components.min.css";
 import { Redirect } from "react-router";
 import UserService from "../services/UserService";
 import FormField from "./FormField";
 import TopMenu from "./TopMenu";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
+import {
+  Avatar,
+  Grid,
+  Paper,
+  Typography,
+  FormControlLabel,
+  TextField,
+  Button,
+  Link,
+  Box,
+  Checkbox,
+  Tooltip,
+  InputAdornment,
+  IconButton,
+} from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import {
+  createMuiTheme,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core/styles";
+import { blue, grey, teal } from "@material-ui/core/colors";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { toast } from "bulma-toast";
+import "../styling/styles.css";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
 };
+
+const theme = createMuiTheme({
+  spacing: [0, 4, 8, 16, 32, 64],
+});
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -20,23 +50,26 @@ class SignIn extends React.Component {
       password: "",
       authenticateFailed: false,
       redirectToCreateAccount: false,
+      showPassword: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleVisibility = this.toggleVisibility.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      nextState.username !== this.state.username ||
-      nextState.password !== this.state.password ||
-      nextProps.isAuthenticated !== this.props.isAuthenticated ||
-      nextState.authenticateFailed !== this.state.authenticateFailed ||
-      nextState.redirectToCreateAccount !== this.state.redirectToCreateAccount
-    ) {
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (
+  //     nextState.username !== this.state.username ||
+  //     nextState.password !== this.state.password ||
+  //     nextProps.isAuthenticated !== this.props.isAuthenticated ||
+  //     nextState.authenticateFailed !== this.state.authenticateFailed ||
+  //     nextState.redirectToCreateAccount !== this.state.redirectToCreateAccount ||
+  //     nextState.toggle
+  //   ) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   async handleSubmit() {
     var obj = {
@@ -48,63 +81,170 @@ class SignIn extends React.Component {
 
     if (!authenticateResponse) {
       this.setState({ authenticateFailed: true });
+    } else {
+      toast({
+        message: "Welcome back " + obj.username + "!",
+        type: "is-primary",
+        dismissible: true,
+        pauseOnHover: true,
+      });
     }
 
     this.props.setAuthenticated(authenticateResponse);
   }
 
+  toggleVisibility() {
+    const visibility = this.state.showPassword;
+    this.setState({ showPassword: !visibility });
+  }
+
+  handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   render() {
     return (
-      <div>
+      <div style={{ backgroundColor: teal[50] }}>
         {this.state.redirectToCreateAccount && (
           <Redirect to={{ pathname: "/create-account" }} />
         )}
 
         {this.props.isAuthenticated && <Redirect to={{ pathname: "/" }} />}
 
-        <TopMenu title={"Sign In"} />
+        <Grid container component="main" style={{ height: "100vh" }}>
+          <div className="LeftGridPhoto" />
+          <div className="RightGrid">
+            <div className="AuthPlacement">
+              <p>
+                Don't have an account?
+                <a
+                  className="AuthRedirectLink"
+                  onClick={() =>
+                    this.setState({ redirectToCreateAccount: true })
+                  }
+                >
+                  Get started
+                </a>
+              </p>
+            </div>
 
-        <Section style={{ textAlign: "left" }}>
-          <Box className="has-background-black-ter">
-            <Box>
-              {this.state.authenticateFailed && (
-                <label className="label has-text-danger">
-                  Invalid username and password!
-                </label>
-              )}
+            <div className="SignInGrid">
+              <div className="AuthDescriptionBox">
+                <div className="AuthDescription">
+                  <Typography
+                    component="h1"
+                    variant="h5"
+                    style={{ paddingBottom: "10px", alignSelf: "start" }}
+                  >
+                    Sign in to MiniShopify
+                  </Typography>
 
-              <FormField
-                label="Username"
-                value={this.state.username}
-                onChange={(event) =>
-                  this.setState({ username: event.target.value })
-                }
-                placeholder={"e.g. username"}
-              />
+                  <Typography
+                    component="h1"
+                    variant="subtitle1"
+                    style={{ paddingBottom: "10px", alignSelf: "flex-start" }}
+                  >
+                    Enter your details below.
+                  </Typography>
+                </div>
 
-              <FormField
-                label="Password"
-                value={this.state.password}
-                type="password"
-                onChange={(event) =>
-                  this.setState({ password: event.target.value })
-                }
-                placeholder={"********"}
-              />
+                <div>
+                  <Tooltip title="Firebase">
+                    <img
+                      className="FireboxImg"
+                      src="/static/icons/firebase.png"
+                    />
+                  </Tooltip>
+                </div>
+              </div>
+              {/* <Alert severity="info" variant="filled">
+                <p>
+                  Use username : test / password : test
+                </p>
+              </Alert> */}
+              <form
+                style={{ width: "100%", marginTop: "1px" }}
+                noValidate
+                action={undefined}
+              >
+                <TextField
+                  helperText={
+                    this.state.authenticateFailed ? "Invalid Input." : ""
+                  }
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle htmlColor="rgb(0, 171, 85)" />
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={this.state.username}
+                  onChange={(event) =>
+                    this.setState({ username: event.target.value })
+                  }
+                  error={this.state.authenticateFailed}
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  required
+                  autoFocus
+                  style={{ borderRadius: "12px" }}
+                />
 
-              <Button onClick={this.handleSubmit} className="is-primary">
-                Sign In
-              </Button>
-            </Box>
-
-            <a
-              onClick={() => this.setState({ redirectToCreateAccount: true })}
-              className="has-text-white"
-            >
-              Click here to create an account
-            </a>
-          </Box>
-        </Section>
+                <TextField
+                  helperText={
+                    this.state.authenticateFailed ? "Invalid Input." : ""
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={this.toggleVisibility}>
+                          {this.state.showPassword ? (
+                            <Visibility htmlColor="rgb(0, 171, 85)" />
+                          ) : (
+                            <VisibilityOff htmlColor="rgb(0, 171, 85)" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={this.state.password}
+                  onChange={(event) =>
+                    this.setState({ password: event.target.value })
+                  }
+                  error={this.state.authenticateFailed}
+                  color="primary"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  label="Password"
+                  type={this.state.showPassword ? "text" : "password"}
+                  required
+                  autoComplete="current-password"
+                  style={{ borderRadius: "20px" }}
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    padding: "10px",
+                    margin: theme.spacing(3, 0, 2),
+                    backgroundColor: "rgb(0, 171, 85)",
+                    borderRadius: "12px",
+                  }}
+                  onClick={this.handleSubmit}
+                >
+                  Sign In
+                </Button>
+              </form>
+            </div>
+          </div>
+        </Grid>
       </div>
     );
   }
