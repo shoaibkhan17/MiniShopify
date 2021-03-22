@@ -28,9 +28,9 @@ public class MiniShopifyApplication implements  CommandLineRunner {
 		merchantRepo.deleteAll();
 		shopRepo.deleteAll();
 
-		Merchant meet = new Merchant("Meet123", "meet", "test", "12323132", "email");
-		Merchant shoaib = new Merchant("Shoaib123", "shoaib", "test", "12323132", "email");
-		Merchant abdi = new Merchant("Abdi123", "abdi", "test", "12323132", "email");
+		User meet = new User("meet", "12323132", "email");
+		User shoaib = new User("shoaib", "12323132", "email");
+		User abdi = new User("abdi", "12323132", "email");
 
 		merchantRepo.save(meet);
 		merchantRepo.save(shoaib);

@@ -18,15 +18,15 @@ public class MiniShopifyController {
 	private shopRepo shopRepo;
 
 	@GetMapping("merchants")
-    public List<Merchant> getMerchants() {
+    public List<User> getMerchants() {
 	    return merchants.findAll();
     }
 
     @PostMapping("addMerchant")
-	public ResponseEntity addMerchant(@RequestBody Merchant merchant) {
+	public ResponseEntity addMerchant(@RequestBody User merchant) {
 		if (merchant != null && !merchant.getUsername().isEmpty()) {
 			//check the repo if the username already exists
-			Merchant m = merchants.findByUsername(merchant.getUsername());
+			User m = merchants.findByUsername(merchant.getUsername());
 			
 			//username already exists
 			if(m != null) {
@@ -40,9 +40,9 @@ public class MiniShopifyController {
 	}
 
 	@PostMapping("authenticate")
-	public ResponseEntity authenticate(@RequestBody Merchant merchant) {
+	public ResponseEntity authenticate(@RequestBody User merchant) {
 		if (merchant != null) {
-			Merchant m = merchants.findByUsername(merchant.getUsername());
+			User m = merchants.findByUsername(merchant.getUsername());
 			if (m != null && m.getPassword().equals(merchant.getPassword())) {
 				return ResponseEntity.ok().body("{\"authenticate\": true}");
 			}
