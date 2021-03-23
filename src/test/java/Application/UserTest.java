@@ -43,6 +43,7 @@ public class UserTest {
 		
 	}
 	
+	/*
 	@Test
 	public void setTestAll() {
 		merchant = new User();
@@ -53,4 +54,6 @@ public class UserTest {
 	
 		assertEquals(number, merchant.getNumber());
 	}
+	*/
+	
 }

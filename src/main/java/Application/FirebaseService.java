@@ -12,13 +12,13 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class FirebaseService {
-    public String saveUser(Merchant merchant) throws ExecutionException, InterruptedException {
+    public String saveUser(User user) throws ExecutionException, InterruptedException {
         Firestore firebaseDB = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = firebaseDB.collection("users").document(merchant.getName()).set(merchant);
+        ApiFuture<WriteResult> collectionsApiFuture = firebaseDB.collection("users").document(user.getName()).set(user);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-    public Merchant getUserDetails(String email) throws ExecutionException, InterruptedException {
+    public User getUserDetails(String email) throws ExecutionException, InterruptedException {
         Firestore firebaseDB = FirestoreClient.getFirestore();
         DocumentReference documentReference = firebaseDB.collection("users").document(email);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
@@ -26,8 +26,8 @@ public class FirebaseService {
         DocumentSnapshot document = future.get();
 
         if (document.exists()) {
-            Merchant merchant = document.toObject(Merchant.class);
-            return merchant;
+            User user = document.toObject(User.class);
+            return user;
         }
 
         else {

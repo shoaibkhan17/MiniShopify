@@ -15,21 +15,18 @@ public class MiniShopifyController {
 	@Autowired
 	FirebaseService firebaseService;
 
-	@Autowired
-	private repo merchants;
-
-	@Autowired
-	private shopRepo shopRepo;
-
+	/*
 	@GetMapping("merchants")
     public List<User> getMerchants() {
 	    return merchants.findAll();
     }
+    */
 
     @PostMapping("addMerchant")
-	public Merchant addMerchant(@RequestBody Merchant merchant) throws ExecutionException, InterruptedException {
-		firebaseService.saveUser(merchant);
-		return firebaseService.getUserDetails(merchant.getEmail());
+	public User addUser(@RequestBody User user) throws ExecutionException, InterruptedException {
+		System.out.println("Got a request to add a user: " + user);
+    	firebaseService.saveUser(user);
+		return firebaseService.getUserDetails(user.getEmail());
 
 
 //		return ResponseEntity.ok().body("{\"merchantAdded\": false,\"message\": \"Error: Unable to add merchant.\" ,\"authenticate\": false}");
@@ -50,22 +47,25 @@ public class MiniShopifyController {
 	}
 
 	@PostMapping("authenticate")
-	public ResponseEntity authenticate(@RequestBody User merchant) {
-		if (merchant != null) {
-			User m = merchants.findByUsername(merchant.getUsername());
-			if (m != null && m.getPassword().equals(merchant.getPassword())) {
+	public ResponseEntity authenticate(@RequestBody User user) {
+		/*
+		if (user != null) {
+			User m = merchants.findByUsername(user.getUsername());
+			if (m != null && m.getPassword().equals(user.getPassword())) {
 				return ResponseEntity.ok().body("{\"authenticate\": true}");
 			}
 		}
-		return ResponseEntity.ok().body("{\"authenticate\": false}");
+		*/
+		
+		//AUTHENTICATING EVERYONE, FIREBASE WILL TAKE CARE OF THIS
+		return ResponseEntity.ok().body("{\"authenticate\": true}");
 	}
 
+	/*
 	@GetMapping("getShops")
 	public List<Shop> getShops() {
 		return shopRepo.findAll();
 	}
-
-
-
+	*/
 
 }

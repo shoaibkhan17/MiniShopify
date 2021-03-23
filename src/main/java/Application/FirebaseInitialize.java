@@ -21,7 +21,10 @@ public class FirebaseInitialize {
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
 
-            FirebaseApp.initializeApp(options);
+            if (FirebaseApp.getApps().isEmpty()) {
+            	FirebaseApp.initializeApp(options);
+            	}
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
