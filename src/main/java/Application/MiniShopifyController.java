@@ -22,28 +22,19 @@ public class MiniShopifyController {
     }
     */
 
-    @PostMapping("addMerchant")
-	public User addUser(@RequestBody User user) throws ExecutionException, InterruptedException {
-		System.out.println("Got a request to add a user: " + user);
-    	firebaseService.saveUser(user);
-		return firebaseService.getUserDetails(user.getEmail());
+    @PostMapping("addUser")
+	public ResponseEntity addUser(@RequestBody User user) throws ExecutionException, InterruptedException {
+    	boolean successful = firebaseService.addUser(user);
 
+    	if (successful) {
+			return ResponseEntity.ok().body("{\"userAdded\": true, \"message\": " +
+					"\"Account successfully registered.\", \"authenticate\": true}");
+		}
 
-//		return ResponseEntity.ok().body("{\"merchantAdded\": false,\"message\": \"Error: Unable to add merchant.\" ,\"authenticate\": false}");
-
-//		if (merchant != null && !merchant.getUsername().isEmpty()) {
-//			//check the repo if the username already exists
-//			Merchant m = merchants.findByUsername(merchant.getUsername());
-//
-//			//username already exists
-//			if(m != null) {
-//				return ResponseEntity.ok().body("{\"merchantAdded\": false, \"message\": \"Error: Username already exists!\" , \"authenticate\": false}");
-//			}
-//
-//			merchants.save(merchant);
-//			return ResponseEntity.ok().body("{\"merchantAdded\": true,\"message\": \"Success!\"  ,\"authenticate\": true}");
-//		}
-//		return ResponseEntity.ok().body("{\"merchantAdded\": false,\"message\": \"Error: Unable to add merchant.\" ,\"authenticate\": false}");
+    	else {
+			return ResponseEntity.ok().body("{\"userAdded\": false, \"message\": " +
+					"\"Account Already Exists. Please try again with a different username!\", \"authenticate\": false}");
+		}
 	}
 
 	@PostMapping("authenticate")

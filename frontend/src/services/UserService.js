@@ -1,10 +1,15 @@
 import axios from "axios";
 
-const USERS_REST_API_URL = "http://localhost:8080/api/merchants";
-const CREATE_USER_REST_API_URL = "http://localhost:8080/api/addMerchant";
-const AUTHENTICATE_REST_API_URL = "http://localhost:8080/api/authenticate";
-const GET_ALL_SHOPS_URL = "http://localhost:8080/api/getShops";
-const GET_SHOP_BY_ID_URL = "http://localhost:8080/api/getShopById";
+var endpoint =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:8080/"
+    : "https://minishopifyapp.herokuapp.com/";
+
+const USERS_REST_API_URL = endpoint + "api/merchants";
+const CREATE_USER_REST_API_URL = endpoint + "api/addUser";
+const AUTHENTICATE_REST_API_URL = endpoint + "api/authenticate";
+const GET_ALL_SHOPS_URL = endpoint + "api/getShops";
+const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
 
 class UserService {
   getUsers() {
@@ -24,7 +29,7 @@ class UserService {
       (response) => {
         if (response && response.data) {
           return [
-            response.data.authenticate && response.data.merchantAdded,
+            response.data.authenticate && response.data.userAdded,
             response.data.message,
           ];
         }

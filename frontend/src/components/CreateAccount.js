@@ -47,7 +47,6 @@ class CreateAccount extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
       name: "",
       number: "",
       email: "",
@@ -67,17 +66,16 @@ class CreateAccount extends React.Component {
 
   async handleSubmit() {
     var obj = {
-      username: this.state.username,
       name: this.state.name,
       number: this.state.number,
       email: this.state.email,
       password: this.state.password,
     };
-    var [success, message] = [false, "Please enter username and password."];
+    var [success, message] = [false, "Please enter email and password."];
 
     console.log(obj);
 
-    if (obj.username !== "" && obj.password !== "") {
+    if (obj.email !== "" && obj.password !== "") {
       [success, message] = await UserService.createAccount(obj);
 
       if (success) {
@@ -89,9 +87,7 @@ class CreateAccount extends React.Component {
     }
 
     toast({
-      message: success
-        ? "Account successfully registered."
-        : "Account Already Exists. Please try again with a different username or email.",
+      message: message,
       type: success ? "is-primary" : "is-danger",
       dismissible: true,
       pauseOnHover: true,
@@ -153,11 +149,11 @@ class CreateAccount extends React.Component {
               </div>
               <form
                 style={{ width: "100%", marginTop: "1px" }}
-                noValidate
                 action={undefined}
               >
                 <Grid container style={{ flexGrow: 1 }}>
-                  <Grid sm={6} item style={{ paddingRight: "10px" }}>
+                  {/* <Grid sm={6} item style={{ paddingRight: "10px" }}> */}
+                  <Grid sm={12} item>
                     <TextField
                       InputProps={{
                         startAdornment: (
@@ -179,7 +175,7 @@ class CreateAccount extends React.Component {
                       autoFocus
                     />
                   </Grid>
-                  <Grid sm={6} item style={{ paddingLeft: "10px" }}>
+                  {/* <Grid sm={6} item style={{ paddingLeft: "10px" }}>
                     <TextField
                       helperText={
                         this.state.registrationFailed
@@ -206,9 +202,8 @@ class CreateAccount extends React.Component {
                       required
                       autoFocus
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
-
                 <TextField
                   helperText={
                     this.state.registrationFailed

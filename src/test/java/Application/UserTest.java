@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 public class UserTest {
 	User merchant;
 	String name = "Kamal";
-	Long id = 1234L;
 	String email = "kamal@gmail.com";
 	String number = "4321";
+	String password = "test";
 
 	@Test
 	public void testSetName() {
@@ -16,44 +16,26 @@ public class UserTest {
 		assertEquals(name, merchant.getName());
 	}
 	
-	
-	
-	@Test
-	public void testSetId() {
-		merchant = new User();
-		merchant.setId(id);
-		assertEquals(id, merchant.getId());	
-	}
-	
 	@Test
 	public void testSetEmail() {
 		merchant = new User();
 		merchant.setEmail(email);
 		assertEquals(email, merchant.getEmail());
 	}
-	
-	
-	
-	
+
 	@Test
-	public void testSetNumber() {
+	public void testSetPassword() {
 		merchant = new User();
-		merchant.setNumber(number);
-		assertEquals(number, merchant.getNumber());
-		
+		merchant.setPassword(password);
+		assertEquals(password, merchant.getPassword());
 	}
-	
-	/*
+
 	@Test
 	public void setTestAll() {
 		merchant = new User();
-		merchant.setAll(name, number, email);
+		merchant.setAll(name, number, email, password);
 		assertEquals(name, merchant.getName());
-		
 		assertEquals(email, merchant.getEmail());
-	
-		assertEquals(number, merchant.getNumber());
+		assertEquals(password, merchant.getPassword());
 	}
-	*/
-	
 }
