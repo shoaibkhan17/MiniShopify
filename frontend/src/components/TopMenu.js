@@ -3,10 +3,6 @@ import { Box, Section } from "react-bulma-components";
 import "react-bulma-components/dist/react-bulma-components.min.css";
 
 class TopMenu extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>

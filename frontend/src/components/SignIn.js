@@ -1,33 +1,19 @@
 import React from "react";
 import { Redirect } from "react-router";
 import UserService from "../services/UserService";
-import FormField from "./FormField";
-import TopMenu from "./TopMenu";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
 import {
-  Avatar,
   Grid,
-  Paper,
   Typography,
-  FormControlLabel,
   TextField,
   Button,
-  Link,
-  Box,
-  Checkbox,
   Tooltip,
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import {
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
-import { blue, grey, teal } from "@material-ui/core/colors";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { teal } from "@material-ui/core/colors";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
