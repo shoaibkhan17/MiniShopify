@@ -10,6 +10,8 @@ import {
   Typography,
   CardActionArea,
   Divider,
+  Zoom,
+  Tooltip,
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import StorefrontIcon from "@material-ui/icons/Storefront";
@@ -57,9 +59,11 @@ class DisplayShops extends React.Component {
                 avatar={<StorefrontIcon color="primary" />}
                 title={shop.name}
                 action={
-                  <IconButton onClick={() => this.editShop(shop)}>
-                    <MoreVertIcon />
-                  </IconButton>
+                  <Tooltip TransitionComponent={Zoom} title="Edit Shop">
+                    <IconButton onClick={() => this.editShop(shop)}>
+                      <MoreVertIcon color="secondary" />
+                    </IconButton>
+                  </Tooltip>
                 }
               />
               <CardActionArea onClick={() => this.openShop(shop)}>
