@@ -1,35 +1,20 @@
 import React from "react";
-// import { Section, Box, Button } from "react-bulma-components";
-// import "react-bulma-components/dist/react-bulma-components.min.css";
 import UserService from "../services/UserService";
-import FormField from "./FormField";
-import TopMenu from "./TopMenu";
 import { Redirect } from "react-router";
 import { toast } from "bulma-toast";
 import {
-  Avatar,
   Grid,
-  Paper,
   Typography,
-  FormControlLabel,
   TextField,
   Button,
-  Link,
-  Box,
-  Checkbox,
   Tooltip,
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import { blue, grey, teal } from "@material-ui/core/colors";
-import {
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { teal } from "@material-ui/core/colors";
+import { createMuiTheme } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import EmailIcon from "@material-ui/icons/Email";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import { connect } from "react-redux";
