@@ -4,6 +4,13 @@ import TopMenu from "./TopMenu";
 import { Box, Section, Button } from "react-bulma-components";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
+import {
+  Toolbar,
+  Typography,
+  IconButton,
+  AppBar,
+} from "@material-ui/core";
+import MenuIcon from '@material-ui/icons/Menu';
 
 class Home extends React.Component {
   constructor(props) {
@@ -33,7 +40,15 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <TopMenu title="Home Page" />
+      <AppBar position="static">
+      <Toolbar>
+    <IconButton edge="start" color="inherit" aria-label="menu">
+      <MenuIcon />
+    </IconButton>
+    <Typography variant="h6">
+      </Typography>
+      </Toolbar>
+    </AppBar>
         <Button onClick={this.signOut} className="is-primary">
           Sign Out
         </Button>
