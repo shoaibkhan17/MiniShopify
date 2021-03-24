@@ -7,10 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import models.Item;
+import models.Shop;
+
 import java.util.ArrayList;
 
 @Service
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"controllers"})
 public class MiniShopifyApplication implements  CommandLineRunner {
 
     public static void main(String[] args) {

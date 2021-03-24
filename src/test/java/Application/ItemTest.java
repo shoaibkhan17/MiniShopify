@@ -3,6 +3,8 @@ package Application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
+import models.Item;
+
 public class ItemTest {
 	Item item;
 	String name;

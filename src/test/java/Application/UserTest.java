@@ -2,6 +2,8 @@ package Application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
+import models.User;
+
 public class UserTest {
 	User merchant;
 	String name = "Kamal";
