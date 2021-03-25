@@ -1,10 +1,15 @@
 package models;
+import java.io.Serializable;
 
-public class User {
+import lombok.Data;
+
+@Data
+public class User implements Serializable{
+	private String uid;
     private String name;
     private String password;
     private String email;
-
+    
     public User() {
         name = "";
         email = "";
@@ -61,4 +66,12 @@ public class User {
         string += "Password: " + password + "\n";
         return string;
     }
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 }

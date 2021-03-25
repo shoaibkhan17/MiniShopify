@@ -5,17 +5,12 @@ var endpoint =
     ? "http://localhost:8080/"
     : "https://minishopifyapp.herokuapp.com/";
 
-const USERS_REST_API_URL = endpoint + "api/merchants";
-const CREATE_USER_REST_API_URL = endpoint + "api/addUser";
-const AUTHENTICATE_REST_API_URL = endpoint + "api/authenticate";
-const GET_ALL_SHOPS_URL = endpoint + "api/getShops";
+const CREATE_ACCOUNT_REST_API_URL = endpoint + "api/auth/createAccount";
+const SIGN_IN_REST_API_URL = endpoint + "api/auth/signIn";
+const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
 
 class UserService {
-  getUsers() {
-    return axios.get(USERS_REST_API_URL);
-  }
-
   getShopById() {
     return axios.get(GET_SHOP_BY_ID_URL);
   }
@@ -25,7 +20,7 @@ class UserService {
   }
 
   async createAccount(data) {
-    return await axios.post(CREATE_USER_REST_API_URL, data).then(
+    return await axios.post(CREATE_ACCOUNT_REST_API_URL, data).then(
       (response) => {
         if (response && response.data) {
           return [
@@ -42,7 +37,7 @@ class UserService {
   }
 
   async authenticateMerchant(data) {
-    return await axios.post(AUTHENTICATE_REST_API_URL, data).then(
+    return await axios.post(SIGN_IN_REST_API_URL, data).then(
       (response) => {
         if (response && response.data) {
           return response.data.authenticate;
