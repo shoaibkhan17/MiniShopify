@@ -32,8 +32,8 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
+      email: "demo@minishopify.com",
+      password: "demo12345",
       authenticateFailed: false,
       redirectToCreateAccount: false,
       showPassword: false,
@@ -41,11 +41,12 @@ class SignIn extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.testing = this.testing.bind(this);
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
   //   if (
-  //     nextState.username !== this.state.username ||
+  //     nextState.email !== this.state.email ||
   //     nextState.password !== this.state.password ||
   //     nextProps.isAuthenticated !== this.props.isAuthenticated ||
   //     nextState.authenticateFailed !== this.state.authenticateFailed ||
@@ -59,17 +60,20 @@ class SignIn extends React.Component {
 
   async handleSubmit() {
     var obj = {
-      username: this.state.username,
+      email: this.state.email,
       password: this.state.password,
     };
 
-    var authenticateResponse = await UserService.authenticateMerchant(obj);
+    // var authenticateResponse = await UserService.authenticateMerchant(obj);
+    var authenticateResponse = false;
+
+    UserService.testing();
 
     if (!authenticateResponse) {
       this.setState({ authenticateFailed: true });
     } else {
       toast({
-        message: "Welcome back " + obj.username + "!",
+        message: "Welcome back " + obj.email + "!",
         type: "is-primary",
         dismissible: true,
         pauseOnHover: true,
@@ -77,6 +81,10 @@ class SignIn extends React.Component {
     }
 
     this.props.setAuthenticated(authenticateResponse);
+  }
+
+  async testing() {
+    await UserService.createShop();
   }
 
   toggleVisibility() {
@@ -145,7 +153,7 @@ class SignIn extends React.Component {
               </div>
               {/* <Alert severity="info" variant="filled">
                 <p>
-                  Use username : test / password : test
+                  Use email : test / password : test
                 </p>
               </Alert> */}
               <form
@@ -164,9 +172,9 @@ class SignIn extends React.Component {
                       </InputAdornment>
                     ),
                   }}
-                  value={this.state.username}
+                  value={this.state.email}
                   onChange={(event) =>
-                    this.setState({ username: event.target.value })
+                    this.setState({ email: event.target.value })
                   }
                   error={this.state.authenticateFailed}
                   variant="outlined"
@@ -228,6 +236,7 @@ class SignIn extends React.Component {
                   Sign In
                 </Button>
               </form>
+              <button onClick={this.testing}>CREATE SHOP</button>
             </div>
           </div>
         </Grid>
