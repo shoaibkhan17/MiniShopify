@@ -3,14 +3,9 @@ package controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import config.FirebaseInitialize;
 import config.FirebaseService;
 import models.Shop;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @CrossOrigin
@@ -21,16 +16,17 @@ public class ShopController {
 	@Autowired
 	FirebaseService firebaseService;
 
-	
 	@GetMapping("/getShops")
-    public String getShops() {
-	    return "<h1>List of Shops</h1>";
+    public List<Shop> getShops() throws ExecutionException, InterruptedException {
+		return firebaseService.getShops();
     }
 	
 	@PostMapping("/createShop")
-    public ResponseEntity<String> createShop(@RequestBody Shop shop) {
-		return ResponseEntity.ok().body("{\"shopAdded\": false, \"message\": "
-				+ "\"Shop could not be created.\"}");
+    public ResponseEntity<String> createShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
+		firebaseService.addShop(shop);
+		
+		return ResponseEntity.ok().body("{\"shopAdded\": true, \"message\": "
+				+ "\"Shop was created.\"}");
     }
 	
 	@PostMapping("/updateShop")
