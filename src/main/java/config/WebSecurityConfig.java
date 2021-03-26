@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.antMatchers(publicAPIS.stream().toArray(String[]::new)).permitAll()
-				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 				.and()
 				// don't create session
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //.and()
