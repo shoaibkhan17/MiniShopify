@@ -7,10 +7,10 @@ import models.Product;
 
 public class ProductTest {
 	Product product;
-	String name;
-	String description;
-	int quantity;
-	double cost;
+	String name = "Apple";
+	String description = "Fresh";
+	int quantity = 1;
+	double cost = 2.0;
 
 	@Test
 	public void testName() {
@@ -25,8 +25,6 @@ public class ProductTest {
 		product.setDescription(description);
 		assertEquals(description, product.getDescription());
 	}
-
-
 
 	@Test
 	public void testQuantity() {

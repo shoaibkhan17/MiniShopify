@@ -1,90 +1,94 @@
 package models;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
 public class Product {
-    private Long productID;
-    private String description;
-    private String name;
-    private String picture;
-    private int quantity;
-    private double cost;
-    private Long shopID;
+	private String productID;
+	private String description;
+	private String name;
+	private String picture;
+	private int quantity;
+	private double cost;
+	private String shopID;
 
+	public Product() {
+		this.name = "";
+		this.description = "";
+		this.quantity = 0;
+		this.cost = 0;
+		this.picture = "";
+	}
+	
+	public Product(String name, String description, int quantity, double cost, String picture) {
+		this.name = name;
+		this.description = description;
+		this.quantity = quantity;
+		this.cost = cost;
+		this.setPicture(picture);
+	}
 
-    public Product(String name, String description, int quantity, double cost) {
-        this.name = name;
-        this.description = description;
-        this.quantity = quantity;
-        this.cost = cost;
-    }
+	public String getProductID() {
+		return productID;
+	}
 
-    public Product() {
+	public void setProductID(String productID) {
+		this.productID = productID;
+	}
 
-    }
+	public String getShopID() {
+		return shopID;
+	}
 
-    @Id
-    @GeneratedValue
-    public Long getProductID() {
-        return productID;
-    }
+	public void setShopID(String shopID) {
+		this.shopID = shopID;
+	}
 
-    public void setProductID(Long productID) {
+	public String getName() {
+		return name;
+	}
 
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Long getShopID() {
-        return shopID;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setShopID(Long shopID) {
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setCost(double cost){
+		this.cost = cost;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public double getCost() {
+		return cost;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-    public int getQuantity() {
-        return quantity;
-    }
+	public String getPicture() {
+		return picture;
+	}
 
-    public void setCost(double cost){
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "name ='" + name + '\'' +
-                ", description ='" + description + '\'' +
-                ", quantity =" + quantity +
-                ", cost =" + cost +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Item{" +
+				"name ='" + name + '\'' +
+				", description ='" + description + '\'' +
+				", quantity =" + quantity +
+				", cost =" + cost +
+				'}';
+	}
 }
 
 

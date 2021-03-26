@@ -8,7 +8,7 @@ public class UserTest {
 	User user;
 	String name = "Kamal";
 	String email = "kamalshakiri@gmail.com";
-	Long UID = 0L;
+	String UID = "";
 
 	@Test
 	public void testSetName() {
@@ -28,15 +28,6 @@ public class UserTest {
 	public void testSetUID() {
 		user = new User();
 		user.setUID(UID);
-		assertEquals(UID, user.getUID());
-	}
-
-	@Test
-	public void setTestAll() {
-		user = new User();
-		user.setAll(name, email, UID);
-		assertEquals(name, user.getName());
-		assertEquals(email, user.getEmail());
 		assertEquals(UID, user.getUID());
 	}
 }

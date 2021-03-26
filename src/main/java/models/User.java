@@ -3,31 +3,24 @@ package models;
 public class User{
 	    private String name;
 	    private String email;
-	    private Long UID;
+	    private String UID;
 
 	    public User() {
 	        name = "";
 	        email = "";
-	        UID = 0L;
+	        UID = "";
 	    };
 
-	    public User(String name, String email, Long UID)
+	    public User(String name, String email)
 	    {
 	        this.name = name;
 	        this.email = email;
-	        this.UID = UID;
 	    }
 
 	    public User(User user) {
 	        this.name = user.name;
 	        this.email = user.email;
 	        this.UID = user.UID;
-	    }
-
-	    public void setAll(String name, String username, Long UID) {
-	        this.name = name;
-	        this.email = username;
-	        this.UID = UID;
 	    }
 
 	    public String getName() {
@@ -46,11 +39,11 @@ public class User{
 	        this.email = username;
 	    }
 
-	    public Long getUID() {
+	    public String getUID() {
 	        return UID;
 	    }
 
-	    public void setUID(Long UID) {
+	    public void setUID(String UID) {
 	        this.UID = UID;
 	    }
 
