@@ -27,8 +27,8 @@ public class ShopTest {
 	@Test
 	public void testID() {
 		shop = new Shop();
-		shop.setShopId(ID);
-		assertEquals(ID, shop.getShopId());
+		shop.setShopID(ID);
+		assertEquals(ID, shop.getShopID());
 	}
 
 	@Test

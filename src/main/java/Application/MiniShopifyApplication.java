@@ -31,12 +31,12 @@ public class MiniShopifyApplication implements  CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-//		String name = "Orange Store";
-//		String description = "A store to sell oranges";
-//		String picture = "https://images.unsplash.com/photo-1569442130407-8d2d49e741db?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80";
+//		String name = "Pineapple Store";
+//		String description = "A store to sell kiwi";
+//		String picture = "https://images.unsplash.com/photo-1521997888043-aa9c827744f8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
 //		String userEmail = "demo@minishopify.com";
-//		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("Orange", "Circle", "Fruits"));
-//		
+//		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("Kiwi", "Tropical", "Fruits", "Green"));
+		
 //		String name1 = "Banana Store";
 //		String description1 = "A store to sell bananas";
 //		String picture1 = "https://images.unsplash.com/photo-1591073113125-e46713c829ed?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=967&q=80D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80";
@@ -54,7 +54,7 @@ public class MiniShopifyApplication implements  CommandLineRunner {
 //		String picture3 = "https://images.unsplash.com/photo-1595475207225-428b62bda831?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80";
 //		String userEmail3 = "demo@minishopify.com";
 //		ArrayList<String> tag3 =  new ArrayList<>(Arrays.asList());
-//		
+		
 //		firebaseService.addShop(new Shop(name, description, picture, tag, userEmail));
 //		firebaseService.addShop(new Shop(name1, description1, picture1, tag1, userEmail1));
 //		firebaseService.addShop(new Shop(name2, description2, picture2, tag2, userEmail2));

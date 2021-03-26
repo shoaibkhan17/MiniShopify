@@ -13,6 +13,12 @@ public class Shop {
     private String ownerEmail;
 
     public Shop() {
+    	shopID = "";
+    	name = "";
+    	description = "";
+    	picture = "";
+    	tags = new ArrayList<String>();
+    	ownerEmail = "";
     }
 
     public Shop(String name, String description, String picture, ArrayList<String> tags, String ownerEmail) {
@@ -22,8 +28,11 @@ public class Shop {
         this.tags = tags;
         this.ownerEmail = ownerEmail;
     }
-
-
+    
+    public boolean isShopNotEmpty() {
+    	return !shopID.isEmpty() && !name.isEmpty() && !ownerEmail.isEmpty() && !description.isEmpty();
+    }
+    
     public String getName() {
         return name;
     }
@@ -65,11 +74,11 @@ public class Shop {
     }
 
     
-    public String getShopId() {
+    public String getShopID() {
         return shopID;
     }
 
-    public void setShopId(String id) {
+    public void setShopID(String id) {
         shopID = id;
     }
 

@@ -1,6 +1,7 @@
 package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import config.FirebaseService;
@@ -23,14 +24,13 @@ public class ShopController {
 	
 	@PostMapping("/createShop")
     public ResponseEntity<String> createShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
-		firebaseService.addShop(shop);
-		
-		return ResponseEntity.ok().body("{\"shopAdded\": true, \"message\": "
-				+ "\"Shop was created.\"}");
+		boolean shopAdded = firebaseService.addShop(shop);
+		return new ResponseEntity<String>("Shop added: " + shopAdded, HttpStatus.OK);
     }
 	
 	@PostMapping("/updateShop")
-    public String updateShop() {
-	    return "<h1>Update Shop</h1>";
+    public ResponseEntity<String> updateShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
+		boolean shopUpdated = firebaseService.updateShop(shop);
+		return new ResponseEntity<String>("Shop updated: " + shopUpdated, HttpStatus.OK);
     }
 }

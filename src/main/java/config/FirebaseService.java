@@ -21,7 +21,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -56,27 +59,37 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean addShop(Shop shop) throws ExecutionException, InterruptedException {
-		Firestore firebaseDB = FirestoreClient.getFirestore();
-		DocumentReference documentReference = firebaseDB.collection("shops").document();
-		
-		//set shop id from document (auto-generated from firebase)
-		shop.setShopId(documentReference.getId());
-		
-		//add a new shop
-		documentReference.set(shop);
-		
-		ApiFuture<DocumentSnapshot> future = documentReference.get();
-		DocumentSnapshot document = future.get();
-		return true;
+	public boolean addShop(Shop shop) throws ExecutionException, InterruptedException {		
+		//check if the given shop has all the required fields
+		if(shop != null && shop.isShopNotEmpty()) {
+			Firestore firebaseDB = FirestoreClient.getFirestore();
+			DocumentReference documentReference = firebaseDB.collection("shops").document();
+			
+			//set shop id from document (auto-generated from firebase)
+			shop.setShopID(documentReference.getId());
+			
+			//add a new shop
+			documentReference.set(shop);
+			return true;
+		}
+	
+		return false;
 	}
 	
-	/**
-	 * 
-	 * @return all shops stored in firestore DB
-	 * @throws ExecutionException
-	 * @throws InterruptedException
-	 */
+	public boolean updateShop(Shop shop) throws ExecutionException, InterruptedException {
+		//check if the given shop has all the required fields
+		if(shop != null && shop.isShopNotEmpty()) {
+			Firestore firebaseDB = FirestoreClient.getFirestore();
+			DocumentReference documentReference = firebaseDB.collection("shops").document(shop.getShopID());
+			
+			//update the shop with the new fields
+			documentReference.set(shop);			
+			return true;
+		}
+	
+		return false;
+	}
+	
 	public ArrayList<Shop> getShops() throws ExecutionException, InterruptedException {
 		ArrayList<Shop> allShops = new ArrayList<Shop>();
 		
