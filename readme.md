@@ -73,6 +73,12 @@ Deployment:
 <img src="documentation/MiniShopify-Schema.png" alt="Class Diagram">
 </p>
 
+## Plan for next Sprint
+* Sign out functionality
+* Add shop and products
+* Update shop and products
+* Buy products and cart page
+
 ## Authors
 
 * **Meet Digrajkar** 
