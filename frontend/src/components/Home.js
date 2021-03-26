@@ -4,6 +4,7 @@ import TopBar from "./TopBar";
 import { connect } from "react-redux";
 import DisplayShops from "./DisplayShops";
 import { Button } from "@material-ui/core";
+import { setShops } from "../redux/actions";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -11,9 +12,7 @@ const mapStateToProps = (state) => {
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      shops: [],
-    };
+    this.state = {};
 
     this.signOut = this.signOut.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -27,7 +26,7 @@ class Home extends React.Component {
 
   async getShops() {
     var shops = await UserService.getAllShops();
-    this.setState({ shops: shops });
+    this.props.setShops(shops);
   }
 
   async addTestShop() {
@@ -47,7 +46,7 @@ class Home extends React.Component {
     return (
       <div style={{ height: "100vh" }}>
         <TopBar />
-        <DisplayShops shops={this.state.shops} />
+        <DisplayShops />
         <br />
         {this.props.isAuthenticated && (
           <Button
@@ -63,4 +62,4 @@ class Home extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, { setShops })(Home);

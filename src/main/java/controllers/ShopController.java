@@ -52,6 +52,7 @@ public class ShopController {
 	
 	@PostMapping("/deleteShop")
     public ResponseEntity<String> deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException {
+		shopID = shopID.substring(0, shopID.length() - 1);
 		boolean shopRemoved = firebaseService.deleteShop(shopID);
 		return new ResponseEntity<String>("Shop removed: " + shopRemoved, HttpStatus.OK);
     }

@@ -79,9 +79,10 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean deleteShop(String ShopID) throws ExecutionException, InterruptedException {	
+	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
 		DocumentReference documentReference = firebaseDB.collection("shops").document(ShopID);
+		DocumentReference documentReference = firebaseDB.collection("shops").document(shopID);
 
 		if(documentReference != null) {
 			documentReference.delete();

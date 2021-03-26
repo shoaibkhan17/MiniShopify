@@ -9,6 +9,7 @@ var endpoint =
 
 const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
 const CREATE_SHOP_URL = endpoint + "api/shop/createShop";
+const DELETE_SHOP_URL = endpoint + "api/shop/deleteShop";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
 const ADD_TEST_SHOP_URL = endpoint + "api/shop/createTestShop";
 
@@ -136,13 +137,26 @@ class UserService {
       });
   }
 
+  async deleteShop(shopID) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(DELETE_SHOP_URL, shopID, config)
+      .then((res) => {
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
   async addTestShop() {
     var config = this.getHeaders();
 
     return axios
       .post(ADD_TEST_SHOP_URL, null, config)
       .then((res) => {
-        console.log(res.data);
         return true;
       })
       .catch((error) => {
