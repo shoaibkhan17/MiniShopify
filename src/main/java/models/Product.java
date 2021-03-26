@@ -26,7 +26,6 @@ public class Product {
 
     }
 
-
     @Id
     @GeneratedValue
     public Long getProductID() {

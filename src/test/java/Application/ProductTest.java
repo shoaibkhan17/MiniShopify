@@ -26,6 +26,8 @@ public class ProductTest {
 		assertEquals(description, product.getDescription());
 	}
 
+
+
 	@Test
 	public void testQuantity() {
 		product = new Product();
