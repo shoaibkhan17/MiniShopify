@@ -22,7 +22,7 @@ import java.util.List;
 
 @Configuration
 public class FirebaseInitialize {
-
+	
 	@Primary
 	@Bean
 	public FirebaseApp firebaseInit() throws IOException {

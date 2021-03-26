@@ -8,7 +8,6 @@ public class ShopTest {
 	Shop shop;
 	String name ="Kamal2";
 	String description = "Good";
-	Long shopID = Long.valueOf(55);
 
 	@Test
 	public void testName() {
@@ -23,14 +22,7 @@ public class ShopTest {
 		shop.setDescription(description);
 		assertEquals(description, shop.getDescription());
 	}
-
-	@Test
-	public void testShopID() {
-		shop = new Shop();
-		shop.setShopId(shopID);
-		assertEquals(shopID, shop.getShopId());
-	}
-
+	
 }
 
 

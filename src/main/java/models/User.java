@@ -1,35 +1,32 @@
 package models;
-import java.io.Serializable;
 
-
-@Data
-public class User implements Serializable{
+public class User{
 	    private String name;
-	    private String username;
+	    private String email;
 	    private Long UID;
 
 	    public User() {
 	        name = "";
-	        username = "";
+	        email = "";
 	        UID = 0L;
 	    };
 
-	    public User(String name, String username, Long UID)
+	    public User(String name, String email, Long UID)
 	    {
 	        this.name = name;
-	        this.username = username;
+	        this.email = email;
 	        this.UID = UID;
 	    }
 
 	    public User(User user) {
 	        this.name = user.name;
-	        this.username = user.username;
+	        this.email = user.email;
 	        this.UID = user.UID;
 	    }
 
 	    public void setAll(String name, String username, Long UID) {
 	        this.name = name;
-	        this.username = username;
+	        this.email = username;
 	        this.UID = UID;
 	    }
 
@@ -41,12 +38,12 @@ public class User implements Serializable{
 	        this.name = name;
 	    }
 
-	    public String getUsername() {
-	        return username;
+	    public String getEmail() {
+	        return email;
 	    }
 
-	    public void setUsername(String username) {
-	        this.username = username;
+	    public void setEmail(String username) {
+	        this.email = username;
 	    }
 
 	    public Long getUID() {
@@ -60,8 +57,8 @@ public class User implements Serializable{
 	    public String toString() {
 	        String string =  "\n";
 	        string += "Name: " + name + "\n";
-	        string += "Email: " + username + "\n";
-	        string += "Password: " + UID + "\n";
+	        string += "Email: " + email + "\n";
+	        string += "UID: " + UID + "\n";
 	        return string;
 	    }
 	}

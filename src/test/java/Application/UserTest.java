@@ -7,7 +7,7 @@ import models.User;
 public class UserTest {
 	User user;
 	String name = "Kamal";
-	String username = "kamalshakiri";
+	String email = "kamalshakiri@gmail.com";
 	Long UID = 0L;
 
 	@Test
@@ -18,10 +18,10 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testUserName() {
+	public void testEmail() {
 		user = new User();
-		user.setUsername(username);
-		assertEquals(username, user.getUsername());
+		user.setEmail(email);
+		assertEquals(email, user.getEmail());
 	}
 
 	@Test
@@ -34,9 +34,9 @@ public class UserTest {
 	@Test
 	public void setTestAll() {
 		user = new User();
-		user.setAll(name, username, UID);
+		user.setAll(name, email, UID);
 		assertEquals(name, user.getName());
-		assertEquals(username, user.getUsername());
+		assertEquals(email, user.getEmail());
 		assertEquals(UID, user.getUID());
 	}
 }
