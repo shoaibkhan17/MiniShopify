@@ -66,8 +66,10 @@ public class FirebaseService {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
 			DocumentReference documentReference = firebaseDB.collection("shops").document();
 
-			//set shop id from document (auto-generated from firebase)
-			shop.setShopID(documentReference.getId());
+			if(shop.getShopID().isEmpty()) {
+				//set shop id from document (auto-generated from firebase)
+				shop.setShopID(documentReference.getId());
+			}
 
 			//add a new shop
 			documentReference.set(shop);
@@ -84,7 +86,6 @@ public class FirebaseService {
 		if(documentReference != null) {
 			documentReference.delete();
 			return true;
-
 		}
 		return false;
 	}
@@ -150,7 +151,7 @@ public class FirebaseService {
 		if(product != null && product.isProductNotEmpty()) {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
 			DocumentReference documentReference = firebaseDB.collection("products").document();
-		
+
 			//add a new product
 			documentReference.set(product);
 			return true;
@@ -158,7 +159,7 @@ public class FirebaseService {
 
 		return false;
 	}
-	
+
 	public boolean deleteProduct(String productID) throws ExecutionException, InterruptedException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
 		DocumentReference documentReference = firebaseDB.collection("products").document(productID);
@@ -170,8 +171,8 @@ public class FirebaseService {
 		}
 		return false;
 	}
-	
-	
+
+
 	public User getUserDetails(String email) throws ExecutionException, InterruptedException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
 		DocumentReference documentReference = firebaseDB.collection("users").document(email);

@@ -59,10 +59,3 @@ public class ShopTest {
 		assertEquals(tags, shop.getTags());
 	}
 }
-
-
-
-
-
-
-
