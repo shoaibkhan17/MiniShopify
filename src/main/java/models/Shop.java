@@ -8,42 +8,25 @@ import java.util.ArrayList;
 @Entity
 public class Shop {
 
+    private Long shopID;
     private String name;
     private String description;
-    private int shopID;
-    private ArrayList<Item> shopItems;
-    private Long id;
+    private String picture;
+    private ArrayList<String> tags;
+    private User owner;
 
     public Shop() {
-        this.name = "";
-        this.description = "";
-        this.shopID = 0;
-        this.shopItems = new ArrayList<>();
     }
 
-    public Shop(Shop shop) {
-        this.name = shop.name;
-        this.description = shop.description;
-        this.shopID = shop.shopID;
-        this.shopItems = shop.shopItems;
-    }
-
-    public Shop(String name, String description, int shopID, ArrayList<Item> shopItems) {
+    public Shop(Long shopID, String name, String description, String picture, ArrayList<String> tags, User owner) {
+        this.shopID = shopID;
         this.name = name;
         this.description = description;
-        this.shopID = shopID;
-        this.shopItems = shopItems;
+        this.picture = picture;
+        this.tags = tags;
+        this.owner = owner;
     }
 
-    @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -61,33 +44,50 @@ public class Shop {
         this.description = description;
     }
 
-    public int getShopID() {
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    @Id
+    @GeneratedValue
+    public Long getShopId() {
         return shopID;
     }
 
-    public void setShopID(int shopID) {
-        this.shopID = shopID;
+    public void setShopId(Long id) {
+        shopID = id;
     }
 
-    public void addItem(Item item) {
-        shopItems.add(item);
-    }
-
-    public ArrayList<Item> getShopItems() {
-        return shopItems;
-    }
-
-    public void setShopItems(ArrayList<Item> shopItems) {
-        this.shopItems = shopItems;
-    }
 
     @Override
     public String toString() {
         return "Shop{" +
-                "name='" + name + '\'' +
+                "shopID=" + shopID +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", shopID=" + shopID +
-                ", shopItems=" + shopItems +
+                ", picture='" + picture + '\'' +
+                ", tags=" + tags +
+                ", owner=" + owner +
                 '}';
     }
 }
