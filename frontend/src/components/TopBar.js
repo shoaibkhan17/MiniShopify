@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bulma-components";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
 import {
@@ -10,6 +9,7 @@ import {
   Menu,
   MenuItem,
   Divider,
+  Button,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -18,6 +18,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import { green } from "@material-ui/core/colors";
+import SignInButton from "./SignInButton";
+
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.isAuthenticated };
+};
 
 class TopBar extends React.Component {
   constructor(props) {
@@ -25,6 +30,7 @@ class TopBar extends React.Component {
     this.state = {
       openDropdown: false,
       anchorEl: null,
+      redirectToSignIn: false,
     };
 
     this.openMenu = this.openMenu.bind(this);
@@ -52,12 +58,16 @@ class TopBar extends React.Component {
         <AppBar position="static" style={{ background: "lightblue" }}>
           <Toolbar>
             <IconButton edge="start" color="inherit">
-              <SearchIcon />
+              <SearchIcon style={{ color: "black" }} />
             </IconButton>
             <Typography variant="h6" style={{ flexGrow: 1 }}></Typography>
-            <IconButton edge="end" color="inherit" onClick={this.openMenu}>
-              <AccountCircle fontSize="large" />
-            </IconButton>
+            {this.props.isAuthenticated && (
+              <IconButton edge="end" color="inherit" onClick={this.openMenu}>
+                <AccountCircle fontSize="large" />
+              </IconButton>
+            )}
+            {!this.props.isAuthenticated && <SignInButton />}
+
             <Menu
               keepMounted
               open={this.state.openDropdown}
@@ -119,4 +129,4 @@ class TopBar extends React.Component {
   }
 }
 
-export default connect(null, { setAuthenticated })(TopBar);
+export default connect(mapStateToProps, { setAuthenticated })(TopBar);

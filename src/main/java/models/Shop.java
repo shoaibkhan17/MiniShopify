@@ -1,50 +1,38 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.ArrayList;
 
-@Entity
+
 public class Shop {
 
+    private String shopID;
     private String name;
     private String description;
-    private int shopID;
-    private ArrayList<Item> shopItems;
-    private Long id;
+    private String picture;
+    private ArrayList<String> tags;
+    private String ownerEmail;
 
     public Shop() {
-        this.name = "";
-        this.description = "";
-        this.shopID = 0;
-        this.shopItems = new ArrayList<>();
+    	shopID = "";
+    	name = "";
+    	description = "";
+    	picture = "";
+    	tags = new ArrayList<String>();
+    	ownerEmail = "";
     }
 
-    public Shop(Shop shop) {
-        this.name = shop.name;
-        this.description = shop.description;
-        this.shopID = shop.shopID;
-        this.shopItems = shop.shopItems;
-    }
-
-    public Shop(String name, String description, int shopID, ArrayList<Item> shopItems) {
+    public Shop(String name, String description, String picture, ArrayList<String> tags, String ownerEmail) {
         this.name = name;
         this.description = description;
-        this.shopID = shopID;
-        this.shopItems = shopItems;
+        this.picture = picture;
+        this.tags = tags;
+        this.ownerEmail = ownerEmail;
     }
-
-    @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
+    
+    public boolean isShopNotEmpty() {
+    	return !name.isEmpty() && !ownerEmail.isEmpty() && !description.isEmpty();
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -61,33 +49,49 @@ public class Shop {
         this.description = description;
     }
 
-    public int getShopID() {
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+    }
+
+    
+    public String getShopID() {
         return shopID;
     }
 
-    public void setShopID(int shopID) {
-        this.shopID = shopID;
+    public void setShopID(String id) {
+        shopID = id;
     }
 
-    public void addItem(Item item) {
-        shopItems.add(item);
-    }
-
-    public ArrayList<Item> getShopItems() {
-        return shopItems;
-    }
-
-    public void setShopItems(ArrayList<Item> shopItems) {
-        this.shopItems = shopItems;
-    }
 
     @Override
     public String toString() {
         return "Shop{" +
-                "name='" + name + '\'' +
+                "shopID=" + shopID +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", shopID=" + shopID +
-                ", shopItems=" + shopItems +
+                ", picture='" + picture + '\'' +
+                ", tags=" + tags +
+                ", ownerEmail=" + ownerEmail +
                 '}';
     }
 }

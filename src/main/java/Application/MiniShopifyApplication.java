@@ -1,31 +1,65 @@
 package Application;
 
+import models.Product;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
-import models.Item;
+import config.FirebaseService;
 import models.Shop;
+import models.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Service
-@SpringBootApplication(scanBasePackages = {"controllers"})
+@SpringBootApplication(scanBasePackages = {"controllers", "config"})
 public class MiniShopifyApplication implements  CommandLineRunner {
 
+	@Autowired
+	FirebaseService firebaseService;
+	
     public static void main(String[] args) {
         SpringApplication.run(MiniShopifyApplication.class);
     }
     
 	@Override
 	public void run(String... args) throws Exception {
-		Shop tamersShop = new Shop("Tamer's Bakery", "Finest delicacies in town!", 1, new ArrayList<Item>());
-		Shop abdisShop = new Shop("Abdi's Corner Store", "For your quick convenience!", 2, new ArrayList<Item>());
 		
-//		Item donuts = new Item("Glazed Donuts", "A dozen donuts glazed using our secret recipe",100, 10.00);
-//		Item cookies = new Item("Chocolate Chip Cookies", "A half dozen chocolate chip cookies that are sure to leave you craving some more",250, 7.50);
+//		String name = "Pineapple Store";
+//		String description = "A store to sell kiwi";
+//		String picture = "https://images.unsplash.com/photo-1521997888043-aa9c827744f8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
+//		String userEmail = "demo@minishopify.com";
+//		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("Kiwi", "Tropical", "Fruits", "Green"));
+		
+//		String name1 = "Banana Store";
+//		String description1 = "A store to sell bananas";
+//		String picture1 = "https://images.unsplash.com/photo-1591073113125-e46713c829ed?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=967&q=80D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80";
+//		String userEmail1 = "demo@minishopify.com";
+//		ArrayList<String> tag1 =  new ArrayList<>(Arrays.asList("Banana", "Fruits"));
+//		
+//		String name2 = "Mango Store";
+//		String description2 = "A store to sell mangos";
+//		String picture2 = "https://images.unsplash.com/photo-1591073113125-e46713c829ed?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=967&q=80D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80";
+//		String userEmail2 = "demo@minishopify.com";
+//		ArrayList<String> tag2 =  new ArrayList<>(Arrays.asList("Mango"));
+//		
+//		String name3 = "Watermelon Store";
+//		String description3 = "A store to sell watermelon";
+//		String picture3 = "https://images.unsplash.com/photo-1595475207225-428b62bda831?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80";
+//		String userEmail3 = "demo@minishopify.com";
+//		ArrayList<String> tag3 =  new ArrayList<>(Arrays.asList());
+		
+//		firebaseService.addShop(new Shop(name, description, picture, tag, userEmail));
+//		firebaseService.addShop(new Shop(name1, description1, picture1, tag1, userEmail1));
+//		firebaseService.addShop(new Shop(name2, description2, picture2, tag2, userEmail2));
+//		firebaseService.addShop(new Shop(name3, description3, picture3, tag3, userEmail3));
+		
 	}
 }

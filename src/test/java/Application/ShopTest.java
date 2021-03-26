@@ -1,19 +1,22 @@
 package Application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.ArrayList;
-import org.junit.jupiter.api.Test;
 
-import models.Item;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.junit.jupiter.api.Test;
 import models.Shop;
+
 
 public class ShopTest {
 	Shop shop;
-	String name ="Kamal2";
-	String description = "Good";
-	int shopID = 55;
-	ArrayList<Item> shopItems;
-	Long id = 5678L;
-
+	String name = "Orange Store";
+	String ID = "testID";
+	String description = "A store to sell oranges";
+	String picture = "picture url";
+	String ownerEmail = "demo@minishopify.com";
+	ArrayList<String> tags =  new ArrayList<>(Arrays.asList("Orange", "Circle", "Fruits"));
+	
 	@Test
 	public void testName() {
 		shop = new Shop();
@@ -22,6 +25,13 @@ public class ShopTest {
 	}
 	
 	@Test
+	public void testID() {
+		shop = new Shop();
+		shop.setShopID(ID);
+		assertEquals(ID, shop.getShopID());
+	}
+
+	@Test
 	public void testDescription() {
 		shop = new Shop();
 		shop.setDescription(description);
@@ -29,19 +39,23 @@ public class ShopTest {
 	}
 	
 	@Test
-	public void testShopID() {
+	public void testPicture() {
 		shop = new Shop();
-		shop.setShopID(shopID);
-		assertEquals(shopID, shop.getShopID());
+		shop.setPicture(picture);
+		assertEquals(picture, shop.getPicture());
 	}
 	
 	@Test
-	public void testShopItems() {
+	public void testUserEmail() {
 		shop = new Shop();
-		shop.setShopItems(shopItems);
-		assertEquals(shopItems, shop.getShopItems());
+		shop.setOwnerEmail(ownerEmail);
+		assertEquals(ownerEmail, shop.getOwnerEmail());
+	}
+	
+	@Test
+	public void testTags() {
+		shop = new Shop();
+		shop.setTags(tags);
+		assertEquals(tags, shop.getTags());
 	}
 }
-
-
-

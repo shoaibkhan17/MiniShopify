@@ -32,7 +32,7 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
       authenticateFailed: false,
       redirectToCreateAccount: false,
@@ -45,7 +45,7 @@ class SignIn extends React.Component {
 
   // shouldComponentUpdate(nextProps, nextState) {
   //   if (
-  //     nextState.username !== this.state.username ||
+  //     nextState.email !== this.state.email ||
   //     nextState.password !== this.state.password ||
   //     nextProps.isAuthenticated !== this.props.isAuthenticated ||
   //     nextState.authenticateFailed !== this.state.authenticateFailed ||
@@ -58,25 +58,29 @@ class SignIn extends React.Component {
   // }
 
   async handleSubmit() {
-    var obj = {
-      username: this.state.username,
+    var user = {
+      email: this.state.email,
       password: this.state.password,
     };
 
-    var authenticateResponse = await UserService.authenticateMerchant(obj);
+    if (user.email !== "" && user.password !== "") {
+      var [success, message] = await UserService.signIn(user);
+      console.log("success:" + success);
+      console.log("message:" + message);
 
-    if (!authenticateResponse) {
-      this.setState({ authenticateFailed: true });
-    } else {
+      if (!success) {
+        this.setState({ authenticateFailed: true });
+      } else {
+        this.props.setAuthenticated(success);
+      }
+
       toast({
-        message: "Welcome back " + obj.username + "!",
-        type: "is-primary",
+        message: message,
+        type: success ? "is-primary" : "is-danger",
         dismissible: true,
         pauseOnHover: true,
       });
     }
-
-    this.props.setAuthenticated(authenticateResponse);
   }
 
   toggleVisibility() {
@@ -145,7 +149,7 @@ class SignIn extends React.Component {
               </div>
               {/* <Alert severity="info" variant="filled">
                 <p>
-                  Use username : test / password : test
+                  Use email : test / password : test
                 </p>
               </Alert> */}
               <form
@@ -164,9 +168,9 @@ class SignIn extends React.Component {
                       </InputAdornment>
                     ),
                   }}
-                  value={this.state.username}
+                  value={this.state.email}
                   onChange={(event) =>
-                    this.setState({ username: event.target.value })
+                    this.setState({ email: event.target.value })
                   }
                   error={this.state.authenticateFailed}
                   variant="outlined"

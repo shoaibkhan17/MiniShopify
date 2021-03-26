@@ -33,7 +33,6 @@ class CreateAccount extends React.Component {
     super(props);
     this.state = {
       name: "",
-      number: "",
       email: "",
       password: "",
       redirectToSignIn: false,
@@ -50,18 +49,14 @@ class CreateAccount extends React.Component {
   }
 
   async handleSubmit() {
-    var obj = {
+    var user = {
       name: this.state.name,
-      number: this.state.number,
       email: this.state.email,
       password: this.state.password,
     };
-    var [success, message] = [false, "Please enter email and password."];
 
-    console.log(obj);
-
-    if (obj.email !== "" && obj.password !== "") {
-      [success, message] = await UserService.createAccount(obj);
+    if (user.email !== "" && user.password !== "") {
+      var [success, message] = await UserService.createAccount(user);
 
       if (success) {
         this.setState({ isRegistered: true });
@@ -69,14 +64,14 @@ class CreateAccount extends React.Component {
       } else {
         this.setState({ registrationFailed: true });
       }
-    }
 
-    toast({
-      message: message,
-      type: success ? "is-primary" : "is-danger",
-      dismissible: true,
-      pauseOnHover: true,
-    });
+      toast({
+        message: message,
+        type: success ? "is-primary" : "is-danger",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+    }
   }
 
   render() {
