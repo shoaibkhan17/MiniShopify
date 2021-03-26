@@ -54,43 +54,52 @@ class UserService {
       });
   }
 
-  async createAccount(data) {
+  async createAccount(user) {
     var [success, message] = [false, "Unable to create an Account!"];
     await this.createAccountWithEmailAndPassword(
-      data.email,
-      data.password
+      user.email,
+      user.password
     ).then((res) => {
       [success, message] = res;
     });
 
     if (success) {
-      await this.updateUserName(data.name);
+      await this.updateUserName(user.name);
       const idToken = await this.getIdToken();
       store.getState().idToken = idToken;
-      console.log("set id token" + idToken);
     }
 
     return [success, message];
   }
 
-  // async signIn(idToken, user) {
-  //   const config = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + idToken,
-  //     },
-  //     withCredentials: true,
-  //   };
-  //   return await axios
-  //     .post(SIGN_IN_REST_API_URL, SIGN_IN_DATA, config)
-  //     .then((res) => {
-  //       console.log("signInWithUserID: " + res.data);
-  //       return Promise.resolve({ success: true, user });
-  //     })
-  //     .catch((error) => {
-  //       return Promise.reject(error);
-  //     });
-  // }
+  async signInWithEmailAndPassword(email, password) {
+    return await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        var message = "Welcome back " + res.user.displayName + "!";
+        return [true, message];
+      })
+      .catch((error) => {
+        return [false, error];
+      });
+  }
+
+  async signIn(user) {
+    var [success, message] = [false, "Unable to sign in!"];
+    await this.signInWithEmailAndPassword(user.email, user.password).then(
+      (res) => {
+        [success, message] = res;
+      }
+    );
+
+    if (success) {
+      const idToken = await this.getIdToken();
+      store.getState().idToken = idToken;
+    }
+
+    return [success, message];
+  }
 
   async createShop() {
     console.log("MY ID TOKEN: " + idTokenTest);

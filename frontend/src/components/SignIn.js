@@ -32,8 +32,8 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "demo@minishopify.com",
-      password: "demo12345",
+      email: "",
+      password: "",
       authenticateFailed: false,
       redirectToCreateAccount: false,
       showPassword: false,
@@ -41,7 +41,6 @@ class SignIn extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
-    this.testing = this.testing.bind(this);
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -59,32 +58,29 @@ class SignIn extends React.Component {
   // }
 
   async handleSubmit() {
-    var obj = {
+    var user = {
       email: this.state.email,
       password: this.state.password,
     };
 
-    // var authenticateResponse = await UserService.authenticateMerchant(obj);
-    var authenticateResponse = false;
+    if (user.email !== "" && user.password !== "") {
+      var [success, message] = await UserService.signIn(user);
+      console.log("success:" + success);
+      console.log("message:" + message);
 
-    UserService.testing();
+      if (!success) {
+        this.setState({ authenticateFailed: true });
+      } else {
+        this.props.setAuthenticated(success);
+      }
 
-    if (!authenticateResponse) {
-      this.setState({ authenticateFailed: true });
-    } else {
       toast({
-        message: "Welcome back " + obj.email + "!",
-        type: "is-primary",
+        message: message,
+        type: success ? "is-primary" : "is-danger",
         dismissible: true,
         pauseOnHover: true,
       });
     }
-
-    this.props.setAuthenticated(authenticateResponse);
-  }
-
-  async testing() {
-    await UserService.createShop();
   }
 
   toggleVisibility() {

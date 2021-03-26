@@ -32,16 +32,15 @@ class CreateAccount extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "test",
-      email: "test@gmail.com",
-      password: "test12345",
+      name: "",
+      email: "",
+      password: "",
       redirectToSignIn: false,
       showPassword: false,
       registrationFailed: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
-    this.testing = this.testing.bind(this);
   }
 
   toggleVisibility() {
@@ -49,19 +48,15 @@ class CreateAccount extends React.Component {
     this.setState({ showPassword: !visibility });
   }
 
-  async testing() {
-    await UserService.createShop();
-  }
-
   async handleSubmit() {
-    var obj = {
+    var user = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
     };
 
-    if (obj.email !== "" && obj.password !== "") {
-      var [success, message] = await UserService.createAccount(obj);
+    if (user.email !== "" && user.password !== "") {
+      var [success, message] = await UserService.createAccount(user);
 
       if (success) {
         this.setState({ isRegistered: true });
