@@ -59,14 +59,9 @@ class CreateAccount extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-    var [success, message] = [false, "Please enter email and password."];
 
     if (obj.email !== "" && obj.password !== "") {
-      // [success, message] = await UserService.createAccount(obj);
-
-      [success, message] = [false, "testing"];
-
-      await UserService.test(obj);
+      var [success, message] = await UserService.createAccount(obj);
 
       if (success) {
         this.setState({ isRegistered: true });
@@ -74,14 +69,14 @@ class CreateAccount extends React.Component {
       } else {
         this.setState({ registrationFailed: true });
       }
-    }
 
-    toast({
-      message: message,
-      type: success ? "is-primary" : "is-danger",
-      dismissible: true,
-      pauseOnHover: true,
-    });
+      toast({
+        message: message,
+        type: success ? "is-primary" : "is-danger",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+    }
   }
 
   render() {

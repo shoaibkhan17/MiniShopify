@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../redux/store";
 import firebase from "./firebase.config";
 
 var endpoint =
@@ -6,21 +7,9 @@ var endpoint =
     ? "http://localhost:8080/"
     : "https://minishopifyapp.herokuapp.com/";
 
-const CREATE_ACCOUNT_REST_API_URL = endpoint + "api/auth/createAccount";
-const SIGN_IN_REST_API_URL = endpoint + "api/auth/signIn";
 const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
 const CREATE_SHOP_URL = endpoint + "api/shop/createShop";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
-
-const POST_REQUEST_CONFIG_DEFAULT = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
-
-const SIGN_IN_DATA = {
-  data: { provider: "GOOGLE" },
-};
 
 let idTokenTest;
 
@@ -28,63 +17,80 @@ class UserService {
   async updateUserName(name) {
     var currentUser = firebase.auth().currentUser;
     if (currentUser !== null) {
-      await currentUser.updateProfile({ displayName: name }).then((res) => {
-        return true;
-      });
+      return await currentUser
+        .updateProfile({ displayName: name })
+        .then((res) => {
+          return true;
+        })
+        .catch((error) => {
+          return false;
+        });
     }
-    return false;
   }
 
-  async test(data) {
-    await firebase
+  async getIdToken() {
+    var currentUser = firebase.auth().currentUser;
+    if (currentUser !== null) {
+      return await currentUser
+        .getIdToken()
+        .then((token) => {
+          return token;
+        })
+        .catch((error) => {
+          return false;
+        });
+    }
+  }
+
+  async createAccountWithEmailAndPassword(email, password) {
+    return await firebase
       .auth()
-      .createUserWithEmailAndPassword(data.email, data.password)
+      .createUserWithEmailAndPassword(email, password)
       .then((res) => {
-        test = this.updateUserName(data.name);
-        console.log("updated name: " + test);
-        // console.log(res);
-        // var currentUser = firebase.auth().currentUser;
-      });
-    // return await axios
-    //   .post(CREATE_ACCOUNT_REST_API_URL, data, POST_REQUEST_CONFIG_DEFAULT)
-    //   .then((res) => {
-    //     console.log("MY JWT: " + res.data);
-    //     return firebase
-    //       .auth()
-    //       .signInWithCustomToken(res.data)
-    //       .then(async (resp) => {
-    //         console.log("response from sign in: " + resp);
-    //         return await resp.user.getIdToken().then((idToken) => {
-    //           console.log("my id token: " + idToken);
-    //           idTokenTest = idToken;
-    //           // return Promise.resolve();
-    //         });
-    //       })
-    //       .catch(function (error) {
-    //         console.log("shit happened sadly");
-    //         return Promise.reject(false);
-    //       });
-    //   });
-  }
-
-  async signIn(idToken, user) {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + idToken,
-      },
-      withCredentials: true,
-    };
-    return await axios
-      .post(SIGN_IN_REST_API_URL, SIGN_IN_DATA, config)
-      .then((res) => {
-        console.log("signInWithUserID: " + res.data);
-        return Promise.resolve({ success: true, user });
+        return [true, "Account Successfully created!"];
       })
       .catch((error) => {
-        return Promise.reject(error);
+        return [false, error.message];
       });
   }
+
+  async createAccount(data) {
+    var [success, message] = [false, "Unable to create an Account!"];
+    await this.createAccountWithEmailAndPassword(
+      data.email,
+      data.password
+    ).then((res) => {
+      [success, message] = res;
+    });
+
+    if (success) {
+      await this.updateUserName(data.name);
+      const idToken = await this.getIdToken();
+      store.getState().idToken = idToken;
+      console.log("set id token" + idToken);
+    }
+
+    return [success, message];
+  }
+
+  // async signIn(idToken, user) {
+  //   const config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + idToken,
+  //     },
+  //     withCredentials: true,
+  //   };
+  //   return await axios
+  //     .post(SIGN_IN_REST_API_URL, SIGN_IN_DATA, config)
+  //     .then((res) => {
+  //       console.log("signInWithUserID: " + res.data);
+  //       return Promise.resolve({ success: true, user });
+  //     })
+  //     .catch((error) => {
+  //       return Promise.reject(error);
+  //     });
+  // }
 
   async createShop() {
     console.log("MY ID TOKEN: " + idTokenTest);
@@ -112,39 +118,6 @@ class UserService {
 
   getShops() {
     return axios.get(GET_ALL_SHOPS_URL);
-  }
-
-  async createAccount(data) {
-    return await axios.post(CREATE_ACCOUNT_REST_API_URL, data).then(
-      (response) => {
-        if (response && response.data) {
-          return [
-            response.data.authenticate && response.data.userAdded,
-            response.data.message,
-          ];
-        }
-        return [false, "Unable to create an account!"];
-      },
-      (error) => {
-        return [false, "Unable to create an account!"];
-      }
-    );
-  }
-
-  async authenticateMerchant(data) {
-    return await axios
-      .post(SIGN_IN_REST_API_URL, data, POST_REQUEST_CONFIG_DEFAULT)
-      .then(
-        (response) => {
-          if (response && response.data) {
-            return response.data.authenticate;
-          }
-          return false;
-        },
-        (error) => {
-          return false;
-        }
-      );
   }
 }
 

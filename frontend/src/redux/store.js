@@ -1,4 +1,5 @@
-import { SET_AUTHENTICATE } from "./actionTypes";
+import { SET_AUTHENTICATE, SET_ID_TOKEN } from "./actionTypes";
+
 const { createStore } = require("redux");
 
 function saveToLocalStorage(state) {
@@ -25,6 +26,7 @@ function loadFromLocalStorage() {
 
 const initialState = {
   isAuthenticated: false,
+  idToken: "",
 };
 
 const myReducer = (state = initialState, action) => {
@@ -32,6 +34,10 @@ const myReducer = (state = initialState, action) => {
 
   if (action.type === SET_AUTHENTICATE) {
     newState.isAuthenticated = action.payload.isAuthenticated;
+  }
+
+  if (action.type === SET_ID_TOKEN) {
+    newState.idToken = action.payload.idToken;
   }
 
   return newState;
