@@ -31,7 +31,6 @@ class Home extends React.Component {
   }
 
   async addTestShop() {
-    console.log("adding test shop");
     var success = await UserService.addTestShop();
     success && this.getShops();
   }

@@ -39,7 +39,7 @@ public class ShopController {
 		String description = "A store to sell kamal";
 		String picture = "https://avatars.githubusercontent.com/u/55768486?v=4";
 		String ownerEmail = "kamal@minishopify.com";
-		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("Cute"));
+		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("Cute", "Illegal"));
 		
 		//create test shop
 		Shop shop = new Shop(name,description,picture,tag,ownerEmail);
