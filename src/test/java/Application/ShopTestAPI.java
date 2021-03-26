@@ -2,6 +2,7 @@ package Application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,7 @@ public class ShopTestAPI {
 
 	FirebaseService firebaseService = new FirebaseService();
 	FirebaseInitialize firebaseInit = new FirebaseInitialize();
-	
+
 	ArrayList<Shop> allShops;
 	boolean shopsEmpty = false;
 
@@ -23,15 +24,63 @@ public class ShopTestAPI {
 	public void setUp() throws Exception {
 		firebaseInit.firebaseInit();
 	}
-	
+
 	/**
 	 * Get all shops, check if the list of shops returned from firestore is not null.
 	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void testGetShop() throws ExecutionException, InterruptedException {
+	public void testGetShops() throws ExecutionException, InterruptedException {
 		allShops = firebaseService.getShops();
 		assertEquals(shopsEmpty, allShops.isEmpty());
 	}
+
+	/**
+	 * Create a test shop
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testCreateShop() throws ExecutionException, InterruptedException {
+		//test shop fields
+		String name = "Test Store";
+		String description = "A test store";
+		String picture = "https://avatars.githubusercontent.com/u/55768486?v=4";
+		String ownerEmail = "test@minishopify.com";
+		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("test"));
+
+		//create test shop
+		Shop shop = new Shop(name,description,picture,tag,ownerEmail);
+
+		//add test shop to fire store
+		boolean shopAdded = firebaseService.addShop(shop);
+		
+		assertEquals(true, shopAdded);
+	}
+	
+	/**
+	 * Delete the test shop
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void deleteTestShop() throws ExecutionException, InterruptedException {
+		//test shop fields
+		String name = "Test Store";
+		String description = "A test store";
+		String picture = "https://avatars.githubusercontent.com/u/55768486?v=4";
+		String ownerEmail = "test@minishopify.com";
+		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("test"));
+
+		//create test shop
+		Shop shop = new Shop(name,description,picture,tag,ownerEmail);
+
+		//add test shop to fire store
+		boolean shopAdded = firebaseService.addShop(shop);
+		
+		assertEquals(true, shopAdded);
+	}
+	
+	
 }
