@@ -1,77 +1,67 @@
 package models;
 import java.io.Serializable;
 
-import lombok.Data;
 
 @Data
 public class User implements Serializable{
-	private String uid;
-    private String name;
-    private String password;
-    private String email;
-    
-    public User() {
-        name = "";
-        email = "";
-        password = "";
-    };
+	    private String name;
+	    private String username;
+	    private Long UID;
 
-    public User(String name, String email, String password)
-    {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
+	    public User() {
+	        name = "";
+	        username = "";
+	        UID = 0L;
+	    };
 
-    public User(User user) {
-        this.name = user.name;
-        this.email = user.email;
-        this.password = user.password;
-    }
+	    public User(String name, String username, Long UID)
+	    {
+	        this.name = name;
+	        this.username = username;
+	        this.UID = UID;
+	    }
 
-    public void setAll(String name, String number, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
+	    public User(User user) {
+	        this.name = user.name;
+	        this.username = user.username;
+	        this.UID = user.UID;
+	    }
 
-    public String getName() {
-        return name;
-    }
+	    public void setAll(String name, String username, Long UID) {
+	        this.name = name;
+	        this.username = username;
+	        this.UID = UID;
+	    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	    public String getName() {
+	        return name;
+	    }
 
-    public String getEmail() {
-        return email;
-    }
+	    public void setName(String name) {
+	        this.name = name;
+	    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	    public String getUsername() {
+	        return username;
+	    }
 
-    public String getPassword() {
-        return password;
-    }
+	    public void setUsername(String username) {
+	        this.username = username;
+	    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	    public Long getUID() {
+	        return UID;
+	    }
 
-    public String toString() {
-        String string =  "\n";
-        string += "Name: " + name + "\n";
-        string += "Email: " + email + "\n";
-        string += "Password: " + password + "\n";
-        return string;
-    }
+	    public void setUID(Long UID) {
+	        this.UID = UID;
+	    }
 
-	public String getUid() {
-		return uid;
+	    public String toString() {
+	        String string =  "\n";
+	        string += "Name: " + name + "\n";
+	        string += "Email: " + username + "\n";
+	        string += "Password: " + UID + "\n";
+	        return string;
+	    }
 	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-}

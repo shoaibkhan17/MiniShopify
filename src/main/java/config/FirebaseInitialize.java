@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+
+import javax.servlet.http.Cookie;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,34 +22,15 @@ import java.util.List;
 
 @Configuration
 public class FirebaseInitialize {
-	
-	@Autowired
-	private SecurityProperties secProps;
-	
-	@Autowired
-	private FirebaseProperties firebaseProps;
-	
-	public static final List<String> publicAPIS = ImmutableList.of("/api/shop/getShops","/api/auth/signIn","/api/auth/createAccount");
-	public static final List<String> allowedMethods = ImmutableList.of("GET","POST");
-	public static final List<String> allowedOrigins = ImmutableList.of("*");
-	public static final List<String> allowedHeaders = ImmutableList.of("*");
-	public static final List<String> exposedHeaders = ImmutableList.of("*");
-	
+
 	@Primary
 	@Bean
-	public FirebaseApp getfirebaseApp() throws IOException {
-		secProps.setAllowedPublicApis(publicAPIS);
-		secProps.setFirebaseProps(firebaseProps);
-		secProps.setAllowedMethods(allowedMethods);
-		secProps.setAllowedOrigins(allowedOrigins);
-		secProps.setAllowedHeaders(allowedHeaders);
-		secProps.setExposedHeaders(exposedHeaders);
-		
+	public FirebaseApp firebaseInit() throws IOException {
 		FileInputStream serviceAccount = new FileInputStream("firebase-config.json");
 
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				.setDatabaseUrl(secProps.getFirebaseProps().getDatabaseUrl()).build();
+				.setDatabaseUrl("https://minishopify-sysc4806-default-rtdb.firebaseio.com").build();
 
 		if (FirebaseApp.getApps().isEmpty()) {
 			FirebaseApp.initializeApp(options);
@@ -58,7 +41,7 @@ public class FirebaseInitialize {
 
 	@Bean
 	public FirebaseAuth getAuth() throws IOException {
-		return FirebaseAuth.getInstance(getfirebaseApp());
+		return FirebaseAuth.getInstance(firebaseInit());
 	}
 
 	@Bean
