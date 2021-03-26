@@ -65,27 +65,27 @@ public class AuthenticateController {
 //		cookieUtils.deleteCookie("authenticated");
 	}
 
-	@PostMapping("/createAccount")
-	public String createAccount(@RequestBody User user) throws ExecutionException, InterruptedException, IOException {
-
-		UserRecord.CreateRequest newUser = new UserRecord.CreateRequest();
-		newUser.setEmail(user.getEmail());
-		newUser.setDisplayName(user.getName());
-		newUser.setPassword(user.getPassword());
-
-		try {
-			UserRecord createdUser = firebase.getAuth().createUser(newUser);
-			System.out.println("created user: " + user);
-
-			// Generate JWT token for the given user
-			return firebase.getAuth().createCustomToken(createdUser.getUid());
-
-		} catch (FirebaseAuthException e) {
-			System.out.println("unable to create: " + e);
-			e.printStackTrace();
-			return "";
-		}
-	}
+//	@PostMapping("/createAccount")
+//	public String createAccount(@RequestBody User user) throws ExecutionException, InterruptedException, IOException {
+//
+//		UserRecord.CreateRequest newUser = new UserRecord.CreateRequest();
+//		newUser.setEmail(user.getEmail());
+//		newUser.setDisplayName(user.getName());
+//		newUser.setPassword(user.getPassword());
+//
+//		try {
+//			UserRecord createdUser = firebase.getAuth().createUser(newUser);
+//			System.out.println("created user: " + user);
+//
+//			// Generate JWT token for the given user
+//			return firebase.getAuth().createCustomToken(createdUser.getUid());
+//
+//		} catch (FirebaseAuthException e) {
+//			System.out.println("unable to create: " + e);
+//			e.printStackTrace();
+//			return "";
+//		}
+//	}
 
 
 //		boolean successful = firebaseService.addUser(user);
