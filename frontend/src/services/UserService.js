@@ -10,10 +10,20 @@ var endpoint =
 const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
 const CREATE_SHOP_URL = endpoint + "api/shop/createShop";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
+const ADD_TEST_SHOP_URL = endpoint + "api/shop/createTestShop";
 
 let idTokenTest;
 
 class UserService {
+  getHeaders() {
+    const config = {
+      headers: {
+        "X-Firebase-Auth": store.getState().idToken,
+      },
+    };
+    return config;
+  }
+
   async updateUserName(name) {
     var currentUser = firebase.auth().currentUser;
     if (currentUser !== null) {
@@ -123,6 +133,21 @@ class UserService {
       })
       .catch((error) => {
         return null;
+      });
+  }
+
+  async addTestShop() {
+    var config = this.getHeaders();
+
+    return axios
+      .post(ADD_TEST_SHOP_URL, null, config)
+      .then((res) => {
+        console.log(res.data);
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
       });
   }
 

@@ -2,27 +2,38 @@ import React from "react";
 import UserService from "../services/UserService";
 import TopBar from "./TopBar";
 import { connect } from "react-redux";
-import { setAuthenticated } from "../redux/actions";
 import DisplayShops from "./DisplayShops";
+import { Button } from "@material-ui/core";
 
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.isAuthenticated };
+};
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
+      shops: [],
     };
 
-    this.test = this.test.bind(this);
     this.signOut = this.signOut.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.getShops = this.getShops.bind(this);
+    this.addTestShop = this.addTestShop.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getShops();
+  }
 
-  test() {
-    UserService.getUsers().then((response) => {
-      this.setState({ users: response.data });
-    });
+  async getShops() {
+    var shops = await UserService.getAllShops();
+    this.setState({ shops: shops });
+  }
+
+  async addTestShop() {
+    console.log("adding test shop");
+    var success = await UserService.addTestShop();
+    success && this.getShops();
   }
 
   signOut() {
@@ -37,10 +48,20 @@ class Home extends React.Component {
     return (
       <div style={{ height: "100vh" }}>
         <TopBar />
-        <DisplayShops />
+        <DisplayShops shops={this.state.shops} />
+        <br />
+        {this.props.isAuthenticated && (
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={this.addTestShop}
+          >
+            Add Test Shop
+          </Button>
+        )}
       </div>
     );
   }
 }
 
-export default connect(null, { setAuthenticated })(Home);
+export default connect(mapStateToProps, {})(Home);
