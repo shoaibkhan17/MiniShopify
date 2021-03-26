@@ -15,8 +15,8 @@ import {
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import StorefrontIcon from "@material-ui/icons/Storefront";
-import { shopsResponse } from "../responses/shopsResponse";
-import DisplayShopTags from "./displayShopTags";
+import DisplayShopTags from "./DisplayShopTags";
+import UserService from "../services/UserService";
 
 class DisplayShops extends React.Component {
   constructor(props) {
@@ -24,13 +24,22 @@ class DisplayShops extends React.Component {
     this.state = {
       openDropdown: false,
       anchorEl: null,
+      shops: [],
     };
 
     this.openShop = this.openShop.bind(this);
     this.editShop = this.editShop.bind(this);
+    this.getShop = this.getShop.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getShop();
+  }
+
+  async getShop() {
+    var shops = await UserService.getAllShops();
+    this.setState({ shops: shops });
+  }
 
   openShop(shop) {
     console.log("open shop: " + shop.name);
@@ -42,9 +51,14 @@ class DisplayShops extends React.Component {
 
   render() {
     return (
-      <Grid container spacing={5} style={{ flexGrow: 1, margin: "10px" }}>
-        {shopsResponse.map((shop) => (
-          <Grid item key={shop.ID}>
+      <Grid
+        container
+        justify="center"
+        spacing={5}
+        style={{ flexGrow: 1, marginTop: "10px", padding: "10px" }}
+      >
+        {this.state.shops.map((shop) => (
+          <Grid item key={shop.shopID}>
             <Card
               style={{
                 minWidth: "300px",

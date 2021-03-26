@@ -106,18 +106,19 @@ class UserService {
     });
   }
 
-  async getShop() {
-    axios.get(GET_ALL_SHOPS_URL).then((res) => {
-      console.log(res.data);
-    });
+  async getAllShops() {
+    return axios
+      .get(GET_ALL_SHOPS_URL)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        return null;
+      });
   }
 
   getShopById() {
     return axios.get(GET_SHOP_BY_ID_URL);
-  }
-
-  getShops() {
-    return axios.get(GET_ALL_SHOPS_URL);
   }
 }
 
