@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.cloud.FirestoreClient;
 
+import models.Product;
 import models.Shop;
 import models.User;
 
@@ -90,6 +91,7 @@ public class FirebaseService {
 		return false;
 	}
 	
+
 	public ArrayList<Shop> getShops() throws ExecutionException, InterruptedException {
 		ArrayList<Shop> allShops = new ArrayList<Shop>();
 		
@@ -105,7 +107,25 @@ public class FirebaseService {
 		
 		return allShops;
 	}
-
+	
+	
+	public ArrayList<Product> getProducts(String ShopID) throws ExecutionException, InterruptedException {
+		ArrayList<Product> allProducts = new ArrayList<Product>();
+		
+		Firestore firebaseDB = FirestoreClient.getFirestore();
+		//get all products
+		ApiFuture<QuerySnapshot> future = firebaseDB.collection("products").get();
+		
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+		
+		for (QueryDocumentSnapshot document : documents) {
+			  System.out.println(document.getId() + " => " + document.toObject(Shop.class));
+			  //allShops.add(document.toObject(Shop.class));
+		}
+		return null;
+	}
+	
+	
 	public User getUserDetails(String email) throws ExecutionException, InterruptedException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
 		DocumentReference documentReference = firebaseDB.collection("users").document(email);
