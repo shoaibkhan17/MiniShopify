@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@SpringBootApplication(scanBasePackages = {"controllers"})
+@SpringBootApplication(scanBasePackages = {"controllers", "config"})
 public class MiniShopifyApplication implements  CommandLineRunner {
 
 	@Autowired

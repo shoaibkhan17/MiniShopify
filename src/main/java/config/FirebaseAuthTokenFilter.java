@@ -25,7 +25,10 @@ public class FirebaseAuthTokenFilter extends AbstractAuthenticationProcessingFil
         super(new OrRequestMatcher(
                 new AntPathRequestMatcher("/api/shop/createShop"),
                 new AntPathRequestMatcher("/api/shop/updateShop"),
-                new AntPathRequestMatcher("/api/shop/createTestShop")
+                new AntPathRequestMatcher("/api/shop/deleteShop"),
+                new AntPathRequestMatcher("/api/shop/addProduct"),
+                new AntPathRequestMatcher("/api/shop/deleteProduct")
+                
         ));
     }
 

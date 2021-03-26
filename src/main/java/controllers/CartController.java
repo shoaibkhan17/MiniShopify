@@ -37,7 +37,6 @@ public class CartController {
 	
 	@PostMapping("/removeProduct")
     public ResponseEntity<String> updateShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
-		
 		return new ResponseEntity<String>("Product removed: ", HttpStatus.OK);
     }
 }

@@ -15,13 +15,17 @@ public class Product {
 		this.cost = 0;
 		this.picture = "";
 	}
-	
+
 	public Product(String name, String description, int quantity, double cost, String picture) {
 		this.name = name;
 		this.description = description;
 		this.quantity = quantity;
 		this.cost = cost;
 		this.setPicture(picture);
+	}
+
+	public boolean isProductNotEmpty() {
+		return !shopID.isEmpty() && !productID.isEmpty() && !name.isEmpty() && !description.isEmpty() && cost != 0;
 	}
 
 	public String getProductID() {

@@ -26,7 +26,7 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	public static final List<String> publicAPIS = ImmutableList.of("/api/shop/getShops","/api/auth/signIn","/api/auth/createAccount");
+	public static final List<String> publicAPIS = ImmutableList.of("/api/shop/getShops","/api/auth/signIn","/api/auth/createAccount", "/api/shop/getProducts");
 	public static final List<String> allowedOrigins = ImmutableList.of("http://localhost:3000", "https://minishopifyapp.herokuapp.com/");
 
 	@Autowired

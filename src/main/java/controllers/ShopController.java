@@ -50,10 +50,10 @@ public class ShopController {
 		return new ResponseEntity<String>("Shop added: " + true, HttpStatus.OK);
     }
 	
-	@PostMapping("/removeShop")
-    public ResponseEntity<String> removeShop() throws ExecutionException, InterruptedException {
-		//boolean shopAdded = firebaseService.addShop(shop);
-		return new ResponseEntity<String>("Shop removed: ", HttpStatus.OK);
+	@PostMapping("/deleteShop")
+    public ResponseEntity<String> deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException {
+		boolean shopRemoved = firebaseService.deleteShop(shopID);
+		return new ResponseEntity<String>("Shop removed: " + shopRemoved, HttpStatus.OK);
     }
 
 	@PostMapping("/updateShop")
@@ -67,4 +67,15 @@ public class ShopController {
 		return firebaseService.getProducts(ShopID);
     }
 	
+	@PostMapping("/addProduct")
+    public ResponseEntity<String> addProduct(@RequestBody Product product) throws ExecutionException, InterruptedException {
+		boolean productAdded = firebaseService.addProduct(product);
+		return new ResponseEntity<String>("Product added: " + productAdded, HttpStatus.OK);
+    }
+	
+	@PostMapping("/deleteProduct")
+    public ResponseEntity<String> deleteProduct(@RequestBody String productID) throws ExecutionException, InterruptedException {
+		boolean productDeleted = firebaseService.deleteProduct(productID);
+		return new ResponseEntity<String>("Product deleted: " + productDeleted, HttpStatus.OK);
+    }
 }

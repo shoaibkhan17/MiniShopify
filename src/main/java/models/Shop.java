@@ -30,7 +30,7 @@ public class Shop {
     }
     
     public boolean isShopNotEmpty() {
-    	return !shopID.isEmpty() && !name.isEmpty() && !ownerEmail.isEmpty() && !description.isEmpty();
+    	return !name.isEmpty() && !ownerEmail.isEmpty() && !description.isEmpty();
     }
     
     public String getName() {
