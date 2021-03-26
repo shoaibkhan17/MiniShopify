@@ -236,7 +236,6 @@ class SignIn extends React.Component {
                   Sign In
                 </Button>
               </form>
-              <button onClick={this.testing}>CREATE SHOP</button>
             </div>
           </div>
         </Grid>
