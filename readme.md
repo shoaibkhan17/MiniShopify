@@ -37,6 +37,8 @@ npm start
 ## Running the tests
 
 The project is built and the test cases are ran by Travis.ci
+-Testing model classes
+-Testing Firebase database using APIs
 
 
 ## Deployment
@@ -61,6 +63,15 @@ Deployment:
 * Milestone 2 - Alpha Release
 * Milestone 3 - Final Demo
 
+## UML Diagram
+<p style="text-align:right">
+<img src="documentation/MiniShopify-UML.png" alt="Class Diagram">
+</p>
+
+## Database Schema
+<p style="text-align:right">
+<img src="documentation/MiniShopify-Schema.png" alt="Class Diagram">
+</p>
 
 ## Authors
 
