@@ -1,9 +1,10 @@
 package Application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
+
+import models.Product;
 import org.junit.jupiter.api.Test;
 
-import models.Item;
 import models.Shop;
 
 public class ShopTest {
@@ -11,7 +12,7 @@ public class ShopTest {
 	String name ="Kamal2";
 	String description = "Good";
 	int shopID = 55;
-	ArrayList<Item> shopItems;
+	ArrayList<Product> shopProducts;
 	Long id = 5678L;
 
 	@Test
@@ -38,8 +39,8 @@ public class ShopTest {
 	@Test
 	public void testShopItems() {
 		shop = new Shop();
-		shop.setShopItems(shopItems);
-		assertEquals(shopItems, shop.getShopItems());
+		shop.setShopItems(shopProducts);
+		assertEquals(shopProducts, shop.getShopItems());
 	}
 }
 

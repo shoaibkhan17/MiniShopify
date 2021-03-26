@@ -11,28 +11,28 @@ public class Shop {
     private String name;
     private String description;
     private int shopID;
-    private ArrayList<Item> shopItems;
+    private ArrayList<Product> shopProducts;
     private Long id;
 
     public Shop() {
         this.name = "";
         this.description = "";
         this.shopID = 0;
-        this.shopItems = new ArrayList<>();
+        this.shopProducts = new ArrayList<>();
     }
 
     public Shop(Shop shop) {
         this.name = shop.name;
         this.description = shop.description;
         this.shopID = shop.shopID;
-        this.shopItems = shop.shopItems;
+        this.shopProducts = shop.shopProducts;
     }
 
-    public Shop(String name, String description, int shopID, ArrayList<Item> shopItems) {
+    public Shop(String name, String description, int shopID, ArrayList<Product> shopProducts) {
         this.name = name;
         this.description = description;
         this.shopID = shopID;
-        this.shopItems = shopItems;
+        this.shopProducts = shopProducts;
     }
 
     @Id
@@ -69,16 +69,16 @@ public class Shop {
         this.shopID = shopID;
     }
 
-    public void addItem(Item item) {
-        shopItems.add(item);
+    public void addItem(Product product) {
+        shopProducts.add(product);
     }
 
-    public ArrayList<Item> getShopItems() {
-        return shopItems;
+    public ArrayList<Product> getShopItems() {
+        return shopProducts;
     }
 
-    public void setShopItems(ArrayList<Item> shopItems) {
-        this.shopItems = shopItems;
+    public void setShopItems(ArrayList<Product> shopProducts) {
+        this.shopProducts = shopProducts;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Shop {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", shopID=" + shopID +
-                ", shopItems=" + shopItems +
+                ", shopItems=" + shopProducts +
                 '}';
     }
 }

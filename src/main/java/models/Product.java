@@ -5,42 +5,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Item {
-    private String name;
+public class Product {
+    private Long productID;
     private String description;
+    private String name;
+    private String picture;
     private int quantity;
-    private double price;
-    private Long id;
+    private double cost;
+    private Long shopID;
 
-    public Item() {
-        this.name = "";
-        this.description = "";
-        this.quantity = 0;
-        this.price = 0;
-    }
 
-    public Item(String name, String description, int quantity, double price) {
+    public Product(String name, String description, int quantity, double cost) {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
-        this.price = price;
+        this.cost = cost;
     }
 
-    public Item(Item item) {
-        this.name = item.name;
-        this.description = item.description;
-        this.quantity = item.quantity;
-        this.price = item.price;
+    public Product() {
+
     }
+
 
     @Id
     @GeneratedValue
-    public Long getId() {
-        return id;
+    public Long getProductID() {
+        return productID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProductID(Long productID) {
+
+    }
+
+    public Long getShopID() {
+        return shopID;
+    }
+
+    public void setShopID(Long shopID) {
     }
 
     public String getName() {
@@ -59,21 +60,22 @@ public class Item {
         this.description = description;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setCost(double cost){
+
     }
 
-    public double getPrice() {
-        return price;
+    public double getCost() {
+        return cost;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+
 
     @Override
     public String toString() {
@@ -81,7 +83,9 @@ public class Item {
                 "name ='" + name + '\'' +
                 ", description ='" + description + '\'' +
                 ", quantity =" + quantity +
-                ", price =" + price +
+                ", cost =" + cost +
                 '}';
     }
 }
+
+
