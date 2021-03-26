@@ -261,8 +261,6 @@ class CreateAccount extends React.Component {
                   Register
                 </Button>
               </form>
-
-              <button onClick={this.testing}>CREATE SHOP</button>
             </div>
           </div>
         </Grid>
