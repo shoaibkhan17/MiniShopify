@@ -66,7 +66,7 @@ public class FirebaseService {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
 			DocumentReference documentReference = firebaseDB.collection("shops").document();
 
-			if(shop.getShopID().isEmpty()) {
+			if(shop.getShopID() == null) {
 				//set shop id from document (auto-generated from firebase)
 				shop.setShopID(documentReference.getId());
 			}
@@ -81,7 +81,6 @@ public class FirebaseService {
 
 	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
-		DocumentReference documentReference = firebaseDB.collection("shops").document(ShopID);
 		DocumentReference documentReference = firebaseDB.collection("shops").document(shopID);
 
 		if(documentReference != null) {
