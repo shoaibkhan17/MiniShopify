@@ -19,6 +19,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import { green } from "@material-ui/core/colors";
 import SignInButton from "./SignInButton";
+import AuthService from "../services/AuthService";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -40,8 +41,8 @@ class TopBar extends React.Component {
 
   componentDidMount() {}
 
-  signOut() {
-    this.props.setAuthenticated(false);
+  async signOut() {
+    await AuthService.signOut();
   }
 
   openMenu(event) {

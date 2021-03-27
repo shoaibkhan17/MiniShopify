@@ -1,5 +1,5 @@
 import React from "react";
-import UserService from "../services/UserService";
+import AuthService from "../services/AuthService";
 import { Redirect } from "react-router";
 import { toast } from "bulma-toast";
 import {
@@ -56,12 +56,9 @@ class CreateAccount extends React.Component {
     };
 
     if (user.email !== "" && user.password !== "") {
-      var [success, message] = await UserService.createAccount(user);
+      var [success, message] = await AuthService.createAccount(user);
 
-      if (success) {
-        this.setState({ isRegistered: true });
-        this.props.setAuthenticated(true);
-      } else {
+      if (!success) {
         this.setState({ registrationFailed: true });
       }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router";
-import UserService from "../services/UserService";
+import AuthService from "../services/AuthService";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
 import {
@@ -64,14 +64,10 @@ class SignIn extends React.Component {
     };
 
     if (user.email !== "" && user.password !== "") {
-      var [success, message] = await UserService.signIn(user);
-      console.log("success:" + success);
-      console.log("message:" + message);
+      var [success, message] = await AuthService.signIn(user);
 
       if (!success) {
         this.setState({ authenticateFailed: true });
-      } else {
-        this.props.setAuthenticated(success);
       }
 
       toast({
