@@ -7,11 +7,14 @@ var endpoint =
     ? "http://localhost:8080/"
     : "https://minishopifyapp.herokuapp.com/";
 
+// Public end points
 const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
-const CREATE_SHOP_URL = endpoint + "api/shop/createShop";
-const DELETE_SHOP_URL = endpoint + "api/shop/deleteShop";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
-const ADD_TEST_SHOP_URL = endpoint + "api/shop/createTestShop";
+
+// Private end points
+const CREATE_SHOP_URL = endpoint + "api/shop/protected/createShop";
+const DELETE_SHOP_URL = endpoint + "api/shop/protected/deleteShop";
+const ADD_TEST_SHOP_URL = endpoint + "api/shop/protected/createTestShop";
 
 let idTokenTest;
 
