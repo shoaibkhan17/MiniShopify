@@ -1,12 +1,6 @@
 import axios from "axios";
-import {
-  deleteShop,
-  setAuthenticated,
-  setIdToken,
-  setShops,
-} from "../redux/actions";
+import { deleteShop, setShops, setUserShops } from "../redux/actions";
 import store from "../redux/store";
-import firebase from "./firebase.config";
 
 var endpoint =
   process.env.NODE_ENV === "development"

@@ -3,7 +3,9 @@ import {
   SET_ID_TOKEN,
   SET_SHOPS,
   DELETE_SHOP,
+  SET_USER_SHOPS,
 } from "./actionTypes";
+import firebase from "../services/firebase.config";
 
 const { createStore } = require("redux");
 
@@ -33,6 +35,7 @@ const initialState = {
   isAuthenticated: false,
   idToken: "",
   shops: [],
+  userShops: [],
 };
 
 const myReducer = (state = initialState, action) => {
@@ -48,6 +51,18 @@ const myReducer = (state = initialState, action) => {
 
   if (action.type === SET_SHOPS) {
     newState.shops = action.payload.shops;
+
+    const user = firebase.auth().currentUser;
+    if (user !== null) {
+      const userShops = action.payload.shops.filter(
+        (shop) => shop.ownerEmail === user.email
+      );
+      newState.userShops = userShops;
+    }
+  }
+
+  if (action.type === SET_USER_SHOPS) {
+    newState.userShops = action.payload.userShops;
   }
 
   if (action.type === DELETE_SHOP) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setAuthenticated, setIdToken } from "../redux/actions";
+import { setAuthenticated, setIdToken, setUserShops } from "../redux/actions";
 import store from "../redux/store";
 import firebase from "./firebase.config";
 
@@ -28,6 +28,7 @@ class AuthService {
       .then(() => {
         store.dispatch(setAuthenticated(false));
         store.dispatch(setIdToken(""));
+        store.dispatch(setUserShops([]));
         return true;
       })
       .catch((error) => {

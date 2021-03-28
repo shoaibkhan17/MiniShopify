@@ -3,6 +3,7 @@ import {
   SET_ID_TOKEN,
   SET_SHOPS,
   DELETE_SHOP,
+  SET_USER_SHOPS,
 } from "./actionTypes";
 
 export const setAuthenticated = (flag) => ({
@@ -30,5 +31,12 @@ export const deleteShop = (shopID) => ({
   type: DELETE_SHOP,
   payload: {
     shopID: shopID,
+  },
+});
+
+export const setUserShops = (userShops) => ({
+  type: SET_USER_SHOPS,
+  payload: {
+    userShops: userShops,
   },
 });
