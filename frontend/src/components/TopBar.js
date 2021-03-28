@@ -20,6 +20,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import { green } from "@material-ui/core/colors";
 import SignInButton from "./SignInButton";
 import AuthService from "../services/AuthService";
+import firebase from "../services/firebase.config";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -88,10 +89,14 @@ class TopBar extends React.Component {
                 }}
               >
                 <Typography variant="subtitle1" style={{ flexGrow: 1 }}>
-                  Your Name
+                  {firebase.auth().currentUser
+                    ? firebase.auth().currentUser.displayName
+                    : ""}
                 </Typography>
                 <Typography variant="subtitle2" style={{ flexGrow: 1 }}>
-                  youremail@gmail.com
+                  {firebase.auth().currentUser
+                    ? firebase.auth().currentUser.email
+                    : ""}
                 </Typography>
               </div>
               <Divider />
