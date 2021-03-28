@@ -23,9 +23,10 @@ import {
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import DisplayShopTags from "./DisplayShopTags";
-import UserService from "../services/UserService";
+import ShopService from "../services/ShopService";
 import { Alert } from "@material-ui/lab";
 import { setShops } from "../redux/actions";
+import { Shop } from "@material-ui/icons";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops };
@@ -50,7 +51,9 @@ class DisplayShops extends React.Component {
     this.renderDialog = this.renderDialog.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getShops();
+  }
 
   openShop(shop) {
     console.log("open shop: " + shop.name);
@@ -69,20 +72,12 @@ class DisplayShops extends React.Component {
   }
 
   async getShops() {
-    var shops = await UserService.getAllShops();
-    setShops(shops);
+    await ShopService.getAllShops();
   }
 
   async deleteShop() {
     if (this.state.currentShop) {
-      var success = await UserService.deleteShop(this.state.currentShop.shopID);
-
-      if (success) {
-        var getNewShops = await UserService.getAllShops();
-        if (getNewShops) {
-          this.props.setShops(getNewShops);
-        }
-      }
+      await ShopService.deleteShop(this.state.currentShop.shopID);
       this.setState({ openDialog: false, openSnackBar: true });
     }
   }

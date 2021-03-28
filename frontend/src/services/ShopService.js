@@ -1,5 +1,10 @@
 import axios from "axios";
-import { setAuthenticated, setIdToken } from "../redux/actions";
+import {
+  deleteShop,
+  setAuthenticated,
+  setIdToken,
+  setShops,
+} from "../redux/actions";
 import store from "../redux/store";
 import firebase from "./firebase.config";
 
@@ -17,7 +22,7 @@ const CREATE_SHOP_URL = endpoint + "api/shop/protected/createShop";
 const DELETE_SHOP_URL = endpoint + "api/shop/protected/deleteShop";
 const ADD_TEST_SHOP_URL = endpoint + "api/shop/protected/createTestShop";
 
-class UserService {
+class ShopService {
   getHeaders() {
     const config = {
       headers: {
@@ -43,6 +48,7 @@ class UserService {
     return axios
       .get(GET_ALL_SHOPS_URL)
       .then((res) => {
+        store.dispatch(setShops(res.data));
         return res.data;
       })
       .catch((error) => {
@@ -56,6 +62,10 @@ class UserService {
     return axios
       .post(DELETE_SHOP_URL, shopID, config)
       .then((res) => {
+        console.log("manually delete a shop");
+
+        store.dispatch(deleteShop(shopID));
+
         return true;
       })
       .catch((error) => {
@@ -83,4 +93,4 @@ class UserService {
   }
 }
 
-export default new UserService();
+export default new ShopService();

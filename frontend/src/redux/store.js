@@ -1,4 +1,9 @@
-import { SET_AUTHENTICATE, SET_ID_TOKEN, SET_SHOPS } from "./actionTypes";
+import {
+  SET_AUTHENTICATE,
+  SET_ID_TOKEN,
+  SET_SHOPS,
+  DELETE_SHOP,
+} from "./actionTypes";
 
 const { createStore } = require("redux");
 
@@ -43,6 +48,13 @@ const myReducer = (state = initialState, action) => {
 
   if (action.type === SET_SHOPS) {
     newState.shops = action.payload.shops;
+  }
+
+  if (action.type === DELETE_SHOP) {
+    const filteredList = newState.shops.filter(
+      (shop) => shop.shopID !== action.payload.shopID
+    );
+    newState.shops = filteredList;
   }
 
   return newState;
