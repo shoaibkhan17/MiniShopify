@@ -64,9 +64,9 @@ public class ShopController {
     }
 
 	@PostMapping("protected/updateShop")
-    public ResponseEntity<String> updateShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
+    public ResponseEntity<Shop> updateShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
 		Shop shopUpdated = firebaseService.updateShop(shop);
-		return new ResponseEntity<String>("Updated shop: " + shopUpdated, HttpStatus.OK);
+		return new ResponseEntity<Shop>(shopUpdated, HttpStatus.OK);
     }
 	
 	@GetMapping("/getProducts")

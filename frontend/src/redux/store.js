@@ -4,6 +4,7 @@ import {
   SET_SHOPS,
   DELETE_SHOP,
   SET_USER_SHOPS,
+  UPDATE_SHOP,
 } from "./actionTypes";
 import firebase from "../services/firebase.config";
 
@@ -69,6 +70,14 @@ const myReducer = (state = initialState, action) => {
     const filteredList = newState.shops.filter(
       (shop) => shop.shopID !== action.payload.shopID
     );
+    newState.shops = filteredList;
+  }
+
+  if (action.type === UPDATE_SHOP) {
+    const filteredList = newState.shops.filter(
+      (shop) => shop.shopID !== action.payload.updatedShop.shopID
+    );
+    filteredList.push(action.payload.updatedShop);
     newState.shops = filteredList;
   }
 

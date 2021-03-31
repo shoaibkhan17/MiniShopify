@@ -4,6 +4,7 @@ import {
   SET_SHOPS,
   DELETE_SHOP,
   SET_USER_SHOPS,
+  UPDATE_SHOP,
 } from "./actionTypes";
 
 export const setAuthenticated = (flag) => ({
@@ -31,6 +32,13 @@ export const deleteShop = (shopID) => ({
   type: DELETE_SHOP,
   payload: {
     shopID: shopID,
+  },
+});
+
+export const updateShop = (updatedShop) => ({
+  type: UPDATE_SHOP,
+  payload: {
+    updatedShop: updatedShop,
   },
 });
 

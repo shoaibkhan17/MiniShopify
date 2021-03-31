@@ -1,5 +1,10 @@
 import axios from "axios";
-import { deleteShop, setShops, setUserShops } from "../redux/actions";
+import {
+  deleteShop,
+  setShops,
+  setUserShops,
+  updateShop,
+} from "../redux/actions";
 import store from "../redux/store";
 
 var endpoint =
@@ -11,9 +16,10 @@ var endpoint =
 const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
 
-// Private end points
+// Protected end points
 const CREATE_SHOP_URL = endpoint + "api/shop/protected/createShop";
 const DELETE_SHOP_URL = endpoint + "api/shop/protected/deleteShop";
+const UPDATE_SHOP_URL = endpoint + "api/shop/protected/updateShop";
 const ADD_TEST_SHOP_URL = endpoint + "api/shop/protected/createTestShop";
 
 class ShopService {
@@ -60,6 +66,21 @@ class ShopService {
 
         store.dispatch(deleteShop(shopID));
 
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
+  async updateShop(updatedShop) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(UPDATE_SHOP_URL, updatedShop, config)
+      .then((res) => {
+        store.dispatch(updateShop(updatedShop));
         return true;
       })
       .catch((error) => {

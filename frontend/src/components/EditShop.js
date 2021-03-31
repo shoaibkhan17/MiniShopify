@@ -22,6 +22,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Shop from "./Shop";
 import DisplayShopTags from "./DisplayShopTags";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
+import ShopService from "../services/ShopService";
 
 const clips = ["test", "Test1"];
 class EditShop extends React.Component {
@@ -30,6 +31,8 @@ class EditShop extends React.Component {
     this.state = {
       // shopData: this.props.selectedShop,
       shopData: null,
+      ownerEmail: "",
+      shopID: "",
       name: "",
       description: "",
       picture: "",
@@ -39,6 +42,7 @@ class EditShop extends React.Component {
     this.closeDialog = this.closeDialog.bind(this);
     this.getShopData = this.getShopData.bind(this);
     this.deleteAllTags = this.deleteAllTags.bind(this);
+    this.updateShop = this.updateShop.bind(this);
     this.addTag = this.addTag.bind(this);
   }
 
@@ -56,6 +60,8 @@ class EditShop extends React.Component {
   componentDidMount() {
     this.setState({
       shopData: this.props.selectedShop,
+      ownerEmail: this.props.selectedShop.ownerEmail,
+      shopID: this.props.selectedShop.shopID,
       name: this.props.selectedShop.name,
       description: this.props.selectedShop.description,
       picture: this.props.selectedShop.picture,
@@ -75,6 +81,8 @@ class EditShop extends React.Component {
 
   getShopData() {
     const shopObj = {
+      shopID: this.state.shopID,
+      ownerEmail: this.state.ownerEmail,
       name: this.state.name,
       description: this.state.description,
       picture: this.state.picture,
@@ -82,6 +90,13 @@ class EditShop extends React.Component {
     };
 
     return shopObj;
+  }
+
+  async updateShop() {
+    const success = await ShopService.updateShop(this.getShopData());
+    if (success) {
+      this.props.onClose();
+    }
   }
 
   componentWillUnmount() {}
@@ -180,7 +195,7 @@ class EditShop extends React.Component {
         <DialogActions>
           <Chip
             label="Update Shop"
-            onClick={this.closeDialog}
+            onClick={this.updateShop}
             style={{ background: PRIMARY_THEME_COLOR, color: "white" }}
           />
           <Chip
