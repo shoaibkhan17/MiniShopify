@@ -72,34 +72,26 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean deleteShop(String shopID, String userID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
+	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
 		DocumentReference shopReference = firebaseDB.collection("shops").document(shopID);
 		ApiFuture<DocumentSnapshot> shopSnapshot = shopReference.get();
 		DocumentSnapshot shopDocument = shopSnapshot.get();
-		
-		Shop shop = null;
+
 		if(shopDocument.exists()) {
-			//get the shop object
-			shop = shopDocument.toObject(Shop.class);
-			String ownerEmail = shop.getOwnerEmail();
-			
-			//check if the userID is the equal to the shop owner's email
-			if(userID.equals(ownerEmail)) {
-				//asynchronously retrieve all documents
-				ApiFuture<QuerySnapshot> productQuerySnapshot = firebaseDB.collection("products").get();
-				List<QueryDocumentSnapshot> productDocuments = productQuerySnapshot.get().getDocuments();
-				
-				for (QueryDocumentSnapshot productDoc : productDocuments) {
-					Product product = productDoc.toObject(Product.class);
-					
-					//check the shopID of the product
-					if(product.getShopID().equals(shopID)) {
-						//delete the product associated to the shop
-						firebaseDB.collection("products").document(product.getProductID()).delete();
-					}
+			//asynchronously retrieve all documents
+			ApiFuture<QuerySnapshot> productQuerySnapshot = firebaseDB.collection("products").get();
+			List<QueryDocumentSnapshot> productDocuments = productQuerySnapshot.get().getDocuments();
+
+			for (QueryDocumentSnapshot productDoc : productDocuments) {
+				Product product = productDoc.toObject(Product.class);
+
+				//check the shopID of the product
+				if(product.getShopID().equals(shopID)) {
+					//delete the product associated to the shop
+					firebaseDB.collection("products").document(product.getProductID()).delete();
 				}
-				
+
 				shopReference.delete();
 				return true;
 			}
@@ -107,7 +99,7 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean updateShop(Shop shop) throws ExecutionException, InterruptedException {
+	public Shop updateShop(Shop shop) throws ExecutionException, InterruptedException {
 		//check if the given shop has all the required fields
 		if(shop != null && shop.isShopNotEmpty()) {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
@@ -115,10 +107,10 @@ public class FirebaseService {
 
 			//update the shop with the new fields
 			documentReference.set(shop);			
-			return true;
+			return shop;
 		}
 
-		return false;
+		return null;
 	}
 
 
@@ -169,6 +161,11 @@ public class FirebaseService {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
 			DocumentReference documentReference = firebaseDB.collection("products").document();
 
+			if(product.getProductID() == null) {
+				//set product id from document (auto-generated from firebase)
+				product.setProductID(documentReference.getId());
+			}
+			
 			//add a new product
 			documentReference.set(product);
 			return true;
