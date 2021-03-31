@@ -62,11 +62,12 @@ class ShopService {
     return axios
       .post(DELETE_SHOP_URL, shopID, config)
       .then((res) => {
-        console.log("manually delete a shop");
-
-        store.dispatch(deleteShop(shopID));
-
-        return true;
+        console.log(res.data);
+        if (res.data) {
+          store.dispatch(deleteShop(shopID));
+          return true;
+        }
+        return false;
       })
       .catch((error) => {
         console.log(error);
@@ -80,8 +81,11 @@ class ShopService {
     return axios
       .post(UPDATE_SHOP_URL, updatedShop, config)
       .then((res) => {
-        store.dispatch(updateShop(updatedShop));
-        return true;
+        if (res.data !== null) {
+          store.dispatch(updateShop(updatedShop));
+          return true;
+        }
+        return false;
       })
       .catch((error) => {
         console.log(error);

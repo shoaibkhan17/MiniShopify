@@ -55,12 +55,9 @@ public class ShopController {
     }
 	
 	@PostMapping("protected/deleteShop")
-    public ResponseEntity<String> deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
+    public boolean deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
 		shopID = shopID.substring(0, shopID.length() - 1);
-		//System.out.println("User with UID:" + userID + " is requesting to delete shop with shopID:" + shopID);
-		
-		boolean shopRemoved = firebaseService.deleteShop(shopID);
-		return new ResponseEntity<String>("Shop removed: " + shopRemoved, HttpStatus.OK);
+		return firebaseService.deleteShop(shopID);
     }
 
 	@PostMapping("protected/updateShop")

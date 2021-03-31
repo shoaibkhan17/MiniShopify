@@ -23,8 +23,6 @@ import Shop from "./Shop";
 import DisplayShopTags from "./DisplayShopTags";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
 import ShopService from "../services/ShopService";
-
-const clips = ["test", "Test1"];
 class EditShop extends React.Component {
   constructor(props) {
     super(props);
@@ -39,23 +37,31 @@ class EditShop extends React.Component {
       tag: "",
       tags: [],
     };
-    this.closeDialog = this.closeDialog.bind(this);
     this.getShopData = this.getShopData.bind(this);
     this.deleteAllTags = this.deleteAllTags.bind(this);
     this.updateShop = this.updateShop.bind(this);
+    this.deleteShop = this.deleteShop.bind(this);
+    this.discardChanges = this.discardChanges.bind(this);
     this.addTag = this.addTag.bind(this);
+    this.mounted = true;
   }
 
-  closeDialog() {
-    // this.props.closeUpdate();
-    console.log("close edit shop dialog");
+  discardChanges() {
+    this.setState({
+      name: this.props.selectedShop.name,
+      description: this.props.selectedShop.description,
+      picture: this.props.selectedShop.picture,
+      tags: this.props.selectedShop.tags,
+    });
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   // if (this.props.selectedShop !== prevProps.selectedShop) {
-  //   //   this.setState({ shopData: this.props.selectedShop });
-  //   // }
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.mounted;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
 
   componentDidMount() {
     this.setState({
@@ -94,6 +100,13 @@ class EditShop extends React.Component {
 
   async updateShop() {
     const success = await ShopService.updateShop(this.getShopData());
+    if (success) {
+      this.props.onClose();
+    }
+  }
+
+  async deleteShop() {
+    const success = await ShopService.deleteShop(this.state.shopID);
     if (success) {
       this.props.onClose();
     }
@@ -200,12 +213,12 @@ class EditShop extends React.Component {
           />
           <Chip
             label="Discard Changes"
-            onClick={this.closeDialog}
+            onClick={this.discardChanges}
             style={{ background: "#ff9800", color: "white" }}
           />
           <Chip
             label="Delete Shop"
-            onClick={this.closeDialog}
+            onClick={this.deleteShop}
             color="secondary"
           />
         </DialogActions>
