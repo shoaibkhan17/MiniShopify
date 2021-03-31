@@ -97,7 +97,7 @@ class EditShop extends React.Component {
         <DialogTitle>Edit Shop Menu</DialogTitle>
 
         <DialogContent>
-          <Alert variant="filled" severity="warning">
+          <Alert severity="error">
             Deleting a shop will delete all the products it contains.
           </Alert>
         </DialogContent>
