@@ -6,6 +6,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.auth.ExportedUserRecord;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.ListUsersPage;
@@ -71,13 +72,37 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException {
+	public boolean deleteShop(String shopID, String userID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
-		DocumentReference documentReference = firebaseDB.collection("shops").document(shopID);
-
-		if(documentReference != null) {
-			documentReference.delete();
-			return true;
+		DocumentReference shopReference = firebaseDB.collection("shops").document(shopID);
+		ApiFuture<DocumentSnapshot> shopSnapshot = shopReference.get();
+		DocumentSnapshot shopDocument = shopSnapshot.get();
+		
+		Shop shop = null;
+		if(shopDocument.exists()) {
+			//get the shop object
+			shop = shopDocument.toObject(Shop.class);
+			String ownerEmail = shop.getOwnerEmail();
+			
+			//check if the userID is the equal to the shop owner's email
+			if(userID.equals(ownerEmail)) {
+				//asynchronously retrieve all documents
+				ApiFuture<QuerySnapshot> productQuerySnapshot = firebaseDB.collection("products").get();
+				List<QueryDocumentSnapshot> productDocuments = productQuerySnapshot.get().getDocuments();
+				
+				for (QueryDocumentSnapshot productDoc : productDocuments) {
+					Product product = productDoc.toObject(Product.class);
+					
+					//check the shopID of the product
+					if(product.getShopID().equals(shopID)) {
+						//delete the product associated to the shop
+						firebaseDB.collection("products").document(product.getProductID()).delete();
+					}
+				}
+				
+				shopReference.delete();
+				return true;
+			}
 		}
 		return false;
 	}

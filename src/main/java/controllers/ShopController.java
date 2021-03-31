@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.google.firebase.auth.FirebaseAuthException;
+
 import config.FirebaseService;
 import models.Product;
 import models.Shop;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,9 +55,11 @@ public class ShopController {
     }
 	
 	@PostMapping("protected/deleteShop")
-    public ResponseEntity<String> deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException {
+    public ResponseEntity<String> deleteShop(@RequestBody String shopID, @RequestBody String userID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
 		shopID = shopID.substring(0, shopID.length() - 1);
-		boolean shopRemoved = firebaseService.deleteShop(shopID);
+		System.out.println("User with UID:" + userID + " is requesting to delete shop with shopID:" + shopID);
+		
+		boolean shopRemoved = firebaseService.deleteShop(shopID, userID);
 		return new ResponseEntity<String>("Shop removed: " + shopRemoved, HttpStatus.OK);
     }
 
