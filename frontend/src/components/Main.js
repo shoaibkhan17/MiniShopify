@@ -9,6 +9,7 @@ import CreateAccount from "./CreateAccount";
 import SignIn from "./SignIn";
 import Home from "./Home";
 import { connect } from "react-redux";
+import Checkout from "./Checkout/Checkout";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -34,6 +35,7 @@ class Main extends React.Component {
             <Route path="/create-account" component={() => <CreateAccount />} />
 
             <Route path="/home" component={() => <Home />} />
+            <Route path="/checkout" component={() => <Checkout />} />
 
             <Route render={() => <Redirect to="/home" />} />
           </Switch>
