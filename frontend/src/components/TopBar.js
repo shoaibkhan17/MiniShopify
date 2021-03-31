@@ -21,6 +21,7 @@ import { green } from "@material-ui/core/colors";
 import SignInButton from "./SignInButton";
 import AuthService from "../services/AuthService";
 import firebase from "../services/firebase.config";
+import { PRIMARY_THEME_COLOR } from "../constants/constants";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -57,7 +58,7 @@ class TopBar extends React.Component {
   render() {
     return (
       <div style={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ background: "lightblue" }}>
+        <AppBar position="static" style={{ background: PRIMARY_THEME_COLOR }}>
           <Toolbar>
             <IconButton edge="start" color="inherit">
               <SearchIcon style={{ color: "black" }} />
@@ -102,14 +103,14 @@ class TopBar extends React.Component {
               <Divider />
               <MenuItem onClick={this.closeMenu}>
                 <ListItemIcon>
-                  <HomeIcon style={{ color: green[500] }} />
+                  <HomeIcon style={{ color: PRIMARY_THEME_COLOR }} />
                 </ListItemIcon>
                 <ListItemText primary="Home" />
               </MenuItem>
 
               <MenuItem onClick={this.closeMenu}>
                 <ListItemIcon>
-                  <PersonIcon style={{ color: green[500] }} />
+                  <PersonIcon style={{ color: PRIMARY_THEME_COLOR }} />
                 </ListItemIcon>
                 <ListItemText primary="Profile" />
               </MenuItem>
@@ -122,6 +123,8 @@ class TopBar extends React.Component {
                   marginLeft: "5%",
                   borderRadius: "12px",
                   width: "90%",
+                  color: "white",
+                  backgroundColor: PRIMARY_THEME_COLOR,
                 }}
                 onClick={this.signOut}
               >

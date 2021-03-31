@@ -19,6 +19,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { toast } from "bulma-toast";
 import "../styling/styles.css";
+import { PRIMARY_THEME_COLOR } from "../constants/constants";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -160,7 +161,7 @@ class SignIn extends React.Component {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <AccountCircle htmlColor="rgb(0, 171, 85)" />
+                        <AccountCircle htmlColor={PRIMARY_THEME_COLOR} />
                       </InputAdornment>
                     ),
                   }}
@@ -190,9 +191,9 @@ class SignIn extends React.Component {
                       <InputAdornment position="end">
                         <IconButton onClick={this.toggleVisibility}>
                           {this.state.showPassword ? (
-                            <Visibility htmlColor="rgb(0, 171, 85)" />
+                            <Visibility htmlColor={PRIMARY_THEME_COLOR} />
                           ) : (
-                            <VisibilityOff htmlColor="rgb(0, 171, 85)" />
+                            <VisibilityOff htmlColor={PRIMARY_THEME_COLOR} />
                           )}
                         </IconButton>
                       </InputAdornment>
@@ -220,7 +221,7 @@ class SignIn extends React.Component {
                   style={{
                     padding: "10px",
                     margin: theme.spacing(3, 0, 2),
-                    backgroundColor: "rgb(0, 171, 85)",
+                    backgroundColor: PRIMARY_THEME_COLOR,
                     borderRadius: "12px",
                   }}
                   onClick={this.handleSubmit}

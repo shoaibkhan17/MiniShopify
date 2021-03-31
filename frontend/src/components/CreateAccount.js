@@ -11,7 +11,6 @@ import {
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import { teal } from "@material-ui/core/colors";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -19,6 +18,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
+import { PRIMARY_THEME_COLOR } from "../constants/constants";
 
 const theme = createMuiTheme({
   spacing: [0, 4, 8, 16, 32, 64],
@@ -135,7 +135,9 @@ class CreateAccount extends React.Component {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <AssignmentIndIcon htmlColor="rgb(0, 171, 85)" />
+                            <AssignmentIndIcon
+                              htmlColor={PRIMARY_THEME_COLOR}
+                            />
                           </InputAdornment>
                         ),
                       }}
@@ -190,7 +192,7 @@ class CreateAccount extends React.Component {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <EmailIcon htmlColor="rgb(0, 171, 85)" />
+                        <EmailIcon htmlColor={PRIMARY_THEME_COLOR} />
                       </InputAdornment>
                     ),
                   }}
@@ -217,9 +219,9 @@ class CreateAccount extends React.Component {
                       <InputAdornment position="end">
                         <IconButton onClick={this.toggleVisibility}>
                           {this.state.showPassword ? (
-                            <Visibility htmlColor="rgb(0, 171, 85)" />
+                            <Visibility htmlColor={PRIMARY_THEME_COLOR} />
                           ) : (
-                            <VisibilityOff htmlColor="rgb(0, 171, 85)" />
+                            <VisibilityOff htmlColor={PRIMARY_THEME_COLOR} />
                           )}
                         </IconButton>
                       </InputAdornment>
@@ -245,7 +247,7 @@ class CreateAccount extends React.Component {
                   style={{
                     padding: "10px",
                     margin: theme.spacing(3, 0, 2),
-                    backgroundColor: "rgb(0, 171, 85)",
+                    backgroundColor: PRIMARY_THEME_COLOR,
                     borderRadius: "12px",
                   }}
                   onClick={this.handleSubmit}

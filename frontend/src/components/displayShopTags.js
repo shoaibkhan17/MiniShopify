@@ -5,7 +5,7 @@ class DisplayShopTags extends React.Component {
   render() {
     return (
       <Grid container justify="center" spacing={1} style={{ flexGrow: 1 }}>
-        {this.props.tags.length !== 0 ? (
+        {this.props.tags && this.props.tags.length !== 0 ? (
           this.props.tags.map((tag) => (
             <Grid item key={tag}>
               <Chip
