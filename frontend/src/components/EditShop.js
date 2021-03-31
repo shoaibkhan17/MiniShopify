@@ -3,24 +3,16 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Button,
   TextField,
   Chip,
-  Paper,
   InputAdornment,
   IconButton,
-  OutlinedInput,
-  InputLabel,
-  Divider,
-  Grid,
-  Box,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Shop from "./Shop";
-import DisplayShopTags from "./DisplayShopTags";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
 import ShopService from "../services/ShopService";
 class EditShop extends React.Component {
@@ -76,9 +68,11 @@ class EditShop extends React.Component {
   }
 
   addTag() {
-    const tags = this.state.tags;
-    tags.push(this.state.tag);
-    this.setState({ tags: tags, tag: "" });
+    if (this.state.tag !== "") {
+      const tags = this.state.tags;
+      tags.push(this.state.tag);
+      this.setState({ tags: tags, tag: "" });
+    }
   }
 
   deleteAllTags() {
