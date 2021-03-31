@@ -73,7 +73,7 @@ class CreateAccount extends React.Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: teal[50] }}>
+      <div>
         {this.state.redirectToSignIn && (
           <Redirect to={{ pathname: "/sign-in" }} />
         )}

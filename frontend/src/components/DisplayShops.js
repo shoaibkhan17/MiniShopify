@@ -130,8 +130,11 @@ class DisplayShops extends React.Component {
         <Grid
           container
           justify="center"
-          spacing={5}
-          style={{ flexGrow: 1, marginTop: "10px", padding: "10px" }}
+          spacing={3}
+          style={{
+            margin: "2%",
+            width: "96%",
+          }}
         >
           {this.props.shops &&
             this.props.shops.map((shop) => (
