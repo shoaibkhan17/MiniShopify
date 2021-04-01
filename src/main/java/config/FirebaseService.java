@@ -53,7 +53,7 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean addShop(Shop shop) throws ExecutionException, InterruptedException {		
+	public Shop addShop(Shop shop) throws ExecutionException, InterruptedException {
 		//check if the given shop has all the required fields
 		if(shop != null && shop.isShopNotEmpty()) {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
@@ -66,10 +66,10 @@ public class FirebaseService {
 
 			//add a new shop
 			documentReference.set(shop);
-			return true;
+			return shop;
 		}
 
-		return false;
+		return null;
 	}
 
 	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
