@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, Grid, Typography } from "@material-ui/core";
 import EmptyCart from "./EmptyCart";
 import CartItem from "./CartItem";
@@ -19,7 +19,7 @@ const staticItems = [
     description: "Delicious Cookies made with milk",
     cost: 30,
     quantity: 10,
-    quantitySelected: 4,
+    quantitySelected: 1,
     picture:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt2GCYX2WAkr1UsFJBLvO0Vzaa81MVgWUySrAG-uDFOH3vD8gYonaN6rFuZ7Suq9V3vVI&usqp=CAU",
   },
@@ -27,6 +27,15 @@ const staticItems = [
 
 const Checkout = () => {
   const [items, setItems] = useState([...staticItems]);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    var t = 0;
+    items?.map((item) => {
+      t = t + item.cost;
+    });
+    setTotal(t);
+  }, [items]);
   return (
     <div
       style={{
@@ -54,7 +63,7 @@ const Checkout = () => {
                 justifyContent: "flex-start",
               }}
               variant="body1"
-            >{`Card (0 items)`}</Typography>
+            >{`Cart (${items.length} items)`}</Typography>
             {items.length === 0 ? (
               <EmptyCart />
             ) : (
@@ -119,7 +128,13 @@ const Checkout = () => {
                 </Grid>
                 {items.map((item) => {
                   return (
-                    <CartItem item={item} items={items} setItems={setItems} />
+                    <CartItem
+                      item={item}
+                      items={items}
+                      setItems={setItems}
+                      total={total}
+                      setTotal={setTotal}
+                    />
                   );
                 })}
               </>
@@ -128,7 +143,7 @@ const Checkout = () => {
         </Card>
       </Grid>
       <Grid style={{ paddingLeft: "20px" }}>
-        <Summary />
+        <Summary items={items} total={total} />
       </Grid>
     </div>
   );

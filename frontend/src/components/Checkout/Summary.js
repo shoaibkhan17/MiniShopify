@@ -6,8 +6,11 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+import { useEffect, useState } from "react";
 
-const Summary = () => {
+const Summary = (props) => {
+  const total = props.total;
+
   return (
     <>
       <Card
@@ -45,7 +48,7 @@ const Summary = () => {
                 variant="body1"
                 style={{ fontSize: "9px", fontWeight: "bold" }}
               >
-                200
+                {total}
               </Typography>
             </Grid>
           </Grid>
@@ -124,7 +127,7 @@ const Summary = () => {
                 variant="body1"
                 style={{ fontSize: "9px", fontWeight: "bold", color: "red" }}
               >
-                200
+                {total}
               </Typography>
             </Grid>
           </Grid>

@@ -59,6 +59,7 @@ const CartItem = (props) => {
         <IconButton
           onClick={() => {
             setQuantity(quantity - 1);
+            props.setTotal(props.total - item.cost);
           }}
         >
           <RemoveIcon fontSize="small" />
@@ -67,6 +68,7 @@ const CartItem = (props) => {
         <IconButton
           onClick={() => {
             setQuantity(quantity + 1);
+            props.setTotal(props.total + item.cost);
           }}
         >
           <AddIcon fontSize="small" />
