@@ -18,7 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -79,22 +83,12 @@ public class FirebaseService {
 		DocumentSnapshot shopDocument = shopSnapshot.get();
 
 		if(shopDocument.exists()) {
-			//asynchronously retrieve all documents
-			ApiFuture<QuerySnapshot> productQuerySnapshot = firebaseDB.collection("products").get();
-			List<QueryDocumentSnapshot> productDocuments = productQuerySnapshot.get().getDocuments();
-
-			for (QueryDocumentSnapshot productDoc : productDocuments) {
-				Product product = productDoc.toObject(Product.class);
-
-				//check the shopID of the product
-				if(product.getShopID().equals(shopID)) {
-					//delete the product associated to the shop
-					firebaseDB.collection("products").document(product.getProductID()).delete();
-				}
-
-				shopReference.delete();
-				return true;
+			for(Product p: getProducts(shopID)) {
+				firebaseDB.collection("products").document(p.getProductID()).delete();
 			}
+
+			shopReference.delete();
+			return true;
 		}
 		return false;
 	}
@@ -142,7 +136,7 @@ public class FirebaseService {
 
 		//go through all the products and only return the products specific to the shop
 		for (QueryDocumentSnapshot document : documents) {
-			System.out.println(document.getId() + " => " + document.toObject(Shop.class));
+			//System.out.println(document.getId() + " => " + document.toObject(Shop.class));
 
 			Product product = document.toObject(Product.class);
 			//check if product exists
@@ -165,7 +159,7 @@ public class FirebaseService {
 				//set product id from document (auto-generated from firebase)
 				product.setProductID(documentReference.getId());
 			}
-			
+
 			//add a new product
 			documentReference.set(product);
 			return true;
@@ -202,5 +196,48 @@ public class FirebaseService {
 		else {
 			return null;
 		}
+	}
+
+
+	public Map<String, Integer> checkOutProducts(Map<String, Integer>  cartProducts) throws InterruptedException, ExecutionException {
+		Map<String, Integer>  checkedOutProducts = new HashMap<String, Integer>();
+		Firestore firebaseDB = FirestoreClient.getFirestore();
+		//get all products
+		ApiFuture<QuerySnapshot> future = firebaseDB.collection("products").get();
+
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+		//go through all the products in the DB to find the products to remove
+		for (QueryDocumentSnapshot document : documents) {
+			Product product = document.toObject(Product.class);
+
+			Iterator it = cartProducts.entrySet().iterator();
+
+			//find the products to be removed
+			while(it.hasNext()) {
+				Map.Entry<String, Integer> pair = (Map.Entry)it.next();
+				String cartProductID = pair.getKey();
+				Integer cartProductQuantity = pair.getValue();
+
+				if(cartProductID.equals(product.getProductID())) {
+					//subtract the checked out amount from the available quantity
+					product.setQuantity(product.getQuantity() - cartProductQuantity);
+					
+					//delete the product if it has no more quantity
+					if(product.getQuantity() == 0) {
+						firebaseDB.collection("products").document(cartProductID).delete();
+					}
+					//update firestore with new quantity
+					else {
+						DocumentReference productReference = firebaseDB.collection("products").document(cartProductID);
+						productReference.set(product);
+					}
+
+					//return the new product quantity with the product id
+					checkedOutProducts.put(cartProductID, product.getQuantity());
+				}
+			}
+		}
+		return checkedOutProducts;
 	}
 }
