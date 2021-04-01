@@ -18,6 +18,7 @@ import DisplayShopTags from "./DisplayShopTags";
 import ShopService from "../services/ShopService";
 import EditShop from "./EditShop";
 import { Alert } from "@material-ui/lab";
+import { withRouter } from "react-router-dom";
 
 class Shop extends React.Component {
   constructor(props) {
@@ -39,7 +40,9 @@ class Shop extends React.Component {
   }
 
   openShop(shop) {
-    console.log("open shop: " + shop.name);
+    if (this.props.canOpen) {
+      this.props.history.push("/shop/" + shop.shopID);
+    }
   }
 
   openEditShop(shop) {
@@ -129,4 +132,4 @@ class Shop extends React.Component {
   }
 }
 
-export default Shop;
+export default withRouter(Shop);

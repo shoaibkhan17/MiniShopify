@@ -39,7 +39,7 @@ class DisplayShops extends React.Component {
           {this.props.shops &&
             this.props.shops.map((shop) => (
               <Grid item key={shop.shopID}>
-                <Shop canEditShop={true} shop={shop} />
+                <Shop canEditShop={true} canOpen={true} shop={shop} />
               </Grid>
             ))}
         </Grid>

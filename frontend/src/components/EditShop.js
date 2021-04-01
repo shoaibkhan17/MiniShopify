@@ -131,7 +131,11 @@ class EditShop extends React.Component {
               alignSelf: "center",
             }}
           >
-            <Shop canEditShop={false} shop={this.getShopData()} />
+            <Shop
+              canEditShop={false}
+              canOpen={false}
+              shop={this.getShopData()}
+            />
           </div>
 
           <div style={{ flex: 1 }}>

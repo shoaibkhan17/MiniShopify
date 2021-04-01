@@ -15,6 +15,7 @@ var endpoint =
 // Public end points
 const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
+const GET_SHOP_PRODUCTS = endpoint + "api/shop/getProducts";
 
 // Protected end points
 const CREATE_SHOP_URL = endpoint + "api/shop/protected/createShop";
@@ -49,6 +50,19 @@ class ShopService {
       .get(GET_ALL_SHOPS_URL)
       .then((res) => {
         store.dispatch(setShops(res.data));
+        return res.data;
+      })
+      .catch((error) => {
+        return null;
+      });
+  }
+
+  async getShopProducts(shopID) {
+    const url = GET_SHOP_PRODUCTS + "/" + shopID;
+    console.log(url);
+    return axios
+      .get(url)
+      .then((res) => {
         return res.data;
       })
       .catch((error) => {

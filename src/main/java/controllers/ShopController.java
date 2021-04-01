@@ -66,9 +66,9 @@ public class ShopController {
 		return new ResponseEntity<Shop>(shopUpdated, HttpStatus.OK);
     }
 	
-	@GetMapping("/getProducts")
-    public List<Product> getProducts(@RequestBody String ShopID) throws ExecutionException, InterruptedException {
-		return firebaseService.getProducts(ShopID);
+	@GetMapping("/getProducts/{shopID}")
+    public List<Product> getProducts(@PathVariable String shopID) throws ExecutionException, InterruptedException {
+		return firebaseService.getProducts(shopID);
     }
 	
 	@PostMapping("protected/addProduct")
