@@ -58,6 +58,7 @@ const CartItem = (props) => {
       >
         <IconButton
           onClick={() => {
+            quantity !== 0 &&
             setQuantity(quantity - 1);
             props.setTotal(props.total - item.cost);
           }}

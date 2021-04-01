@@ -131,39 +131,6 @@ const Summary = (props) => {
               </Typography>
             </Grid>
           </Grid>
-
-          <Button fullWidth variant="outlined" style={{ marginTop: "20px" }}>
-            <Grid container>
-              <Grid
-                item
-                xs={6}
-                style={{ display: "flex", justifyContent: "flex-start" }}
-              >
-                <Typography
-                  variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "lighter" }}
-                >
-                  DISCOUNTS
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={6}
-                style={{ display: "flex", justifyContent: "flex-end" }}
-              >
-                <Typography
-                  variant="body1"
-                  style={{
-                    fontSize: "9px",
-                    fontWeight: "bold",
-                    color: "green",
-                  }}
-                >
-                  Apply
-                </Typography>
-              </Grid>
-            </Grid>
-          </Button>
         </CardContent>
       </Card>
       <Button
