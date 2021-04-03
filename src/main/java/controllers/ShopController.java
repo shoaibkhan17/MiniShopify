@@ -66,19 +66,26 @@ public class ShopController {
 		return new ResponseEntity<Shop>(shopUpdated, HttpStatus.OK);
     }
 	
+	@PostMapping("protected/updateProduct")
+	public ResponseEntity<Product> updateProduct(@RequestBody Product product) throws ExecutionException, InterruptedException{
+		Product updatedProduct = firebaseService.updateProduct(product);
+		return new ResponseEntity<Product>(updatedProduct ,HttpStatus.OK);
+	}
+
 	@GetMapping("/getProducts/{shopID}")
     public List<Product> getProducts(@PathVariable String shopID) throws ExecutionException, InterruptedException {
 		return firebaseService.getProducts(shopID);
     }
 	
 	@PostMapping("protected/addProduct")
-    public ResponseEntity<String> addProduct(@RequestBody Product product) throws ExecutionException, InterruptedException {
-		boolean productAdded = firebaseService.addProduct(product);
-		return new ResponseEntity<String>("Product added: " + productAdded, HttpStatus.OK);
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) throws ExecutionException, InterruptedException {
+		Product productAdded = firebaseService.addProduct(product);
+		return new ResponseEntity<Product>(productAdded, HttpStatus.OK);
     }
 	
 	@PostMapping("protected/deleteProduct")
     public ResponseEntity<String> deleteProduct(@RequestBody String productID) throws ExecutionException, InterruptedException {
+		productID = productID.substring(0, productID.length() - 1);
 		boolean productDeleted = firebaseService.deleteProduct(productID);
 		return new ResponseEntity<String>("Product deleted: " + productDeleted, HttpStatus.OK);
     }

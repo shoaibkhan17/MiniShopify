@@ -1,11 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import TopBar from "../TopBar";
-import { Breadcrumbs, Typography, Link } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import ShopService from "../../services/ShopService";
 import DisplayProducts from "./DisplayProducts";
+import {
+  IconButton,
+  Tooltip,
+  Button,
+  Icon,
+  Typography,
+  Divider,
+  Zoom,
+  Snackbar,
+  Breadcrumbs,
+  Link,
+} from "@material-ui/core";
+import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
+import AddProduct from "./AddProduct";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops };
@@ -18,8 +31,10 @@ class ShopProducts extends React.Component {
       shopID: this.props.match ? this.props.match.params.shopID : "",
       myShop: null,
       shopProducts: null,
+      addingProduct: false,
     };
     this.getShopDetails = this.getShopDetails.bind(this);
+    this.addProduct = this.addProduct.bind(this);
   }
 
   componentDidUpdate(prevProps, nextState) {}
@@ -36,6 +51,14 @@ class ShopProducts extends React.Component {
         .pop();
       this.setState({ myShop: openedShop });
     }
+  }
+
+  addProduct() {
+    this.setState({ addingProduct: true });
+  }
+
+  closeAddProduct() {
+    this.setState({ addingProduct: false });
   }
 
   async getShopProduct() {
@@ -64,10 +87,25 @@ class ShopProducts extends React.Component {
             </Typography>
           </Breadcrumbs>
 
-          <div>{"OPEN SHOP "}</div>
           <div>{this.state.myShop && this.state.myShop.name}</div>
-
           <DisplayProducts products={this.state.shopProducts} />
+          {this.state.addingProduct && (
+            <AddProduct
+              shopID={this.state.shopID}
+              addingProduct={this.state.addingProduct}
+              onClose={() => this.closeAddProduct()}
+            />
+          )}
+          <IconButton>
+            <AddCircleRoundedIcon
+              onClick={() => this.addProduct()}
+              style={{
+                color: "#43C701",
+                margin: "5px",
+                scale: "2",
+              }}
+            />
+          </IconButton>
         </div>
       </div>
     );

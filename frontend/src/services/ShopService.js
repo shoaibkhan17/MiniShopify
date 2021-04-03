@@ -2,8 +2,12 @@ import axios from "axios";
 import {
   deleteShop,
   setShops,
+  setProducts,
+  updateProduct,
+  deleteProduct,
   setUserShops,
   updateShop,
+  addProduct,
 } from "../redux/actions";
 import store from "../redux/store";
 
@@ -22,6 +26,10 @@ const CREATE_SHOP_URL = endpoint + "api/shop/protected/createShop";
 const DELETE_SHOP_URL = endpoint + "api/shop/protected/deleteShop";
 const UPDATE_SHOP_URL = endpoint + "api/shop/protected/updateShop";
 const ADD_TEST_SHOP_URL = endpoint + "api/shop/protected/createTestShop";
+
+const UPDATE_PRODUCT_URL = endpoint + "api/shop/protected/updateProduct";
+const DELETE_PRODUCT_URL = endpoint + "api/shop/protected/deleteProduct";
+const ADD_PRODUCT_URL = endpoint + "api/shop/protected/addProduct";
 
 class ShopService {
   getHeaders() {
@@ -63,6 +71,7 @@ class ShopService {
     return axios
       .get(url)
       .then((res) => {
+        store.dispatch(setProducts(res.data));
         return res.data;
       })
       .catch((error) => {
@@ -89,6 +98,25 @@ class ShopService {
       });
   }
 
+  async deleteProduct(productID) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(DELETE_PRODUCT_URL, productID, config)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          store.dispatch(deleteProduct(productID));
+          return true;
+        }
+        return false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
   async updateShop(updatedShop) {
     var config = this.getHeaders();
 
@@ -100,6 +128,41 @@ class ShopService {
           return true;
         }
         return false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
+  async updateProduct(updatedProduct) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(UPDATE_PRODUCT_URL, updatedProduct, config)
+      .then((res) => {
+        if (res.data !== null) {
+          store.dispatch(updateProduct(updatedProduct));
+          return true;
+        }
+        return false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
+  async addNewProduct(productAdded) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(ADD_PRODUCT_URL, productAdded, config)
+      .then((res) => {
+        if (res.data !== null) {
+          store.dispatch(addProduct(productAdded));
+          return true;
+        }
       })
       .catch((error) => {
         console.log(error);

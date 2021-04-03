@@ -23,7 +23,11 @@ class DisplayProducts extends React.Component {
           {this.props.products &&
             this.props.products.map((product) => (
               <Grid item key={product.productID}>
-                <Product product={product} />
+                <Product
+                  canBuy={true}
+                  canEditProduct={true}
+                  product={product}
+                />
               </Grid>
             ))}
         </Grid>

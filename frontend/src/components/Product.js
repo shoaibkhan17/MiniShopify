@@ -8,12 +8,18 @@ import {
   Typography,
   CardMedia,
   CardContent,
+  Divider,
   Zoom,
+  Icon,
 } from "@material-ui/core";
 import StorefrontIcon from "@material-ui/icons/Storefront";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import EditProduct from "./product/EditProduct";
+import { green } from "@material-ui/core/colors";
 
 const mapStateToProps = (state) => {
-  return { shops: state.shops };
+  return { products: state.products };
 };
 
 class Product extends React.Component {
@@ -22,7 +28,19 @@ class Product extends React.Component {
     this.state = {
       shopID: this.props.match ? this.props.match.params.shopID : "",
       myShop: null,
+      currentProduct: null,
     };
+
+    this.openEditProduct = this.openEditProduct.bind(this);
+    this.closeEditProduct = this.closeEditProduct.bind(this);
+  }
+
+  openEditProduct(product) {
+    this.setState({ currentProduct: product });
+  }
+
+  closeEditProduct() {
+    this.setState({ currentProduct: null });
   }
 
   componentDidUpdate(prevProps, nextState) {}
@@ -30,12 +48,12 @@ class Product extends React.Component {
   render() {
     return (
       <div>
-        {/* {this.props.canEditShop && this.state.currentShop && (
-          <EditShop
-            selectedShop={this.state.currentShop}
-            onClose={() => this.closeEditShop()}
+        {this.props.canEditProduct && this.state.currentProduct && (
+          <EditProduct
+            selectedProduct={this.state.currentProduct}
+            onClose={() => this.closeEditProduct()}
           />
-        )} */}
+        )}
         <Card
           style={{
             minWidth: "300px",
@@ -49,17 +67,17 @@ class Product extends React.Component {
           <CardHeader
             avatar={<StorefrontIcon color="primary" />}
             title={this.props.product && this.props.product.name}
-            // action={
-            //   this.props.canEditShop && (
-            //     <Tooltip TransitionComponent={Zoom} title="Edit Shop">
-            //       <IconButton
-            //         onClick={() => this.openEditShop(this.props.shop)}
-            //       >
-            //         <MoreVertIcon color="secondary" />
-            //       </IconButton>
-            //     </Tooltip>
-            //   )
-            // }
+            action={
+              this.props.canEditProduct && (
+                <Tooltip TransitionComponent={Zoom} title="Edit Product">
+                  <IconButton
+                    onClick={() => this.openEditProduct(this.props.product)}
+                  >
+                    <MoreVertIcon color="secondary" />
+                  </IconButton>
+                </Tooltip>
+              )
+            }
           />
           <CardMedia
             style={{ height: 0, paddingTop: "56.25%" }}
@@ -69,6 +87,29 @@ class Product extends React.Component {
             <Typography variant="body2" color="textSecondary" component="p">
               {this.props.product && this.props.product.description}
             </Typography>
+            <Divider style={{ margin: "10px" }}></Divider>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Cost: ${this.props.product && this.props.product.cost}
+            </Typography>
+            <Divider style={{ margin: "10px" }}></Divider>
+            <Typography
+              style={{ marginBottom: "15px" }}
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
+              Quantity: {this.props.product && this.props.product.quantity}
+            </Typography>
+            {this.state.currentProduct === null && this.props.canBuy && (
+              <IconButton>
+                <AddShoppingCartIcon
+                  style={{
+                    color: "#43C701",
+                    margin: "5px",
+                  }}
+                />
+              </IconButton>
+            )}
           </CardContent>
         </Card>
       </div>
