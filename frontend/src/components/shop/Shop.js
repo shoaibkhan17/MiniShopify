@@ -20,7 +20,7 @@ import EditShop from "./EditShop";
 import { Alert } from "@material-ui/lab";
 import { withRouter } from "react-router-dom";
 import { EMPTY_SHOP_IMG_URL } from "../../constants/constants";
-
+import firebase from "../../services/firebase.config";
 class Shop extends React.Component {
   constructor(props) {
     super(props);
@@ -100,6 +100,7 @@ class Shop extends React.Component {
             onClose={() => this.closeEditShop()}
           />
         )}
+
         <Card
           style={{
             minWidth: "300px",

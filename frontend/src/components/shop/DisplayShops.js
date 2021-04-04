@@ -124,7 +124,16 @@ class DisplayShops extends React.Component {
           {this.state.shops &&
             this.state.shops.map((shop) => (
               <Grid item key={shop.shopID}>
-                <Shop canEditShop={true} canOpen={true} shop={shop} />
+                <Shop
+                  canEditShop={
+                    firebase.auth().currentUser &&
+                    firebase.auth().currentUser.email === shop.ownerEmail
+                      ? true
+                      : false
+                  }
+                  canOpen={true}
+                  shop={shop}
+                />
               </Grid>
             ))}
         </Grid>
