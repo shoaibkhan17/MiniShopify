@@ -8,6 +8,7 @@ import DisplayProducts from "./DisplayProducts";
 import { IconButton, Typography, Breadcrumbs, Link } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddProduct from "./AddProduct";
+import firebase from "../../services/firebase.config";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops, products: state.products };
@@ -75,23 +76,31 @@ class ShopProducts extends React.Component {
           </Breadcrumbs>
 
           <div>{this.state.myShop && this.state.myShop.name}</div>
-          <DisplayProducts products={this.props.products} />
+          <DisplayProducts
+            ownerEmail={this.state.myShop ? this.state.myShop.ownerEmail : ""}
+            products={this.props.products}
+          />
           {this.state.addingProduct && (
             <AddProduct
               shopID={this.state.shopID}
               addingProduct={this.state.addingProduct}
-              onClose={this.closeAddProduct}
+              onClose={() => this.closeAddProduct()}
             />
           )}
-          <IconButton>
-            <AddCircleRoundedIcon
-              fontSize="large"
-              onClick={this.addProduct}
-              style={{
-                color: "#43C701",
-              }}
-            />
-          </IconButton>
+          {this.state.myShop &&
+            firebase.auth().currentUser &&
+            firebase.auth().currentUser.email ===
+              this.state.myShop.ownerEmail && (
+              <IconButton>
+                <AddCircleRoundedIcon
+                  fontSize="large"
+                  onClick={() => this.addProduct()}
+                  style={{
+                    color: "#43C701",
+                  }}
+                />
+              </IconButton>
+            )}
         </div>
       </div>
     );

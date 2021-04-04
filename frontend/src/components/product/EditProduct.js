@@ -10,7 +10,7 @@ import {
   Chip,
   IconButton,
 } from "@material-ui/core";
-import Product from "../Product";
+import Product from "./Product";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";

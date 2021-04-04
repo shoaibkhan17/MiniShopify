@@ -14,8 +14,8 @@ import {
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import EditProduct from "./product/EditProduct";
-import { EMPTY_PRODUCT_IMG_URL } from "../constants/constants";
+import EditProduct from "./EditProduct";
+import { EMPTY_PRODUCT_IMG_URL } from "../../constants/constants";
 
 const mapStateToProps = (state) => {
   return { products: state.products };

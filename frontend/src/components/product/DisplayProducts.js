@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import Product from "../Product";
+import Product from "./Product";
+import firebase from "../../services/firebase.config";
 
 class DisplayProducts extends React.Component {
   constructor(props) {
@@ -25,7 +26,12 @@ class DisplayProducts extends React.Component {
               <Grid item key={product.productID}>
                 <Product
                   canBuy={true}
-                  canEditProduct={true}
+                  canEditProduct={
+                    firebase.auth().currentUser &&
+                    firebase.auth().currentUser.email === this.props.ownerEmail
+                      ? true
+                      : false
+                  }
                   product={product}
                 />
               </Grid>

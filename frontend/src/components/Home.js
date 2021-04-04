@@ -36,16 +36,6 @@ class Home extends React.Component {
       <div style={{ height: "100vh" }}>
         <TopBar />
         <DisplayShops />
-        <br />
-        {this.props.isAuthenticated && (
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={this.addTestShop}
-          >
-            Add Test Shop
-          </Button>
-        )}
       </div>
     );
   }

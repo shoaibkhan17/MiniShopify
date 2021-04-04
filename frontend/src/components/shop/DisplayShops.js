@@ -150,12 +150,14 @@ class DisplayShops extends React.Component {
           />
         )}
 
-        <IconButton onClick={this.addNewShop}>
-          <AddCircleRoundedIcon
-            fontSize="large"
-            htmlColor={PRIMARY_THEME_COLOR}
-          />
-        </IconButton>
+        {firebase.auth().currentUser && (
+          <IconButton onClick={this.addNewShop}>
+            <AddCircleRoundedIcon
+              fontSize="large"
+              htmlColor={PRIMARY_THEME_COLOR}
+            />
+          </IconButton>
+        )}
       </div>
     );
   }
