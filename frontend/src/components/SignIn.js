@@ -13,7 +13,6 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { teal } from "@material-ui/core/colors";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -43,20 +42,6 @@ class SignIn extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (
-  //     nextState.email !== this.state.email ||
-  //     nextState.password !== this.state.password ||
-  //     nextProps.isAuthenticated !== this.props.isAuthenticated ||
-  //     nextState.authenticateFailed !== this.state.authenticateFailed ||
-  //     nextState.redirectToCreateAccount !== this.state.redirectToCreateAccount ||
-  //     nextState.toggle
-  //   ) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   async handleSubmit() {
     var user = {
@@ -144,11 +129,6 @@ class SignIn extends React.Component {
                   </Tooltip>
                 </div>
               </div>
-              {/* <Alert severity="info" variant="filled">
-                <p>
-                  Use email : test / password : test
-                </p>
-              </Alert> */}
               <form
                 style={{ width: "100%", marginTop: "1px" }}
                 noValidate

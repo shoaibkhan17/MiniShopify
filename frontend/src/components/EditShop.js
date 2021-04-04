@@ -106,8 +106,6 @@ class EditShop extends React.Component {
     }
   }
 
-  componentWillUnmount() {}
-
   render() {
     return (
       <Dialog

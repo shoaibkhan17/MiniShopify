@@ -9,7 +9,6 @@ import CreateAccount from "./CreateAccount";
 import SignIn from "./SignIn";
 import Home from "./Home";
 import { connect } from "react-redux";
-import Product from "./Product";
 import ShopProducts from "./product/ShopProducts";
 
 const mapStateToProps = (state) => {

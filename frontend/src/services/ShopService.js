@@ -25,7 +25,6 @@ const GET_SHOP_PRODUCTS = endpoint + "api/shop/getProducts";
 const CREATE_SHOP_URL = endpoint + "api/shop/protected/createShop";
 const DELETE_SHOP_URL = endpoint + "api/shop/protected/deleteShop";
 const UPDATE_SHOP_URL = endpoint + "api/shop/protected/updateShop";
-const ADD_TEST_SHOP_URL = endpoint + "api/shop/protected/createTestShop";
 
 const UPDATE_PRODUCT_URL = endpoint + "api/shop/protected/updateProduct";
 const DELETE_PRODUCT_URL = endpoint + "api/shop/protected/deleteProduct";
@@ -166,20 +165,6 @@ class ShopService {
           return true;
         }
         return false;
-      })
-      .catch((error) => {
-        console.log(error);
-        return false;
-      });
-  }
-
-  async addTestShop() {
-    var config = this.getHeaders();
-
-    return axios
-      .post(ADD_TEST_SHOP_URL, null, config)
-      .then((res) => {
-        return true;
       })
       .catch((error) => {
         console.log(error);

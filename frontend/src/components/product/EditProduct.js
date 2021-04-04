@@ -95,8 +95,6 @@ class EditProduct extends React.Component {
     }
   }
 
-  componentWillUnmount() {}
-
   render() {
     return (
       <Dialog
