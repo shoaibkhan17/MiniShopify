@@ -176,7 +176,7 @@ public class FirebaseService {
 			return product;
 		}
 
-		return product;
+		return null;
 	}
 
 	public boolean deleteProduct(String productID) throws ExecutionException, InterruptedException {

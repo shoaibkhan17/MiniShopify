@@ -10,13 +10,11 @@ import {
   CardContent,
   Divider,
   Zoom,
-  Icon,
 } from "@material-ui/core";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditProduct from "./product/EditProduct";
-import { green } from "@material-ui/core/colors";
 
 const mapStateToProps = (state) => {
   return { products: state.products };

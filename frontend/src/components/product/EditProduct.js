@@ -4,16 +4,12 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
   TextField,
   Typography,
   Grid,
   Chip,
-  InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Product from "../Product";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import RemoveIcon from "@material-ui/icons/Remove";
@@ -24,15 +20,14 @@ class EditProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //shopData: this.props.selectedShop,
       productData: null,
       productID: "",
       shopID: "",
       name: "",
       description: "",
       picture: "",
-      cost: "",
-      quantity: "",
+      cost: 0,
+      quantity: 0,
     };
     this.getProductData = this.getProductData.bind(this);
     this.updateProduct = this.updateProduct.bind(this);
@@ -173,7 +168,7 @@ class EditProduct extends React.Component {
 
             <Grid
               item
-              xs={2}
+              xs={4}
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -186,15 +181,27 @@ class EditProduct extends React.Component {
             >
               <IconButton
                 onClick={() => {
-                  this.state.cost !== 0 &&
+                  this.state.cost < 1 &&
                     this.setState({ cost: this.state.cost - 1 });
                 }}
               >
                 <RemoveIcon fontSize="small" />
               </IconButton>
-              <Typography style={{ fontSize: "12px" }}>
-                {this.state.cost}
-              </Typography>
+              <input
+                type="number"
+                value={this.state.cost}
+                style={{
+                  backgroundColor: "inherit",
+                  border: "none",
+                  width: "100%",
+                  height: "75%",
+                  textAlign: "center",
+                }}
+                onChange={(event) => {
+                  event.target.value > 0 &&
+                    this.setState({ cost: Number(event.target.value) });
+                }}
+              />
               <IconButton
                 onClick={() => {
                   this.setState({ cost: this.state.cost + 1 });
@@ -216,7 +223,7 @@ class EditProduct extends React.Component {
 
             <Grid
               item
-              xs={2}
+              xs={4}
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -228,15 +235,27 @@ class EditProduct extends React.Component {
             >
               <IconButton
                 onClick={() => {
-                  this.state.quantity !== 0 &&
+                  this.state.quantity > 0 &&
                     this.setState({ quantity: this.state.quantity - 1 });
                 }}
               >
                 <RemoveIcon fontSize="small" />
               </IconButton>
-              <Typography style={{ fontSize: "12px" }}>
-                {this.state.quantity}
-              </Typography>
+              <input
+                type="number"
+                value={this.state.quantity}
+                style={{
+                  backgroundColor: "inherit",
+                  border: "none",
+                  width: "100%",
+                  height: "75%",
+                  textAlign: "center",
+                }}
+                onChange={(event) => {
+                  event.target.value >= 0 &&
+                    this.setState({ quantity: Number(event.target.value) });
+                }}
+              />
               <IconButton
                 onClick={() => {
                   this.setState({ quantity: this.state.quantity + 1 });

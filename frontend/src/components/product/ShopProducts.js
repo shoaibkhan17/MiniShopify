@@ -5,23 +5,12 @@ import HomeIcon from "@material-ui/icons/Home";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import ShopService from "../../services/ShopService";
 import DisplayProducts from "./DisplayProducts";
-import {
-  IconButton,
-  Tooltip,
-  Button,
-  Icon,
-  Typography,
-  Divider,
-  Zoom,
-  Snackbar,
-  Breadcrumbs,
-  Link,
-} from "@material-ui/core";
+import { IconButton, Typography, Breadcrumbs, Link } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddProduct from "./AddProduct";
 
 const mapStateToProps = (state) => {
-  return { shops: state.shops };
+  return { shops: state.shops, products: state.products };
 };
 
 class ShopProducts extends React.Component {
@@ -30,7 +19,6 @@ class ShopProducts extends React.Component {
     this.state = {
       shopID: this.props.match ? this.props.match.params.shopID : "",
       myShop: null,
-      shopProducts: null,
       addingProduct: false,
     };
     this.getShopDetails = this.getShopDetails.bind(this);
@@ -62,8 +50,7 @@ class ShopProducts extends React.Component {
   }
 
   async getShopProduct() {
-    const productList = await ShopService.getShopProducts(this.state.shopID);
-    this.setState({ shopProducts: productList });
+    await ShopService.getShopProducts(this.state.shopID);
   }
 
   render() {
@@ -88,7 +75,7 @@ class ShopProducts extends React.Component {
           </Breadcrumbs>
 
           <div>{this.state.myShop && this.state.myShop.name}</div>
-          <DisplayProducts products={this.state.shopProducts} />
+          <DisplayProducts products={this.props.products} />
           {this.state.addingProduct && (
             <AddProduct
               shopID={this.state.shopID}
@@ -98,11 +85,10 @@ class ShopProducts extends React.Component {
           )}
           <IconButton>
             <AddCircleRoundedIcon
+              fontSize="large"
               onClick={() => this.addProduct()}
               style={{
                 color: "#43C701",
-                margin: "5px",
-                scale: "2",
               }}
             />
           </IconButton>

@@ -67,7 +67,6 @@ class ShopService {
 
   async getShopProducts(shopID) {
     const url = GET_SHOP_PRODUCTS + "/" + shopID;
-    console.log(url);
     return axios
       .get(url)
       .then((res) => {
@@ -104,7 +103,6 @@ class ShopService {
     return axios
       .post(DELETE_PRODUCT_URL, productID, config)
       .then((res) => {
-        console.log(res.data);
         if (res.data) {
           store.dispatch(deleteProduct(productID));
           return true;
@@ -141,7 +139,7 @@ class ShopService {
     return axios
       .post(UPDATE_PRODUCT_URL, updatedProduct, config)
       .then((res) => {
-        if (res.data !== null) {
+        if (res.data !== null && res.data !== "") {
           store.dispatch(updateProduct(updatedProduct));
           return true;
         }
@@ -159,10 +157,11 @@ class ShopService {
     return axios
       .post(ADD_PRODUCT_URL, productAdded, config)
       .then((res) => {
-        if (res.data !== null) {
+        if (res.data !== null && res.data !== "") {
           store.dispatch(addProduct(productAdded));
           return true;
         }
+        return false;
       })
       .catch((error) => {
         console.log(error);

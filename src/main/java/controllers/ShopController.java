@@ -67,9 +67,9 @@ public class ShopController {
     }
 	
 	@PostMapping("protected/updateProduct")
-	public ResponseEntity<Product> updateProduct(@RequestBody Product product) throws ExecutionException, InterruptedException{
+	public Product updateProduct(@RequestBody Product product) throws ExecutionException, InterruptedException{
 		Product updatedProduct = firebaseService.updateProduct(product);
-		return new ResponseEntity<Product>(updatedProduct ,HttpStatus.OK);
+		return updatedProduct;
 	}
 
 	@GetMapping("/getProducts/{shopID}")
@@ -78,9 +78,9 @@ public class ShopController {
     }
 	
 	@PostMapping("protected/addProduct")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) throws ExecutionException, InterruptedException {
+    public Product addProduct(@RequestBody Product product) throws ExecutionException, InterruptedException {
 		Product productAdded = firebaseService.addProduct(product);
-		return new ResponseEntity<Product>(productAdded, HttpStatus.OK);
+		return productAdded;
     }
 	
 	@PostMapping("protected/deleteProduct")
