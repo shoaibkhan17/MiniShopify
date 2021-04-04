@@ -57,7 +57,7 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean addShop(Shop shop) throws ExecutionException, InterruptedException {		
+	public Shop addShop(Shop shop) throws ExecutionException, InterruptedException {
 		//check if the given shop has all the required fields
 		if(shop != null && shop.isShopNotEmpty()) {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
@@ -70,10 +70,10 @@ public class FirebaseService {
 
 			//add a new shop
 			documentReference.set(shop);
-			return true;
+			return shop;
 		}
 
-		return false;
+		return null;
 	}
 
 	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
@@ -107,6 +107,17 @@ public class FirebaseService {
 		return null;
 	}
 
+	public Product updateProduct(Product product) throws ExecutionException, InterruptedException{
+		if(product != null){
+			Firestore firebaseDB = FirestoreClient.getFirestore();
+			DocumentReference documentReference = firebaseDB.collection("products").document(product.getProductID());
+
+			//update the product with the new fields
+			documentReference.set(product);
+			return product;
+		}
+		return null;
+	}
 
 	public ArrayList<Shop> getShops() throws ExecutionException, InterruptedException {
 		ArrayList<Shop> allShops = new ArrayList<Shop>();
@@ -149,7 +160,7 @@ public class FirebaseService {
 		return allProducts;
 	}
 
-	public boolean addProduct(Product product) throws ExecutionException, InterruptedException {
+	public Product addProduct(Product product) throws ExecutionException, InterruptedException {
 		//check if the given product has all the required fields
 		if(product != null && product.isProductNotEmpty()) {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
@@ -162,10 +173,10 @@ public class FirebaseService {
 
 			//add a new product
 			documentReference.set(product);
-			return true;
+			return product;
 		}
 
-		return false;
+		return null;
 	}
 
 	public boolean deleteProduct(String productID) throws ExecutionException, InterruptedException {

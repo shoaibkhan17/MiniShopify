@@ -15,14 +15,12 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Shop from "./Shop";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
 import ShopService from "../services/ShopService";
-class EditShop extends React.Component {
+
+class AddShop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // shopData: this.props.selectedShop,
-      shopData: null,
       ownerEmail: "",
-      shopID: "",
       name: "",
       description: "",
       picture: "",
@@ -31,40 +29,25 @@ class EditShop extends React.Component {
     };
     this.getShopData = this.getShopData.bind(this);
     this.deleteAllTags = this.deleteAllTags.bind(this);
-    this.updateShop = this.updateShop.bind(this);
-    this.deleteShop = this.deleteShop.bind(this);
-    this.discardChanges = this.discardChanges.bind(this);
     this.addTag = this.addTag.bind(this);
+    this.createShop = this.createShop(this);
     this.mounted = true;
-  }
-
-  discardChanges() {
-    this.setState({
-      name: this.props.selectedShop.name,
-      description: this.props.selectedShop.description,
-      picture: this.props.selectedShop.picture,
-      tags: this.props.selectedShop.tags,
-    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return this.mounted;
   }
 
-  componentWillUnmount() {
-    this.mounted = false;
+  async createShop() {
+    console.log("trippy creating shop somehow!");
+    const success = await ShopService.createShop(this.getShopData());
+    if (success) {
+      this.props.onClose();
+    }
   }
 
-  componentDidMount() {
-    this.setState({
-      shopData: this.props.selectedShop,
-      ownerEmail: this.props.selectedShop.ownerEmail,
-      shopID: this.props.selectedShop.shopID,
-      name: this.props.selectedShop.name,
-      description: this.props.selectedShop.description,
-      picture: this.props.selectedShop.picture,
-      tags: this.props.selectedShop.tags,
-    });
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   addTag() {
@@ -81,7 +64,6 @@ class EditShop extends React.Component {
 
   getShopData() {
     const shopObj = {
-      shopID: this.state.shopID,
       ownerEmail: this.state.ownerEmail,
       name: this.state.name,
       description: this.state.description,
@@ -92,28 +74,12 @@ class EditShop extends React.Component {
     return shopObj;
   }
 
-  async updateShop() {
-    const success = await ShopService.updateShop(this.getShopData());
-    if (success) {
-      this.props.onClose();
-    }
-  }
-
-  async deleteShop() {
-    const success = await ShopService.deleteShop(this.state.shopID);
-    if (success) {
-      this.props.onClose();
-    }
-  }
-
-  componentWillUnmount() {}
-
   render() {
     return (
       <Dialog
         fullWidth={true}
         maxWidth="md"
-        open={this.props.selectedShop !== null}
+        open={this.props.addingShop}
         onClose={this.props.onClose}
       >
         <DialogTitle>Edit Shop Menu</DialogTitle>
@@ -205,19 +171,9 @@ class EditShop extends React.Component {
 
         <DialogActions>
           <Chip
-            label="Update Shop"
-            onClick={this.updateShop}
+            label="Create Shop"
+            // onClick={() => this.createShop()}
             style={{ background: PRIMARY_THEME_COLOR, color: "white" }}
-          />
-          <Chip
-            label="Discard Changes"
-            onClick={this.discardChanges}
-            style={{ background: "#ff9800", color: "white" }}
-          />
-          <Chip
-            label="Delete Shop"
-            onClick={this.deleteShop}
-            color="secondary"
           />
         </DialogActions>
       </Dialog>
@@ -225,4 +181,4 @@ class EditShop extends React.Component {
   }
 }
 
-export default EditShop;
+export default AddShop;

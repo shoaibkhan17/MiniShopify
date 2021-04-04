@@ -10,7 +10,9 @@ import {
   MenuItem,
   Divider,
   Button,
+  Badge,
 } from "@material-ui/core";
+
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -22,6 +24,7 @@ import SignInButton from "./SignInButton";
 import AuthService from "../services/AuthService";
 import firebase from "../services/firebase.config";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -64,13 +67,17 @@ class TopBar extends React.Component {
               <SearchIcon style={{ color: "black" }} />
             </IconButton>
             <Typography variant="h6" style={{ flexGrow: 1 }}></Typography>
+            <IconButton aria-label="cart">
+              <Badge badgeContent={69} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
             {this.props.isAuthenticated && (
               <IconButton edge="end" color="inherit" onClick={this.openMenu}>
                 <AccountCircle fontSize="large" />
               </IconButton>
             )}
             {!this.props.isAuthenticated && <SignInButton />}
-
             <Menu
               keepMounted
               open={this.state.openDropdown}
@@ -100,6 +107,7 @@ class TopBar extends React.Component {
                     : ""}
                 </Typography>
               </div>
+
               <Divider />
               <MenuItem onClick={this.closeMenu}>
                 <ListItemIcon>

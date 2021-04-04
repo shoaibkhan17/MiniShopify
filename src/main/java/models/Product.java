@@ -22,7 +22,7 @@ public class Product {
 		this.quantity = quantity;
 		this.cost = cost;
 		this.shopID = shopID;
-		this.setPicture(picture);
+		this.picture = picture;
 	}
 
 	public boolean isProductNotEmpty() {

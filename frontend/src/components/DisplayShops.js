@@ -1,11 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, IconButton, TextField } from "@material-ui/core";
 import { setShops } from "../redux/actions";
 import ShopService from "../services/ShopService";
 import Shop from "./Shop";
+import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
+import AddShop from "./AddShop";
 import Select from "@material-ui/core/Select";
-import NativeSelect from "@material-ui/core/NativeSelect";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops };
@@ -14,6 +15,7 @@ class DisplayShops extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      addingShop: false,
       shops: [],
       tags: [],
       selectedTag: "",
@@ -21,6 +23,8 @@ class DisplayShops extends React.Component {
     };
 
     this.getShops = this.getShops.bind(this);
+    this.addNewShop = this.addNewShop.bind(this);
+    this.closeAddShop = this.closeAddShop.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
   }
@@ -34,6 +38,14 @@ class DisplayShops extends React.Component {
     });
     console.log(...tagsList);
     this.setState({ shops: this.props.shops, tags: Array.from(tagsList) });
+  }
+
+  addNewShop() {
+    this.setState({ addingShop: true });
+  }
+
+  closeAddShop() {
+    this.setState({ addingShop: false });
   }
 
   async getShops() {
@@ -85,7 +97,6 @@ class DisplayShops extends React.Component {
           {this.state.tags &&
             this.state.tags.map((tag) => (
               <option key={tag} value={tag}>
-                {" "}
                 {tag}
               </option>
             ))}
@@ -102,10 +113,28 @@ class DisplayShops extends React.Component {
           {this.state.shops &&
             this.state.shops.map((shop) => (
               <Grid item key={shop.shopID}>
-                <Shop canEditShop={true} shop={shop} />
+                <Shop canEditShop={true} canOpen={true} shop={shop} />
               </Grid>
             ))}
         </Grid>
+
+        {this.state.addingShop && (
+          <AddShop
+            addingShop={this.state.addingShop}
+            onClose={this.closeAddShop}
+          />
+        )}
+
+        <IconButton>
+          <AddCircleRoundedIcon
+            onClick={this.addNewShop}
+            style={{
+              color: "#43C701",
+              margin: "5px",
+              scale: "2",
+            }}
+          />
+        </IconButton>
       </div>
     );
   }

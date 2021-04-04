@@ -2,8 +2,13 @@ import axios from "axios";
 import {
   deleteShop,
   setShops,
+  setProducts,
+  updateProduct,
+  deleteProduct,
   setUserShops,
   updateShop,
+  addProduct,
+  createShop,
 } from "../redux/actions";
 import store from "../redux/store";
 
@@ -15,12 +20,17 @@ var endpoint =
 // Public end points
 const GET_ALL_SHOPS_URL = endpoint + "api/shop/getShops";
 const GET_SHOP_BY_ID_URL = endpoint + "api/getShopById";
+const GET_SHOP_PRODUCTS = endpoint + "api/shop/getProducts";
 
 // Protected end points
 const CREATE_SHOP_URL = endpoint + "api/shop/protected/createShop";
 const DELETE_SHOP_URL = endpoint + "api/shop/protected/deleteShop";
 const UPDATE_SHOP_URL = endpoint + "api/shop/protected/updateShop";
 const ADD_TEST_SHOP_URL = endpoint + "api/shop/protected/createTestShop";
+
+const UPDATE_PRODUCT_URL = endpoint + "api/shop/protected/updateProduct";
+const DELETE_PRODUCT_URL = endpoint + "api/shop/protected/deleteProduct";
+const ADD_PRODUCT_URL = endpoint + "api/shop/protected/addProduct";
 
 class ShopService {
   getHeaders() {
@@ -32,16 +42,19 @@ class ShopService {
     return config;
   }
 
-  async createShop() {
-    const config = {
-      headers: {
-        "X-Firebase-Auth": "",
-      },
-    };
+  async createShop(createdShop) {
+    var config = this.getHeaders();
 
-    axios.post(CREATE_SHOP_URL, null, config).then((response) => {
-      console.log(response.data);
-    });
+    axios
+      .post(CREATE_SHOP_URL, createdShop, config)
+      .then((res) => {
+        store.dispatch(createShop(createdShop));
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
   }
 
   async getAllShops() {
@@ -49,6 +62,19 @@ class ShopService {
       .get(GET_ALL_SHOPS_URL)
       .then((res) => {
         store.dispatch(setShops(res.data));
+        return res.data;
+      })
+      .catch((error) => {
+        return null;
+      });
+  }
+
+  async getShopProducts(shopID) {
+    const url = GET_SHOP_PRODUCTS + "/" + shopID;
+    return axios
+      .get(url)
+      .then((res) => {
+        store.dispatch(setProducts(res.data));
         return res.data;
       })
       .catch((error) => {
@@ -75,6 +101,24 @@ class ShopService {
       });
   }
 
+  async deleteProduct(productID) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(DELETE_PRODUCT_URL, productID, config)
+      .then((res) => {
+        if (res.data) {
+          store.dispatch(deleteProduct(productID));
+          return true;
+        }
+        return false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
   async updateShop(updatedShop) {
     var config = this.getHeaders();
 
@@ -83,6 +127,42 @@ class ShopService {
       .then((res) => {
         if (res.data !== null) {
           store.dispatch(updateShop(updatedShop));
+          return true;
+        }
+        return false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
+  async updateProduct(updatedProduct) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(UPDATE_PRODUCT_URL, updatedProduct, config)
+      .then((res) => {
+        if (res.data !== null && res.data !== "") {
+          store.dispatch(updateProduct(updatedProduct));
+          return true;
+        }
+        return false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
+  async addNewProduct(productAdded) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(ADD_PRODUCT_URL, productAdded, config)
+      .then((res) => {
+        if (res.data !== null && res.data !== "") {
+          store.dispatch(addProduct(productAdded));
           return true;
         }
         return false;
