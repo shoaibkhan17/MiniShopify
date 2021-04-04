@@ -59,11 +59,14 @@ public class FirebaseService {
 
 	public Shop addShop(Shop shop) throws ExecutionException, InterruptedException {
 		//check if the given shop has all the required fields
+		System.out.println("BEFORE CREATE A SHOP!!_---------------------------------------------------------------------------------: " + shop.isShopNotEmpty());
+		
 		if(shop != null && shop.isShopNotEmpty()) {
+			System.out.println("TRYING TO CREATE A SHOP!!_---------------------------------------------------------------------------------");
 			Firestore firebaseDB = FirestoreClient.getFirestore();
 			DocumentReference documentReference = firebaseDB.collection("shops").document();
 
-			if(shop.getShopID() == null) {
+			if(shop.getShopID().isEmpty()) {
 				//set shop id from document (auto-generated from firebase)
 				shop.setShopID(documentReference.getId());
 			}

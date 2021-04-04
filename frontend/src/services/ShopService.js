@@ -43,11 +43,15 @@ class ShopService {
   async createShop(createdShop) {
     var config = this.getHeaders();
 
-    axios
+    return axios
       .post(CREATE_SHOP_URL, createdShop, config)
       .then((res) => {
-        store.dispatch(createShop(createdShop));
-        return true;
+        if (res.data) {
+          console.log(res.data);
+          store.dispatch(createShop(res.data));
+          return true;
+        }
+        return false;
       })
       .catch((error) => {
         console.log(error);
@@ -86,7 +90,6 @@ class ShopService {
     return axios
       .post(DELETE_SHOP_URL, shopID, config)
       .then((res) => {
-        console.log(res.data);
         if (res.data) {
           store.dispatch(deleteShop(shopID));
           return true;

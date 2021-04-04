@@ -8,6 +8,7 @@ import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddShop from "./AddShop";
 import Select from "@material-ui/core/Select";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
+import firebase from "../../services/firebase.config";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops };
@@ -132,6 +133,11 @@ class DisplayShops extends React.Component {
           <AddShop
             addingShop={this.state.addingShop}
             onClose={this.closeAddShop}
+            ownerEmail={
+              firebase.auth().currentUser
+                ? firebase.auth().currentUser.email
+                : ""
+            }
           />
         )}
 

@@ -116,7 +116,8 @@ class EditShop extends React.Component {
         onClose={this.props.onClose}
       >
         <DialogTitle>Edit Shop Menu</DialogTitle>
-
+        {console.log(this.state.shopID)}
+        {console.log(this.state.name)}
         <DialogContent>
           <Alert severity="error">
             Deleting a shop will delete all the products it contains.

@@ -35,13 +35,20 @@ class AddShop extends React.Component {
     this.mounted = true;
   }
 
+  componentDidMount() {
+    this.setState({
+      ownerEmail: this.props.ownerEmail,
+    });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return this.mounted;
   }
 
   async addShop() {
     if (this.state.name !== "" && this.state.description !== "") {
-      const success = await ShopService.createShop(this.getShopData());
+      var success = await ShopService.createShop(this.getShopData());
+
       if (success) {
         this.props.onClose();
       }
@@ -88,7 +95,7 @@ class AddShop extends React.Component {
         onClose={this.props.onClose}
       >
         <DialogTitle>Add Shop Menu</DialogTitle>
-
+        {console.log(this.state.ownerEmail)}
         <DialogContent style={{ display: "flex" }}>
           <div
             style={{

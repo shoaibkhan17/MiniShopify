@@ -31,9 +31,9 @@ public class ShopController {
     }
 	
 	@PostMapping("protected/createShop")
-    public ResponseEntity<Shop> createShop(Shop shop) throws ExecutionException, InterruptedException {
+    public Shop createShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
 		Shop shopAdded = firebaseService.addShop(shop);
-		return new ResponseEntity<Shop>(shopAdded, HttpStatus.OK);
+		return shopAdded;
     }
 	
 	@PostMapping("protected/createTestShop")
@@ -56,6 +56,7 @@ public class ShopController {
 	
 	@PostMapping("protected/deleteShop")
     public boolean deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
+		System.out.println(shopID);
 		shopID = shopID.substring(0, shopID.length() - 1);
 		return firebaseService.deleteShop(shopID);
     }

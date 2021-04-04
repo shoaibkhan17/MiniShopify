@@ -30,6 +30,7 @@ public class Shop {
     }
     
     public boolean isShopNotEmpty() {
+        System.out.println("name: " + name + ", owneremail: " + ownerEmail + ", description: " + description);
     	return !name.isEmpty() && !ownerEmail.isEmpty() && !description.isEmpty();
     }
     
