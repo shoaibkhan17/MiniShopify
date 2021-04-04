@@ -8,6 +8,7 @@ import {
   setUserShops,
   updateShop,
   addProduct,
+  createShop,
 } from "../redux/actions";
 import store from "../redux/store";
 
@@ -41,16 +42,19 @@ class ShopService {
     return config;
   }
 
-  async createShop() {
-    const config = {
-      headers: {
-        "X-Firebase-Auth": "",
-      },
-    };
+  async createShop(createdShop) {
+    var config = this.getHeaders();
 
-    axios.post(CREATE_SHOP_URL, null, config).then((response) => {
-      console.log(response.data);
-    });
+    axios
+      .post(CREATE_SHOP_URL, createdShop, config)
+      .then((res) => {
+        store.dispatch(createShop(createdShop));
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
   }
 
   async getAllShops() {

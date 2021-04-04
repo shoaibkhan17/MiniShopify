@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import { setShops } from "../redux/actions";
 import ShopService from "../services/ShopService";
 import Shop from "./Shop";
+import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
+import AddShop from "./AddShop";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops };
@@ -11,13 +13,25 @@ const mapStateToProps = (state) => {
 class DisplayShops extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      addingShop: false,
+    };
 
     this.getShops = this.getShops.bind(this);
+    this.addNewShop = this.addNewShop.bind(this);
+    this.closeAddShop = this.closeAddShop.bind(this);
   }
 
   componentDidMount() {
     this.getShops();
+  }
+
+  addNewShop() {
+    this.setState({ addingShop: true });
+  }
+
+  closeAddShop() {
+    this.setState({ addingShop: false });
   }
 
   async getShops() {
@@ -27,6 +41,7 @@ class DisplayShops extends React.Component {
   render() {
     return (
       <div>
+        {console.log(this.props.shops)}
         <Grid
           container
           justify="center"
@@ -43,6 +58,24 @@ class DisplayShops extends React.Component {
               </Grid>
             ))}
         </Grid>
+
+        {this.state.addingShop && (
+          <AddShop
+            addingShop={this.state.addingShop}
+            onClose={this.closeAddShop}
+          />
+        )}
+
+        <IconButton>
+          <AddCircleRoundedIcon
+            onClick={this.addNewShop}
+            style={{
+              color: "#43C701",
+              margin: "5px",
+              scale: "2",
+            }}
+          />
+        </IconButton>
       </div>
     );
   }

@@ -9,6 +9,7 @@ import {
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
   ADD_PRODUCT,
+  CREATE_SHOP,
 } from "./actionTypes";
 
 export const setAuthenticated = (flag) => ({
@@ -64,6 +65,13 @@ export const addProduct = (productAdded) => ({
   type: ADD_PRODUCT,
   payload: {
     productAdded: productAdded,
+  },
+});
+
+export const createShop = (createdShop) => ({
+  type: CREATE_SHOP,
+  payload: {
+    createdShop: createdShop,
   },
 });
 

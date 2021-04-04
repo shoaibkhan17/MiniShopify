@@ -9,6 +9,7 @@ import {
   UPDATE_PRODUCT,
   SET_PRODUCTS,
   ADD_PRODUCT,
+  CREATE_SHOP,
 } from "./actionTypes";
 import firebase from "../services/firebase.config";
 
@@ -99,6 +100,10 @@ const myReducer = (state = initialState, action) => {
 
   if (action.type === ADD_PRODUCT) {
     newState.products.push(action.payload.productAdded);
+  }
+
+  if (action.type === CREATE_SHOP) {
+    newState.shops.push(action.payload.createdShop);
   }
 
   if (action.type === UPDATE_PRODUCT) {
