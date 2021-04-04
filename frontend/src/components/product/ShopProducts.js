@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import TopBar from "../TopBar";
+import TopBar from "../topBar/TopBar";
 import HomeIcon from "@material-ui/icons/Home";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import ShopService from "../../services/ShopService";

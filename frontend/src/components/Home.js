@@ -1,7 +1,7 @@
 import React from "react";
-import TopBar from "./TopBar";
+import TopBar from "./topBar/TopBar";
 import { connect } from "react-redux";
-import DisplayShops from "./DisplayShops";
+import DisplayShops from "./shop/DisplayShops";
 import { Button } from "@material-ui/core";
 import { setShops } from "../redux/actions";
 import ShopService from "../services/ShopService";

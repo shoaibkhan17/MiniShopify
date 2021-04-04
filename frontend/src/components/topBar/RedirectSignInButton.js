@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import React from "react";
 import { Route } from "react-router-dom";
 
-class SignInButton extends React.Component {
+class RedirectSignInButton extends React.Component {
   render() {
     return (
       <Route
@@ -26,4 +26,4 @@ class SignInButton extends React.Component {
   }
 }
 
-export default SignInButton;
+export default RedirectSignInButton;

@@ -56,7 +56,6 @@ class ShopService {
   }
 
   async getAllShops() {
-    console.log("test");
     return axios
       .get(GET_ALL_SHOPS_URL)
       .then((res) => {

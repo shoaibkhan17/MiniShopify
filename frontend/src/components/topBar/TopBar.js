@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setAuthenticated } from "../redux/actions";
+import { setAuthenticated } from "../../redux/actions";
 import {
   Toolbar,
   Typography,
@@ -12,17 +12,18 @@ import {
   Button,
   Badge,
 } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
-import SignInButton from "./SignInButton";
-import AuthService from "../services/AuthService";
-import firebase from "../services/firebase.config";
-import { PRIMARY_THEME_COLOR } from "../constants/constants";
+import SignInButton from "./RedirectSignInButton";
+import AuthService from "../../services/AuthService";
+import firebase from "../../services/firebase.config";
+import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import RedirectHomeButton from "./RedirectHomeButton";
+import RedirectUserShopsButton from "./RedirectUserShopsButton";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -128,13 +129,12 @@ class TopBar extends React.Component {
       <div style={{ flexGrow: 1 }}>
         <AppBar position="static" style={{ background: PRIMARY_THEME_COLOR }}>
           <Toolbar>
-            <IconButton edge="start" color="inherit">
-              <SearchIcon style={{ color: "black" }} />
-            </IconButton>
+            <RedirectHomeButton />
+            {this.props.isAuthenticated && <RedirectUserShopsButton />}
             <Typography variant="h6" style={{ flexGrow: 1 }}></Typography>
-            <IconButton aria-label="cart">
-              <Badge badgeContent={69} color="secondary">
-                <ShoppingCartIcon />
+            <IconButton style={{ marginRight: "10px" }}>
+              <Badge badgeContent={1} color="primary">
+                <ShoppingCartIcon htmlColor="white" />
               </Badge>
             </IconButton>
             {this.props.isAuthenticated && (

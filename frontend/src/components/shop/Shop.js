@@ -15,11 +15,11 @@ import {
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DisplayShopTags from "./DisplayShopTags";
-import ShopService from "../services/ShopService";
+import ShopService from "../../services/ShopService";
 import EditShop from "./EditShop";
 import { Alert } from "@material-ui/lab";
 import { withRouter } from "react-router-dom";
-import { EMPTY_SHOP_IMG_URL } from "../constants/constants";
+import { EMPTY_SHOP_IMG_URL } from "../../constants/constants";
 
 class Shop extends React.Component {
   constructor(props) {
