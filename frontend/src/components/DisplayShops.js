@@ -7,6 +7,7 @@ import Shop from "./Shop";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddShop from "./AddShop";
 import Select from "@material-ui/core/Select";
+import { PRIMARY_THEME_COLOR } from "../constants/constants";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops };
@@ -27,16 +28,26 @@ class DisplayShops extends React.Component {
     this.closeAddShop = this.closeAddShop.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.setShopAndShopTags = this.setShopAndShopTags.bind(this);
   }
 
   componentDidMount() {
+    this.getShops();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.shops !== this.props.shops) {
+      this.setShopAndShopTags();
+    }
+  }
+
+  setShopAndShopTags() {
     var tagsList = new Set();
     this.props.shops.forEach((shop) => {
       shop.tags.forEach((tag) => {
         tagsList.add(tag);
       });
     });
-    console.log(...tagsList);
     this.setState({ shops: this.props.shops, tags: Array.from(tagsList) });
   }
 
@@ -77,7 +88,6 @@ class DisplayShops extends React.Component {
   }
 
   render() {
-    console.log("update");
     return (
       <div>
         <TextField
@@ -125,14 +135,10 @@ class DisplayShops extends React.Component {
           />
         )}
 
-        <IconButton>
+        <IconButton onClick={this.addNewShop}>
           <AddCircleRoundedIcon
-            onClick={this.addNewShop}
-            style={{
-              color: "#43C701",
-              margin: "5px",
-              scale: "2",
-            }}
+            fontSize="large"
+            htmlColor={PRIMARY_THEME_COLOR}
           />
         </IconButton>
       </div>

@@ -10,7 +10,6 @@ import {
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Shop from "./Shop";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
@@ -26,11 +25,13 @@ class AddShop extends React.Component {
       picture: "",
       tag: "",
       tags: [],
+      helper: "",
+      missingFields: false,
     };
     this.getShopData = this.getShopData.bind(this);
     this.deleteAllTags = this.deleteAllTags.bind(this);
     this.addTag = this.addTag.bind(this);
-    this.createShop = this.createShop(this);
+    this.addShop = this.addShop.bind(this);
     this.mounted = true;
   }
 
@@ -38,11 +39,15 @@ class AddShop extends React.Component {
     return this.mounted;
   }
 
-  async createShop() {
-    console.log("trippy creating shop somehow!");
-    const success = await ShopService.createShop(this.getShopData());
-    if (success) {
-      this.props.onClose();
+  async addShop() {
+    if (this.state.name !== "" && this.state.description !== "") {
+      const success = await ShopService.createShop(this.getShopData());
+      if (success) {
+        this.props.onClose();
+      }
+    } else {
+      console.log("empty shop");
+      this.setState({ missingFields: true });
     }
   }
 
@@ -82,13 +87,7 @@ class AddShop extends React.Component {
         open={this.props.addingShop}
         onClose={this.props.onClose}
       >
-        <DialogTitle>Edit Shop Menu</DialogTitle>
-
-        <DialogContent>
-          <Alert severity="error">
-            Deleting a shop will delete all the products it contains.
-          </Alert>
-        </DialogContent>
+        <DialogTitle>Add Shop Menu</DialogTitle>
 
         <DialogContent style={{ display: "flex" }}>
           <div
@@ -111,6 +110,10 @@ class AddShop extends React.Component {
               fullWidth
               label="Update Name"
               value={this.state.name}
+              error={this.state.missingFields && this.state.name === ""}
+              helperText={
+                this.state.missingFields && this.state.name === "" && "Required"
+              }
               onChange={(event) => {
                 this.setState({ name: event.target.value });
               }}
@@ -124,6 +127,12 @@ class AddShop extends React.Component {
               rowsMax={4}
               multiline
               value={this.state.description}
+              error={this.state.missingFields && this.state.description === ""}
+              helperText={
+                this.state.missingFields &&
+                this.state.description === "" &&
+                "Required"
+              }
               onChange={(event) => {
                 this.setState({ description: event.target.value });
               }}
@@ -172,7 +181,7 @@ class AddShop extends React.Component {
         <DialogActions>
           <Chip
             label="Create Shop"
-            // onClick={() => this.createShop()}
+            onClick={this.addShop}
             style={{ background: PRIMARY_THEME_COLOR, color: "white" }}
           />
         </DialogActions>

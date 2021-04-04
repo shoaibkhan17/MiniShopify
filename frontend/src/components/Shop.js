@@ -19,6 +19,7 @@ import ShopService from "../services/ShopService";
 import EditShop from "./EditShop";
 import { Alert } from "@material-ui/lab";
 import { withRouter } from "react-router-dom";
+import { EMPTY_SHOP_IMG_URL } from "../constants/constants";
 
 class Shop extends React.Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class Shop extends React.Component {
     this.closeEditShop = this.closeEditShop.bind(this);
     this.openShop = this.openShop.bind(this);
     this.openEditShop = this.openEditShop.bind(this);
+    this.getShopImg = this.getShopImg.bind(this);
   }
 
   openShop(shop) {
@@ -78,6 +80,16 @@ class Shop extends React.Component {
     );
   }
 
+  getShopImg() {
+    if (this.props.shop) {
+      if (this.props.shop.picture === "") {
+        return EMPTY_SHOP_IMG_URL;
+      }
+      return this.props.shop.picture;
+    }
+    return EMPTY_SHOP_IMG_URL;
+  }
+
   render() {
     return (
       <div>
@@ -116,7 +128,7 @@ class Shop extends React.Component {
           <CardActionArea onClick={() => this.openShop(this.props.shop)}>
             <CardMedia
               style={{ height: 0, paddingTop: "56.25%" }}
-              image={this.props.shop && this.props.shop.picture}
+              image={this.getShopImg()}
             />
             <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">

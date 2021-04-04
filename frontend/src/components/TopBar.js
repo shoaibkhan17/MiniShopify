@@ -12,14 +12,12 @@ import {
   Button,
   Badge,
 } from "@material-ui/core";
-
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
-import { green } from "@material-ui/core/colors";
 import SignInButton from "./SignInButton";
 import AuthService from "../services/AuthService";
 import firebase from "../services/firebase.config";
@@ -42,6 +40,7 @@ class TopBar extends React.Component {
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.getMenu = this.getMenu.bind(this);
   }
 
   componentDidMount() {}
@@ -56,6 +55,72 @@ class TopBar extends React.Component {
 
   closeMenu() {
     this.setState({ openDropdown: false });
+  }
+
+  getMenu() {
+    return (
+      <Menu
+        keepMounted
+        open={this.state.openDropdown}
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorEl={this.state.anchorEl}
+        onClose={this.closeMenu}
+        variant="menu"
+      >
+        <div
+          style={{
+            marginTop: "16px",
+            marginBottom: "16px",
+            paddingLeft: "20px",
+            paddingRight: "20px",
+          }}
+        >
+          <Typography variant="subtitle1" style={{ flexGrow: 1 }}>
+            {firebase.auth().currentUser
+              ? firebase.auth().currentUser.displayName
+              : ""}
+          </Typography>
+          <Typography variant="subtitle2" style={{ flexGrow: 1 }}>
+            {firebase.auth().currentUser
+              ? firebase.auth().currentUser.email
+              : ""}
+          </Typography>
+        </div>
+
+        <Divider />
+        <MenuItem onClick={this.closeMenu}>
+          <ListItemIcon>
+            <HomeIcon style={{ color: PRIMARY_THEME_COLOR }} />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </MenuItem>
+
+        <MenuItem onClick={this.closeMenu}>
+          <ListItemIcon>
+            <PersonIcon style={{ color: PRIMARY_THEME_COLOR }} />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
+        </MenuItem>
+
+        <Button
+          variant="outlined"
+          style={{
+            marginRight: "5%",
+            marginTop: "2%",
+            marginLeft: "5%",
+            borderRadius: "12px",
+            width: "90%",
+            color: "white",
+            backgroundColor: PRIMARY_THEME_COLOR,
+          }}
+          onClick={this.signOut}
+        >
+          Sign Out
+        </Button>
+      </Menu>
+    );
   }
 
   render() {
@@ -77,68 +142,7 @@ class TopBar extends React.Component {
                 <AccountCircle fontSize="large" />
               </IconButton>
             )}
-            {!this.props.isAuthenticated && <SignInButton />}
-            <Menu
-              keepMounted
-              open={this.state.openDropdown}
-              getContentAnchorEl={null}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              transformOrigin={{ vertical: "top", horizontal: "center" }}
-              anchorEl={this.state.anchorEl}
-              onClose={this.closeMenu}
-              variant="menu"
-            >
-              <div
-                style={{
-                  marginTop: "16px",
-                  marginBottom: "16px",
-                  paddingLeft: "20px",
-                  paddingRight: "20px",
-                }}
-              >
-                <Typography variant="subtitle1" style={{ flexGrow: 1 }}>
-                  {firebase.auth().currentUser
-                    ? firebase.auth().currentUser.displayName
-                    : ""}
-                </Typography>
-                <Typography variant="subtitle2" style={{ flexGrow: 1 }}>
-                  {firebase.auth().currentUser
-                    ? firebase.auth().currentUser.email
-                    : ""}
-                </Typography>
-              </div>
-
-              <Divider />
-              <MenuItem onClick={this.closeMenu}>
-                <ListItemIcon>
-                  <HomeIcon style={{ color: PRIMARY_THEME_COLOR }} />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </MenuItem>
-
-              <MenuItem onClick={this.closeMenu}>
-                <ListItemIcon>
-                  <PersonIcon style={{ color: PRIMARY_THEME_COLOR }} />
-                </ListItemIcon>
-                <ListItemText primary="Profile" />
-              </MenuItem>
-
-              <Button
-                variant="outlined"
-                style={{
-                  marginRight: "5%",
-                  marginTop: "2%",
-                  marginLeft: "5%",
-                  borderRadius: "12px",
-                  width: "90%",
-                  color: "white",
-                  backgroundColor: PRIMARY_THEME_COLOR,
-                }}
-                onClick={this.signOut}
-              >
-                Sign Out
-              </Button>
-            </Menu>
+            {!this.props.isAuthenticated ? <SignInButton /> : this.getMenu()}
           </Toolbar>
         </AppBar>
       </div>

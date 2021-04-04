@@ -80,13 +80,13 @@ class ShopProducts extends React.Component {
             <AddProduct
               shopID={this.state.shopID}
               addingProduct={this.state.addingProduct}
-              onClose={() => this.closeAddProduct()}
+              onClose={this.closeAddProduct}
             />
           )}
           <IconButton>
             <AddCircleRoundedIcon
               fontSize="large"
-              onClick={() => this.addProduct()}
+              onClick={this.addProduct}
               style={{
                 color: "#43C701",
               }}

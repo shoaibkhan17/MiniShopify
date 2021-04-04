@@ -31,9 +31,9 @@ public class ShopController {
     }
 	
 	@PostMapping("protected/createShop")
-    public ResponseEntity<String> createShop(Shop shop) throws ExecutionException, InterruptedException {
+    public ResponseEntity<Shop> createShop(Shop shop) throws ExecutionException, InterruptedException {
 		Shop shopAdded = firebaseService.addShop(shop);
-		return new ResponseEntity<String>("Shop added: " + shopAdded, HttpStatus.OK);
+		return new ResponseEntity<Shop>(shopAdded, HttpStatus.OK);
     }
 	
 	@PostMapping("protected/createTestShop")

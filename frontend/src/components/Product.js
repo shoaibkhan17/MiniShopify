@@ -15,6 +15,7 @@ import StorefrontIcon from "@material-ui/icons/Storefront";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditProduct from "./product/EditProduct";
+import { EMPTY_PRODUCT_IMG_URL } from "../constants/constants";
 
 const mapStateToProps = (state) => {
   return { products: state.products };
@@ -31,6 +32,7 @@ class Product extends React.Component {
 
     this.openEditProduct = this.openEditProduct.bind(this);
     this.closeEditProduct = this.closeEditProduct.bind(this);
+    this.getProductImg = this.getProductImg.bind(this);
   }
 
   openEditProduct(product) {
@@ -42,6 +44,16 @@ class Product extends React.Component {
   }
 
   componentDidUpdate(prevProps, nextState) {}
+
+  getProductImg() {
+    if (this.props.product) {
+      if (this.props.product.picture === "") {
+        return EMPTY_PRODUCT_IMG_URL;
+      }
+      return this.props.product.picture;
+    }
+    return EMPTY_PRODUCT_IMG_URL;
+  }
 
   render() {
     return (
@@ -79,7 +91,7 @@ class Product extends React.Component {
           />
           <CardMedia
             style={{ height: 0, paddingTop: "56.25%" }}
-            image={this.props.product && this.props.product.picture}
+            image={this.getProductImg()}
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
