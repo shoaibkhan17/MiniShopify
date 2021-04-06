@@ -5,6 +5,11 @@ public class CartItem {
     private String productID;
     private int quantity;
 
+    public CartItem() {
+        productID = "";
+        quantity = 0;
+    }
+
     public CartItem(String productID, int quantity){
         this.quantity = quantity;
         this.productID = productID;
