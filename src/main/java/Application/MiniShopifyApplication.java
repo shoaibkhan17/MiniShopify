@@ -22,9 +22,6 @@ import java.util.List;
 @SpringBootApplication(scanBasePackages = {"controllers", "config"})
 public class MiniShopifyApplication implements  CommandLineRunner {
 
-	@Autowired
-	FirebaseService firebaseService;
-	
     public static void main(String[] args) {
         SpringApplication.run(MiniShopifyApplication.class);
     }

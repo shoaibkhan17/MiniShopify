@@ -11,10 +11,13 @@ import com.google.firebase.auth.ExportedUserRecord;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.cloud.FirestoreClient;
+
+import models.CartItem;
 import models.Product;
 import models.Shop;
 import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -194,7 +197,6 @@ public class FirebaseService {
 		return false;
 	}
 
-
 	public User getUserDetails(String email) throws ExecutionException, InterruptedException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
 		DocumentReference documentReference = firebaseDB.collection("users").document(email);
@@ -212,9 +214,8 @@ public class FirebaseService {
 		}
 	}
 
-
-	public Map<String, Integer> checkOutProducts(Map<String, Integer>  cartProducts) throws InterruptedException, ExecutionException {
-		Map<String, Integer>  checkedOutProducts = new HashMap<String, Integer>();
+	public ArrayList<CartItem> checkOutProducts(List<CartItem>  cartItems) throws InterruptedException, ExecutionException {
+		ArrayList<CartItem>  checkedOutItems = new ArrayList<CartItem>();
 		Firestore firebaseDB = FirestoreClient.getFirestore();
 		//get all products
 		ApiFuture<QuerySnapshot> future = firebaseDB.collection("products").get();
@@ -225,13 +226,10 @@ public class FirebaseService {
 		for (QueryDocumentSnapshot document : documents) {
 			Product product = document.toObject(Product.class);
 
-			Iterator it = cartProducts.entrySet().iterator();
-
 			//find the products to be removed
-			while(it.hasNext()) {
-				Map.Entry<String, Integer> pair = (Map.Entry)it.next();
-				String cartProductID = pair.getKey();
-				Integer cartProductQuantity = pair.getValue();
+			for(CartItem cartitem: cartItems){
+				String cartProductID = cartitem.getProductID();
+				int cartProductQuantity = cartitem.getQuantity();
 
 				if(cartProductID.equals(product.getProductID())) {
 					//subtract the checked out amount from the available quantity
@@ -248,10 +246,11 @@ public class FirebaseService {
 					}
 
 					//return the new product quantity with the product id
-					checkedOutProducts.put(cartProductID, product.getQuantity());
+					checkedOutItems.add(new CartItem(cartProductID, product.getQuantity()));
 				}
+
 			}
 		}
-		return checkedOutProducts;
+		return checkedOutItems;
 	}
 }
