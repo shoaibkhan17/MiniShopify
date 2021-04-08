@@ -75,9 +75,27 @@ const myReducer = (state = initialState, action) => {
   }
 
   if (action.type === ADD_PRODUCT_TO_CART) {
-    newState.cartProducts.push(action.payload.productAdded);
-  }
+    const cartProduct = action.payload.productAdded;
 
+    // Find the cart product in the cart list
+    const filteredList = newState.cartProducts.filter(
+      (product) => product.productID === cartProduct.productID
+    );
+
+    // The item does not exist in the cart
+    if (filteredList.length === 0) {
+      newState.cartProducts.push(cartProduct);
+    }
+
+    // If it does exist, update the selected quantity
+    else {
+      newState.cartProducts.forEach((product) => {
+        if (product.productID === cartProduct.productID) {
+          product.selectedQuantity += cartProduct.selectedQuantity;
+        }
+      });
+    }
+  }
 
   if (action.type === SET_USER_SHOPS) {
     newState.userShops = action.payload.userShops;

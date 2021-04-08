@@ -62,7 +62,7 @@ const Summary = (props) => {
                 variant="body1"
                 style={{ fontSize: "9px", fontWeight: "lighter" }}
               >
-                Discount
+                Tax
               </Typography>
             </Grid>
             <Grid
@@ -74,7 +74,7 @@ const Summary = (props) => {
                 variant="body1"
                 style={{ fontSize: "9px", fontWeight: "bold" }}
               >
-                -
+                13%
               </Typography>
             </Grid>
           </Grid>
@@ -127,7 +127,7 @@ const Summary = (props) => {
                 variant="body1"
                 style={{ fontSize: "9px", fontWeight: "bold", color: "red" }}
               >
-                {total}
+                {total * 1.13}
               </Typography>
             </Grid>
           </Grid>
