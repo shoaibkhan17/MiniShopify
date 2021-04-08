@@ -94,7 +94,7 @@ const CartItem = (props) => {
               (_item) => _item.name != item.name
             );
 
-            props.setItems([...items]);
+            //props.setItems([...items]);
           }}
         >
           <DeleteIcon />

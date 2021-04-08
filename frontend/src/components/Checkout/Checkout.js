@@ -3,30 +3,12 @@ import { Card, CardContent, Grid, Typography } from "@material-ui/core";
 import EmptyCart from "./EmptyCart";
 import CartItem from "./CartItem";
 import Summary from "./Summary";
-
-const staticItems = [
-  {
-    name: "Strawberry Cake",
-    description: "Made with milk and natural ingrediants",
-    cost: 50,
-    quantity: 1,
-    quantitySelected: 1,
-    picture:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/strawberry-cake-jpg-1522267153.jpg",
-  },
-  {
-    name: "chocolate chip cookies",
-    description: "Delicious Cookies made with milk",
-    cost: 30,
-    quantity: 10,
-    quantitySelected: 1,
-    picture:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt2GCYX2WAkr1UsFJBLvO0Vzaa81MVgWUySrAG-uDFOH3vD8gYonaN6rFuZ7Suq9V3vVI&usqp=CAU",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
 
 const Checkout = () => {
-  const [items, setItems] = useState([...staticItems]);
+  const cartItems = useSelector(state => [state.cartProducts]);
+  
+  const [items, setItems] = useState([cartItems]);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -131,7 +113,6 @@ const Checkout = () => {
                     <CartItem
                       item={item}
                       items={items}
-                      setItems={setItems}
                       total={total}
                       setTotal={setTotal}
                     />

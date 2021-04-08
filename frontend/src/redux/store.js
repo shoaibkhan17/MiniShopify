@@ -10,6 +10,7 @@ import {
   SET_PRODUCTS,
   ADD_PRODUCT,
   CREATE_SHOP,
+  ADD_PRODUCT_TO_CART,
 } from "./actionTypes";
 import firebase from "../services/firebase.config";
 
@@ -41,6 +42,7 @@ const initialState = {
   isAuthenticated: false,
   idToken: "",
   shops: [],
+  cartProducts: [],
   products: [],
   userShops: [],
 };
@@ -71,6 +73,11 @@ const myReducer = (state = initialState, action) => {
   if (action.type === SET_PRODUCTS) {
     newState.products = action.payload.products;
   }
+
+  if (action.type === ADD_PRODUCT_TO_CART) {
+    newState.cartProducts.push(action.payload.productAdded);
+  }
+
 
   if (action.type === SET_USER_SHOPS) {
     newState.userShops = action.payload.userShops;

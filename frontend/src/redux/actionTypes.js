@@ -9,3 +9,4 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 export const CREATE_SHOP = "CREATE_SHOP";
 export const SET_USER_SHOPS = "SET_USER_SHOPS";
 export const SET_PRODUCTS = "SET_PRODUCTS";
+export const ADD_PRODUCT_TO_CART = "ADD_PRODUCT_TO_CART";
