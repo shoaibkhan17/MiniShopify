@@ -10,6 +10,9 @@ import {
   DELETE_PRODUCT,
   ADD_PRODUCT,
   CREATE_SHOP,
+  ADD_PRODUCT_TO_CART,
+  UPDATE_CART,
+  DELETE_PRODUCT_FROM_CART,
 } from "./actionTypes";
 
 export const setAuthenticated = (flag) => ({
@@ -65,6 +68,27 @@ export const addProduct = (productAdded) => ({
   type: ADD_PRODUCT,
   payload: {
     productAdded: productAdded,
+  },
+});
+
+export const addProductToCart = (productAdded) => ({
+  type: ADD_PRODUCT_TO_CART,
+  payload: {
+    productAdded: productAdded,
+  },
+});
+
+export const deleteProductFromCart = (productDeleted) => ({
+  type: DELETE_PRODUCT_FROM_CART,
+  payload: {
+    productDeleted: productDeleted,
+  },
+});
+
+export const updateCart = (cartProducts) => ({
+  type: UPDATE_CART,
+  payload: {
+    cartProducts: cartProducts,
   },
 });
 

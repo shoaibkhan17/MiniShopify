@@ -113,6 +113,7 @@ class EditProduct extends React.Component {
           >
             <Product
               canEditProduct={false}
+              canOpen = {false}
               canBuy={false}
               product={this.getProductData()}
             />

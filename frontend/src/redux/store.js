@@ -10,6 +10,9 @@ import {
   SET_PRODUCTS,
   ADD_PRODUCT,
   CREATE_SHOP,
+  ADD_PRODUCT_TO_CART,
+  UPDATE_CART,
+  DELETE_PRODUCT_FROM_CART,
 } from "./actionTypes";
 import firebase from "../services/firebase.config";
 
@@ -41,12 +44,13 @@ const initialState = {
   isAuthenticated: false,
   idToken: "",
   shops: [],
+  cartProducts: [],
   products: [],
   userShops: [],
 };
 
 const myReducer = (state = initialState, action) => {
-  const newState = { ...state };
+  const newState = JSON.parse(JSON.stringify(state));
 
   if (action.type === SET_AUTHENTICATE) {
     newState.isAuthenticated = action.payload.isAuthenticated;
@@ -72,15 +76,65 @@ const myReducer = (state = initialState, action) => {
     newState.products = action.payload.products;
   }
 
+  if (action.type === ADD_PRODUCT_TO_CART) {
+    const cartProduct = action.payload.productAdded;
+
+    // Find the cart product in the cart list
+    const filteredList = newState.cartProducts.filter(
+      (product) => product.productID === cartProduct.productID
+    );
+
+    // The item does not exist in the cart
+    if (filteredList.length === 0) {
+      const newList = newState.cartProducts;
+      newList.push(cartProduct);
+      newState.cartProducts = newList;
+      // newState.cartProducts.push(cartProduct);
+    }
+
+    // If it does exist, update the selected quantity
+    else {
+      newState.cartProducts.forEach((product) => {
+        if (product.productID === cartProduct.productID) {
+          product.selectedQuantity += cartProduct.selectedQuantity;
+        }
+      });
+    }
+  }
+
+  if (action.type === UPDATE_CART) {
+    newState.cartProducts = action.payload.cartProducts;
+  }
+
+  if (action.type === DELETE_PRODUCT_FROM_CART) {
+    const cartProduct = action.payload.productDeleted;
+
+    // Find the cart product in the cart list
+    const filteredList = newState.cartProducts.filter(
+      (product) => product.productID !== cartProduct.productID
+    );
+
+    newState.cartProducts = filteredList;
+  }
+
   if (action.type === SET_USER_SHOPS) {
     newState.userShops = action.payload.userShops;
   }
 
   if (action.type === DELETE_SHOP) {
-    const filteredList = newState.shops.filter(
+    const filteredShopList = newState.shops.filter(
       (shop) => shop.shopID !== action.payload.shopID
     );
-    newState.shops = filteredList;
+
+    const user = firebase.auth().currentUser;
+    if (user !== null) {
+      const userShops = filteredShopList.filter(
+        (shop) => shop.ownerEmail === user.email
+      );
+      newState.userShops = userShops;
+    }
+
+    newState.shops = filteredShopList;
   }
 
   if (action.type === UPDATE_SHOP) {
@@ -88,6 +142,15 @@ const myReducer = (state = initialState, action) => {
       (shop) => shop.shopID !== action.payload.updatedShop.shopID
     );
     filteredList.push(action.payload.updatedShop);
+
+    const user = firebase.auth().currentUser;
+    if (user !== null) {
+      const userShops = filteredList.filter(
+        (shop) => shop.ownerEmail === user.email
+      );
+      newState.userShops = userShops;
+    }
+
     newState.shops = filteredList;
   }
 
@@ -103,6 +166,7 @@ const myReducer = (state = initialState, action) => {
   }
 
   if (action.type === CREATE_SHOP) {
+    newState.userShops.push(action.payload.createdShop);
     newState.shops.push(action.payload.createdShop);
   }
 

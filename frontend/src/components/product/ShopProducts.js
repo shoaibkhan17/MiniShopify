@@ -1,17 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import TopBar from "../topBar/TopBar";
-import HomeIcon from "@material-ui/icons/Home";
-import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import ShopService from "../../services/ShopService";
 import DisplayProducts from "./DisplayProducts";
-import { IconButton, Typography, Breadcrumbs, Link } from "@material-ui/core";
+import { Grid, IconButton, Typography } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddProduct from "./AddProduct";
 import firebase from "../../services/firebase.config";
+import { setProducts } from "../../redux/actions";
 
 const mapStateToProps = (state) => {
-  return { shops: state.shops, products: state.products };
+  return {
+    shops: state.shops,
+    products: state.products,
+    userShops: state.userShops,
+  };
 };
 
 class ShopProducts extends React.Component {
@@ -19,14 +22,21 @@ class ShopProducts extends React.Component {
     super(props);
     this.state = {
       shopID: this.props.match ? this.props.match.params.shopID : "",
-      myShop: null,
+      openedShop: null,
       addingProduct: false,
+      userShop: false,
     };
     this.getShopDetails = this.getShopDetails.bind(this);
     this.addProduct = this.addProduct.bind(this);
+    this.displayShopProducts = this.displayShopProducts.bind(this);
+    this.isUserShop = this.isUserShop.bind(this);
   }
 
   componentDidUpdate(prevProps, nextState) {}
+
+  componentWillUnmount() {
+    this.props.setProducts([]);
+  }
 
   componentDidMount() {
     this.getShopDetails();
@@ -38,7 +48,14 @@ class ShopProducts extends React.Component {
       const openedShop = this.props.shops
         .filter((shop) => shop.shopID === this.state.shopID)
         .pop();
-      this.setState({ myShop: openedShop });
+
+      this.setState({ openedShop: openedShop });
+      if (firebase.auth().currentUser) {
+        const userEmail = firebase.auth().currentUser.email;
+        if (openedShop.ownerEmail === userEmail) {
+          this.setState({ userShop: true });
+        }
+      }
     }
   }
 
@@ -54,57 +71,66 @@ class ShopProducts extends React.Component {
     await ShopService.getShopProducts(this.state.shopID);
   }
 
+  isUserShop() {
+    return false;
+  }
+
+  displayShopProducts() {
+    return (
+      <div>
+        <DisplayProducts
+          products={this.props.products}
+          isUserShop={this.state.userShop}
+          title={this.props.openedShop && this.props.openedShop.name}
+        />
+        {this.state.addingProduct && (
+          <AddProduct
+            shopID={this.state.shopID}
+            addingProduct={this.state.addingProduct}
+            onClose={() => this.closeAddProduct()}
+          />
+        )}
+        {this.state.userShop && (
+          <IconButton>
+            <AddCircleRoundedIcon
+              fontSize="large"
+              onClick={() => this.addProduct()}
+              style={{
+                color: "#43C701",
+              }}
+            />
+          </IconButton>
+        )}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div style={{ height: "100vh" }}>
         <TopBar />
-        <div style={{ height: "75%" }}>
-          <Breadcrumbs style={{ paddingTop: "50px" }}>
-            <Link
-              style={{
-                color: PRIMARY_THEME_COLOR,
-                cursor: "pointer",
-                display: "flex",
-              }}
-            >
-              <HomeIcon style={{ width: 20, height: 20 }} />
-              Browse Shops
-            </Link>
-            <Typography color="textPrimary">
-              {this.state.myShop && this.state.myShop.name}
-            </Typography>
-          </Breadcrumbs>
+        <div>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item>
+              <Typography
+                variant="h5"
+                style={{ paddingTop: "20px", fontFamily: "cursive" }}
+              >
+                {this.state.openedShop && this.state.openedShop.name}
+              </Typography>
+            </Grid>
 
-          <div>{this.state.myShop && this.state.myShop.name}</div>
-          <DisplayProducts
-            ownerEmail={this.state.myShop ? this.state.myShop.ownerEmail : ""}
-            products={this.props.products}
-          />
-          {this.state.addingProduct && (
-            <AddProduct
-              shopID={this.state.shopID}
-              addingProduct={this.state.addingProduct}
-              onClose={() => this.closeAddProduct()}
-            />
-          )}
-          {this.state.myShop &&
-            firebase.auth().currentUser &&
-            firebase.auth().currentUser.email ===
-              this.state.myShop.ownerEmail && (
-              <IconButton>
-                <AddCircleRoundedIcon
-                  fontSize="large"
-                  onClick={() => this.addProduct()}
-                  style={{
-                    color: "#43C701",
-                  }}
-                />
-              </IconButton>
-            )}
+            <Grid item>{this.displayShopProducts()}</Grid>
+          </Grid>
         </div>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, {})(ShopProducts);
+export default connect(mapStateToProps, { setProducts })(ShopProducts);

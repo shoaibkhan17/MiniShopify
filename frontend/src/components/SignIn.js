@@ -11,14 +11,15 @@ import {
   Tooltip,
   InputAdornment,
   IconButton,
+  Snackbar,
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { toast } from "bulma-toast";
 import "../styling/styles.css";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
+import { Alert } from "@material-ui/lab";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -37,10 +38,15 @@ class SignIn extends React.Component {
       authenticateFailed: false,
       redirectToCreateAccount: false,
       showPassword: false,
+      message: "",
+      openNotification: false,
+      signInSuccess: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.showNotificationPop = this.showNotificationPop.bind(this);
   }
 
   async handleSubmit() {
@@ -56,11 +62,10 @@ class SignIn extends React.Component {
         this.setState({ authenticateFailed: true });
       }
 
-      toast({
+      this.setState({
         message: message,
-        type: success ? "is-primary" : "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
+        openNotification: true,
+        signInSuccess: success,
       });
     }
   }
@@ -74,9 +79,33 @@ class SignIn extends React.Component {
     event.preventDefault();
   };
 
+  handleClose() {
+    this.setState({ openNotification: false });
+  }
+
+  showNotificationPop() {
+    return (
+      <Snackbar
+        open={this.state.openNotification}
+        autoHideDuration={6000}
+        onClose={this.handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={this.handleClose}
+          severity={this.state.signInSuccess ? "success" : "error"}
+          variant="filled"
+        >
+          {this.state.message}
+        </Alert>
+      </Snackbar>
+    );
+  }
+
   render() {
     return (
       <div>
+        {this.showNotificationPop()}
         {this.state.redirectToCreateAccount && (
           <Redirect to={{ pathname: "/create-account" }} />
         )}
