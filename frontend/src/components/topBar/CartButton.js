@@ -9,10 +9,6 @@ const mapStateToProps = (state) => {
 };
 
 class CartButton extends React.Component {
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.cartProducts.length);
-  }
-
   render() {
     return (
       <Route

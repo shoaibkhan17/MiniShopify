@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
 import Product from "./Product";
-import firebase from "../../services/firebase.config";
 
 class DisplayProducts extends React.Component {
   constructor(props) {
@@ -12,6 +11,8 @@ class DisplayProducts extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.displayProducts = this.displayProducts.bind(this);
+    this.displaySearchBar = this.displaySearchBar.bind(this);
   }
 
   componentDidMount() {
@@ -20,7 +21,7 @@ class DisplayProducts extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.products !== prevProps.products) {
-      this.setState({products: this.props.products})
+      this.setState({ products: this.props.products });
     }
   }
 
@@ -37,50 +38,59 @@ class DisplayProducts extends React.Component {
     }
   }
 
+  displayProducts() {
+    return (
+      <Grid
+        container
+        justify="center"
+        spacing={3}
+        style={{
+          margin: "2%",
+          width: "96%",
+        }}
+      >
+        {this.state.products &&
+          this.state.products.map((product) => (
+            <Grid item key={product.productID}>
+              <Product
+                canBuy={product.quantity > 0 ? true : false}
+                canOpen={true}
+                canEditProduct={this.props.isUserShop}
+                product={product}
+              />
+            </Grid>
+          ))}
+      </Grid>
+    );
+  }
+
+  displaySearchBar() {
+    return (
+      <div style={{ paddingTop: "20px", paddingBottom: "30px" }}>
+        <TextField
+          value={this.state.searchValue}
+          onChange={(event) => {
+            this.handleChange(event);
+          }}
+        />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div
         style={{
           width: "99vw",
-          height: "77vh",
+          height: this.props.isUserShop ? "80vh" : "77vh",
           overflowY: "auto",
           overflowX: "hidden",
         }}
       >
-        <div style={{ paddingTop: "20px", paddingBottom: "40px" }}>
-          <TextField
-            value={this.state.searchValue}
-            onChange={(event) => {
-              this.handleChange(event);
-            }}
-          />
-        </div>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>{this.displaySearchBar()}</Grid>
 
-        <Grid
-          container
-          justify="center"
-          spacing={3}
-          style={{
-            margin: "2%",
-            width: "96%",
-          }}
-        >
-          {this.state.products &&
-            this.state.products.map((product) => (
-              <Grid item key={product.productID}>
-                <Product
-                  canBuy={product.quantity > 0 ? true : false}
-                  canOpen={true}
-                  canEditProduct={
-                    firebase.auth().currentUser &&
-                    firebase.auth().currentUser.email === this.props.ownerEmail
-                      ? true
-                      : false
-                  }
-                  product={product}
-                />
-              </Grid>
-            ))}
+          <Grid item>{this.displayProducts()}</Grid>
         </Grid>
       </div>
     );

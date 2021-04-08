@@ -10,7 +10,11 @@ import firebase from "../../services/firebase.config";
 import { setProducts } from "../../redux/actions";
 
 const mapStateToProps = (state) => {
-  return { shops: state.shops, products: state.products };
+  return {
+    shops: state.shops,
+    products: state.products,
+    userShops: state.userShops,
+  };
 };
 
 class ShopProducts extends React.Component {
@@ -18,12 +22,14 @@ class ShopProducts extends React.Component {
     super(props);
     this.state = {
       shopID: this.props.match ? this.props.match.params.shopID : "",
-      myShop: null,
+      openedShop: null,
       addingProduct: false,
+      userShop: false,
     };
     this.getShopDetails = this.getShopDetails.bind(this);
     this.addProduct = this.addProduct.bind(this);
     this.displayShopProducts = this.displayShopProducts.bind(this);
+    this.isUserShop = this.isUserShop.bind(this);
   }
 
   componentDidUpdate(prevProps, nextState) {}
@@ -42,7 +48,14 @@ class ShopProducts extends React.Component {
       const openedShop = this.props.shops
         .filter((shop) => shop.shopID === this.state.shopID)
         .pop();
-      this.setState({ myShop: openedShop });
+
+      this.setState({ openedShop: openedShop });
+      if (firebase.auth().currentUser) {
+        const userEmail = firebase.auth().currentUser.email;
+        if (openedShop.ownerEmail === userEmail) {
+          this.setState({ userShop: true });
+        }
+      }
     }
   }
 
@@ -58,12 +71,17 @@ class ShopProducts extends React.Component {
     await ShopService.getShopProducts(this.state.shopID);
   }
 
+  isUserShop() {
+    return false;
+  }
+
   displayShopProducts() {
     return (
       <div>
         <DisplayProducts
-          ownerEmail={this.state.myShop ? this.state.myShop.ownerEmail : ""}
           products={this.props.products}
+          isUserShop={this.state.userShop}
+          title={this.props.openedShop && this.props.openedShop.name}
         />
         {this.state.addingProduct && (
           <AddProduct
@@ -72,20 +90,17 @@ class ShopProducts extends React.Component {
             onClose={() => this.closeAddProduct()}
           />
         )}
-        {this.state.myShop &&
-          firebase.auth().currentUser &&
-          firebase.auth().currentUser.email ===
-            this.state.myShop.ownerEmail && (
-            <IconButton>
-              <AddCircleRoundedIcon
-                fontSize="large"
-                onClick={() => this.addProduct()}
-                style={{
-                  color: "#43C701",
-                }}
-              />
-            </IconButton>
-          )}
+        {this.state.userShop && (
+          <IconButton>
+            <AddCircleRoundedIcon
+              fontSize="large"
+              onClick={() => this.addProduct()}
+              style={{
+                color: "#43C701",
+              }}
+            />
+          </IconButton>
+        )}
       </div>
     );
   }
@@ -94,7 +109,7 @@ class ShopProducts extends React.Component {
     return (
       <div style={{ height: "100vh" }}>
         <TopBar />
-        <div style={{ height: "90%" }}>
+        <div>
           <Grid
             container
             direction="column"
@@ -106,7 +121,7 @@ class ShopProducts extends React.Component {
                 variant="h5"
                 style={{ paddingTop: "20px", fontFamily: "cursive" }}
               >
-                {this.state.myShop && this.state.myShop.name}
+                {this.state.openedShop && this.state.openedShop.name}
               </Typography>
             </Grid>
 
