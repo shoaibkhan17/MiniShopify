@@ -11,6 +11,7 @@ import {
   ADD_PRODUCT,
   CREATE_SHOP,
   ADD_PRODUCT_TO_CART,
+  UPDATE_CART,
   DELETE_PRODUCT_FROM_CART,
 } from "./actionTypes";
 import firebase from "../services/firebase.config";
@@ -96,6 +97,10 @@ const myReducer = (state = initialState, action) => {
         }
       });
     }
+  }
+
+  if (action.type === UPDATE_CART) {
+    newState.cartProducts = action.payload.cartProducts;
   }
 
   if (action.type === DELETE_PRODUCT_FROM_CART) {

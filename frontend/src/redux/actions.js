@@ -11,6 +11,7 @@ import {
   ADD_PRODUCT,
   CREATE_SHOP,
   ADD_PRODUCT_TO_CART,
+  UPDATE_CART,
   DELETE_PRODUCT_FROM_CART,
 } from "./actionTypes";
 
@@ -81,6 +82,13 @@ export const deleteProductFromCart = (productDeleted) => ({
   type: DELETE_PRODUCT_FROM_CART,
   payload: {
     productDeleted: productDeleted,
+  },
+});
+
+export const updateCart = (cartProducts) => ({
+  type: UPDATE_CART,
+  payload: {
+    cartProducts: cartProducts,
   },
 });
 

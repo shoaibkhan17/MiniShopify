@@ -14,6 +14,7 @@ class Checkout extends React.Component {
     super(props);
     this.state = {
       total: 0,
+      items: [],
     };
 
     // this.setItems = this.setItems.bind(this);
@@ -25,8 +26,21 @@ class Checkout extends React.Component {
     this.calculateTotal();
   }
 
+  componentWillUnmount() {
+    console.log("unmounting");
+
+    console.log(this.props.cartProducts);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // if (this.props.cartProducts.length !== this.prevProps.cartProducts.length) {
+    //   this.setState({ items: this.props.cartProducts });
+    // }
+  }
+
   calculateTotal() {
     var total = 0;
+    const list = [];
     this.props.cartProducts.forEach((item) => {
       total += item.cost * item.selectedQuantity;
     });
@@ -54,8 +68,9 @@ class Checkout extends React.Component {
             style={{
               minWidth: "40vw",
               minHeight: "50vh",
-              borderRadius: "5px",
-              boxShadow: "-2px 0px 5px rgba(0, 0, 0, 0.3)",
+              boxShadow:
+                "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px",
+              borderRadius: "16px",
             }}
           >
             <CardContent>
