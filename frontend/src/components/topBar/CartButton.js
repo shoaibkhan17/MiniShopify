@@ -1,9 +1,18 @@
-import { IconButton, Icon, Tooltip, Badge } from "@material-ui/core";
+import { IconButton, Tooltip, Badge } from "@material-ui/core";
 import React from "react";
 import { Route } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { connect } from "react-redux";
+
+const mapStateToProps = (state) => {
+  return { cartProducts: state.cartProducts };
+};
 
 class CartButton extends React.Component {
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.cartProducts.length);
+  }
+
   render() {
     return (
       <Route
@@ -15,7 +24,10 @@ class CartButton extends React.Component {
               }}
               style={{ marginRight: "10px" }}
             >
-              <Badge badgeContent={1} color="primary">
+              <Badge
+                badgeContent={this.props.cartProducts.length}
+                color="primary"
+              >
                 <ShoppingCartIcon htmlColor="white" />
               </Badge>
             </IconButton>
@@ -26,4 +38,4 @@ class CartButton extends React.Component {
   }
 }
 
-export default CartButton;
+export default connect(mapStateToProps, {})(CartButton);

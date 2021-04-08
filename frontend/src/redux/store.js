@@ -50,7 +50,7 @@ const initialState = {
 };
 
 const myReducer = (state = initialState, action) => {
-  const newState = { ...state };
+  const newState = JSON.parse(JSON.stringify(state));
 
   if (action.type === SET_AUTHENTICATE) {
     newState.isAuthenticated = action.payload.isAuthenticated;
@@ -86,7 +86,10 @@ const myReducer = (state = initialState, action) => {
 
     // The item does not exist in the cart
     if (filteredList.length === 0) {
-      newState.cartProducts.push(cartProduct);
+      const newList = newState.cartProducts;
+      newList.push(cartProduct);
+      newState.cartProducts = newList;
+      // newState.cartProducts.push(cartProduct);
     }
 
     // If it does exist, update the selected quantity
@@ -105,14 +108,12 @@ const myReducer = (state = initialState, action) => {
 
   if (action.type === DELETE_PRODUCT_FROM_CART) {
     const cartProduct = action.payload.productDeleted;
-    console.log("product to delete:" + cartProduct);
 
-     // Find the cart product in the cart list
+    // Find the cart product in the cart list
     const filteredList = newState.cartProducts.filter(
       (product) => product.productID !== cartProduct.productID
     );
-    
-    console.log("new cart products:" + filteredList);
+
     newState.cartProducts = filteredList;
   }
 
