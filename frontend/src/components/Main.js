@@ -10,6 +10,7 @@ import SignIn from "./SignIn";
 import Home from "./Home";
 import { connect } from "react-redux";
 import Checkout from "./Checkout/Checkout";
+import ShopProducts from "./product/ShopProducts";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -32,10 +33,16 @@ class Main extends React.Component {
           <Switch>
             <Route path="/sign-in" exact component={() => <SignIn />} />
 
-            <Route path="/create-account" component={() => <CreateAccount />} />
+            <Route
+              path="/create-account"
+              exact
+              component={() => <CreateAccount />}
+            />
 
-            <Route path="/home" component={() => <Home />} />
             <Route path="/checkout" component={() => <Checkout />} />
+            <Route path="/home" exact component={() => <Home />} />
+
+            <Route path="/shop/:shopID" component={ShopProducts} />
 
             <Route render={() => <Redirect to="/home" />} />
           </Switch>

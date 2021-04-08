@@ -16,16 +16,17 @@ public class Product {
 		this.picture = "";
 	}
 
-	public Product(String name, String description, int quantity, double cost, String picture) {
+	public Product(String name, String description, int quantity, double cost, String picture, String shopID) {
 		this.name = name;
 		this.description = description;
 		this.quantity = quantity;
 		this.cost = cost;
-		this.setPicture(picture);
+		this.shopID = shopID;
+		this.picture = picture;
 	}
 
 	public boolean isProductNotEmpty() {
-		return !shopID.isEmpty() && !productID.isEmpty() && !name.isEmpty() && !description.isEmpty() && cost != 0;
+		return !shopID.isEmpty() && !name.isEmpty() && !description.isEmpty() && cost != 0;
 	}
 
 	public String getProductID() {

@@ -3,34 +3,30 @@ package config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
-import com.google.common.collect.ImmutableList;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-
-import javax.servlet.http.Cookie;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 public class FirebaseInitialize {
+
+	private static final String FIREBASE_CONFIG_FILE_PATH = "firebase-config.json";
+	private static final String FIREBASE_DATABASE_URL = "https://minishopify-sysc4806-default-rtdb.firebaseio.com";
 	
 	@Primary
 	@Bean
 	public FirebaseApp firebaseInit() throws IOException {
-		FileInputStream serviceAccount = new FileInputStream("firebase-config.json");
+		FileInputStream serviceAccount = new FileInputStream(FIREBASE_CONFIG_FILE_PATH);
 
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				.setDatabaseUrl("https://minishopify-sysc4806-default-rtdb.firebaseio.com").build();
+				.setDatabaseUrl(FIREBASE_DATABASE_URL).build();
 
 		if (FirebaseApp.getApps().isEmpty()) {
 			FirebaseApp.initializeApp(options);
@@ -51,7 +47,7 @@ public class FirebaseInitialize {
 
 	@Bean
 	public Firestore getDatabase() throws IOException {
-		FileInputStream serviceAccount = new FileInputStream("firebase-config.json");
+		FileInputStream serviceAccount = new FileInputStream(FIREBASE_CONFIG_FILE_PATH);
 
 		FirestoreOptions firestoreOptions = FirestoreOptions.newBuilder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();

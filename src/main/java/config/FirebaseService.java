@@ -1,7 +1,6 @@
 package config;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
@@ -13,19 +12,20 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.cloud.FirestoreClient;
 
+import models.CartItem;
 import models.Product;
 import models.Shop;
 import models.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -60,37 +60,46 @@ public class FirebaseService {
 		return false;
 	}
 
-	public boolean addShop(Shop shop) throws ExecutionException, InterruptedException {		
+	public Shop addShop(Shop shop) throws ExecutionException, InterruptedException {
 		//check if the given shop has all the required fields
+		System.out.println("BEFORE CREATE A SHOP!!_---------------------------------------------------------------------------------: " + shop.isShopNotEmpty());
+		
 		if(shop != null && shop.isShopNotEmpty()) {
+			System.out.println("TRYING TO CREATE A SHOP!!_---------------------------------------------------------------------------------");
 			Firestore firebaseDB = FirestoreClient.getFirestore();
 			DocumentReference documentReference = firebaseDB.collection("shops").document();
 
-			if(shop.getShopID() == null) {
+			if(shop.getShopID().isEmpty()) {
 				//set shop id from document (auto-generated from firebase)
 				shop.setShopID(documentReference.getId());
 			}
 
 			//add a new shop
 			documentReference.set(shop);
-			return true;
+			return shop;
 		}
 
-		return false;
+		return null;
 	}
 
-	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException {
+	public boolean deleteShop(String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
-		DocumentReference documentReference = firebaseDB.collection("shops").document(shopID);
+		DocumentReference shopReference = firebaseDB.collection("shops").document(shopID);
+		ApiFuture<DocumentSnapshot> shopSnapshot = shopReference.get();
+		DocumentSnapshot shopDocument = shopSnapshot.get();
 
-		if(documentReference != null) {
-			documentReference.delete();
+		if(shopDocument.exists()) {
+			for(Product p: getProducts(shopID)) {
+				firebaseDB.collection("products").document(p.getProductID()).delete();
+			}
+
+			shopReference.delete();
 			return true;
 		}
 		return false;
 	}
 
-	public boolean updateShop(Shop shop) throws ExecutionException, InterruptedException {
+	public Shop updateShop(Shop shop) throws ExecutionException, InterruptedException {
 		//check if the given shop has all the required fields
 		if(shop != null && shop.isShopNotEmpty()) {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
@@ -98,12 +107,23 @@ public class FirebaseService {
 
 			//update the shop with the new fields
 			documentReference.set(shop);			
-			return true;
+			return shop;
 		}
 
-		return false;
+		return null;
 	}
 
+	public Product updateProduct(Product product) throws ExecutionException, InterruptedException{
+		if(product != null){
+			Firestore firebaseDB = FirestoreClient.getFirestore();
+			DocumentReference documentReference = firebaseDB.collection("products").document(product.getProductID());
+
+			//update the product with the new fields
+			documentReference.set(product);
+			return product;
+		}
+		return null;
+	}
 
 	public ArrayList<Shop> getShops() throws ExecutionException, InterruptedException {
 		ArrayList<Shop> allShops = new ArrayList<Shop>();
@@ -133,7 +153,7 @@ public class FirebaseService {
 
 		//go through all the products and only return the products specific to the shop
 		for (QueryDocumentSnapshot document : documents) {
-			System.out.println(document.getId() + " => " + document.toObject(Shop.class));
+			//System.out.println(document.getId() + " => " + document.toObject(Shop.class));
 
 			Product product = document.toObject(Product.class);
 			//check if product exists
@@ -146,18 +166,23 @@ public class FirebaseService {
 		return allProducts;
 	}
 
-	public boolean addProduct(Product product) throws ExecutionException, InterruptedException {
+	public Product addProduct(Product product) throws ExecutionException, InterruptedException {
 		//check if the given product has all the required fields
 		if(product != null && product.isProductNotEmpty()) {
 			Firestore firebaseDB = FirestoreClient.getFirestore();
 			DocumentReference documentReference = firebaseDB.collection("products").document();
 
+			if(product.getProductID() == null) {
+				//set product id from document (auto-generated from firebase)
+				product.setProductID(documentReference.getId());
+			}
+
 			//add a new product
 			documentReference.set(product);
-			return true;
+			return product;
 		}
 
-		return false;
+		return null;
 	}
 
 	public boolean deleteProduct(String productID) throws ExecutionException, InterruptedException {
@@ -171,7 +196,6 @@ public class FirebaseService {
 		}
 		return false;
 	}
-
 
 	public User getUserDetails(String email) throws ExecutionException, InterruptedException {
 		Firestore firebaseDB = FirestoreClient.getFirestore();
@@ -188,5 +212,45 @@ public class FirebaseService {
 		else {
 			return null;
 		}
+	}
+
+	public ArrayList<CartItem> checkOutProducts(List<CartItem>  cartItems) throws InterruptedException, ExecutionException {
+		ArrayList<CartItem>  checkedOutItems = new ArrayList<CartItem>();
+		Firestore firebaseDB = FirestoreClient.getFirestore();
+		//get all products
+		ApiFuture<QuerySnapshot> future = firebaseDB.collection("products").get();
+
+		List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+		//go through all the products in the DB to find the products to remove
+		for (QueryDocumentSnapshot document : documents) {
+			Product product = document.toObject(Product.class);
+
+			//find the products to be removed
+			for(CartItem cartitem: cartItems){
+				String cartProductID = cartitem.getProductID();
+				int cartProductQuantity = cartitem.getQuantity();
+
+				if(cartProductID.equals(product.getProductID())) {
+					//subtract the checked out amount from the available quantity
+					product.setQuantity(product.getQuantity() - cartProductQuantity);
+					
+					//delete the product if it has no more quantity
+					if(product.getQuantity() == 0) {
+						firebaseDB.collection("products").document(cartProductID).delete();
+					}
+					//update firestore with new quantity
+					else {
+						DocumentReference productReference = firebaseDB.collection("products").document(cartProductID);
+						productReference.set(product);
+					}
+
+					//return the new product quantity with the product id
+					checkedOutItems.add(new CartItem(cartProductID, product.getQuantity()));
+				}
+
+			}
+		}
+		return checkedOutItems;
 	}
 }

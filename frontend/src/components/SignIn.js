@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router";
-import UserService from "../services/UserService";
+import AuthService from "../services/AuthService";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
 import {
@@ -13,12 +13,12 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { teal } from "@material-ui/core/colors";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { toast } from "bulma-toast";
 import "../styling/styles.css";
+import { PRIMARY_THEME_COLOR } from "../constants/constants";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -43,20 +43,6 @@ class SignIn extends React.Component {
     this.toggleVisibility = this.toggleVisibility.bind(this);
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (
-  //     nextState.email !== this.state.email ||
-  //     nextState.password !== this.state.password ||
-  //     nextProps.isAuthenticated !== this.props.isAuthenticated ||
-  //     nextState.authenticateFailed !== this.state.authenticateFailed ||
-  //     nextState.redirectToCreateAccount !== this.state.redirectToCreateAccount ||
-  //     nextState.toggle
-  //   ) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   async handleSubmit() {
     var user = {
       email: this.state.email,
@@ -64,14 +50,10 @@ class SignIn extends React.Component {
     };
 
     if (user.email !== "" && user.password !== "") {
-      var [success, message] = await UserService.signIn(user);
-      console.log("success:" + success);
-      console.log("message:" + message);
+      var [success, message] = await AuthService.signIn(user);
 
       if (!success) {
         this.setState({ authenticateFailed: true });
-      } else {
-        this.props.setAuthenticated(success);
       }
 
       toast({
@@ -94,7 +76,7 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: teal[50] }}>
+      <div>
         {this.state.redirectToCreateAccount && (
           <Redirect to={{ pathname: "/create-account" }} />
         )}
@@ -147,11 +129,6 @@ class SignIn extends React.Component {
                   </Tooltip>
                 </div>
               </div>
-              {/* <Alert severity="info" variant="filled">
-                <p>
-                  Use email : test / password : test
-                </p>
-              </Alert> */}
               <form
                 style={{ width: "100%", marginTop: "1px" }}
                 noValidate
@@ -164,7 +141,7 @@ class SignIn extends React.Component {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <AccountCircle htmlColor="rgb(0, 171, 85)" />
+                        <AccountCircle htmlColor={PRIMARY_THEME_COLOR} />
                       </InputAdornment>
                     ),
                   }}
@@ -194,9 +171,9 @@ class SignIn extends React.Component {
                       <InputAdornment position="end">
                         <IconButton onClick={this.toggleVisibility}>
                           {this.state.showPassword ? (
-                            <Visibility htmlColor="rgb(0, 171, 85)" />
+                            <Visibility htmlColor={PRIMARY_THEME_COLOR} />
                           ) : (
-                            <VisibilityOff htmlColor="rgb(0, 171, 85)" />
+                            <VisibilityOff htmlColor={PRIMARY_THEME_COLOR} />
                           )}
                         </IconButton>
                       </InputAdornment>
@@ -224,7 +201,7 @@ class SignIn extends React.Component {
                   style={{
                     padding: "10px",
                     margin: theme.spacing(3, 0, 2),
-                    backgroundColor: "rgb(0, 171, 85)",
+                    backgroundColor: PRIMARY_THEME_COLOR,
                     borderRadius: "12px",
                   }}
                   onClick={this.handleSubmit}
