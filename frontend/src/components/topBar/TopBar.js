@@ -131,7 +131,7 @@ class TopBar extends React.Component {
             <RedirectHomeButton />
             {this.props.isAuthenticated && <RedirectUserShopsButton />}
             <Typography variant="h6" style={{ flexGrow: 1 }}></Typography>
-            <CartButton />
+            {!this.props.inCart && <CartButton />}
             {this.props.isAuthenticated && (
               <IconButton edge="end" color="inherit" onClick={this.openMenu}>
                 <AccountCircle fontSize="large" />
