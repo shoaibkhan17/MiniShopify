@@ -34,7 +34,11 @@ class UserShops extends React.Component {
         {/** Redirect to home page if you're not authenticated anymore */}
         {!this.props.isAuthenticated && <Redirect to={{ pathname: "/home" }} />}
         <TopBar />
-        <BrowseShops shops={this.props.userShops} canEdit={true} />
+        <BrowseShops
+          shops={this.props.userShops}
+          canEdit={true}
+          title={"My Shops"}
+        />
 
         <IconButton onClick={this.addNewShop}>
           <AddCircleRoundedIcon

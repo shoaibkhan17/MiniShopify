@@ -10,7 +10,11 @@ class BrowseShops extends React.Component {
   render() {
     return (
       <div>
-        <DisplayShops shops={this.props.shops} canEdit={this.props.canEdit} />
+        <DisplayShops
+          shops={this.props.shops}
+          canEdit={this.props.canEdit}
+          title={this.props.title}
+        />
       </div>
     );
   }

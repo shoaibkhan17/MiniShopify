@@ -28,7 +28,11 @@ class Home extends React.Component {
     return (
       <div style={{ height: "100vh" }}>
         <TopBar />
-        <BrowseShops shops={this.props.shops} canEdit={false} />
+        <BrowseShops
+          shops={this.props.shops}
+          canEdit={false}
+          title={"Browse Shops"}
+        />
       </div>
     );
   }

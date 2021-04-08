@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, Typography } from "@material-ui/core";
 import Shop from "./Shop";
 import Select from "@material-ui/core/Select";
 
@@ -17,6 +17,8 @@ class DisplayShops extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.setShopAndShopTags = this.setShopAndShopTags.bind(this);
+    this.displayShops = this.displayShops.bind(this);
+    this.displaySearchBar = this.displaySearchBar.bind(this);
   }
 
   componentDidMount() {
@@ -65,9 +67,31 @@ class DisplayShops extends React.Component {
     }
   }
 
-  render() {
+  displayShops() {
     return (
-      <div>
+      <div
+        style={{
+          width: "99vw",
+          height: this.props.canEdit ? "70vh" : "77vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
+      >
+        <Grid container justify="center" spacing={3}>
+          {this.state.shops &&
+            this.state.shops.map((shop) => (
+              <Grid item key={shop.shopID}>
+                <Shop canEdit={this.props.canEdit} canOpen={true} shop={shop} />
+              </Grid>
+            ))}
+        </Grid>
+      </div>
+    );
+  }
+
+  displaySearchBar() {
+    return (
+      <div style={{ paddingTop: "20px", paddingBottom: "40px" }}>
         <TextField
           value={this.state.searchValue}
           onChange={(event) => {
@@ -89,31 +113,26 @@ class DisplayShops extends React.Component {
               </option>
             ))}
         </Select>
-        <Grid
-          container
-          justify="center"
-          spacing={3}
-          style={{
-            margin: "2%",
-            width: "96%",
-          }}
-        >
-          {this.state.shops &&
-            this.state.shops.map((shop) => (
-              <Grid item key={shop.shopID}>
-                <Shop
-                  canEdit={
-                    this.props.canEdit
-                    // firebase.auth().currentUser &&
-                    // firebase.auth().currentUser.email === shop.ownerEmail
-                    //   ? true
-                    //   : false
-                  }
-                  canOpen={true}
-                  shop={shop}
-                />
-              </Grid>
-            ))}
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>
+            <Typography
+              variant="h5"
+              style={{ paddingTop: "20px", fontFamily: "cursive" }}
+            >
+              {this.props.title}
+            </Typography>
+          </Grid>
+
+          <Grid item>{this.displaySearchBar()}</Grid>
+
+          <Grid item>{this.displayShops()}</Grid>
         </Grid>
       </div>
     );
