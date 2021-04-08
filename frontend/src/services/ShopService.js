@@ -30,6 +30,8 @@ const UPDATE_PRODUCT_URL = endpoint + "api/shop/protected/updateProduct";
 const DELETE_PRODUCT_URL = endpoint + "api/shop/protected/deleteProduct";
 const ADD_PRODUCT_URL = endpoint + "api/shop/protected/addProduct";
 
+const CHECKOUT_CART_PRODUCTS_URL = endpoint + "api/cart/checkout";
+
 class ShopService {
   getHeaders() {
     const config = {
@@ -48,6 +50,24 @@ class ShopService {
       .then((res) => {
         if (res.data !== null && res.data !== "") {
           store.dispatch(createShop(res.data));
+          return true;
+        }
+        return false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+  }
+
+  async checkoutCartProducts(checkoutProductsList) {
+    var config = this.getHeaders();
+
+    return axios
+      .post(CHECKOUT_CART_PRODUCTS_URL, checkoutProductsList, config)
+      .then((res) => {
+        if (res.data !== null && res.data !== "") {
+          store.dispatch()
           return true;
         }
         return false;

@@ -76,6 +76,22 @@ class Checkout extends React.Component {
     this.setState({ total: cost });
   }
 
+  async checkoutProducts(){
+    var checkoutProductsList = [];
+
+    this.props.cartProducts.forEach((item) => {
+     console.log("checking out: " + item.name + ", quantity: " + item.selectedQuantity);
+     var obj = {
+       productID: item.productID,
+       quantity: item.selectedQuantity
+     }
+     checkoutProductsList.push(obj);
+    });
+
+    const success = await ShopService.checkoutCartProducts(checkoutProductsList);
+    console.log(success);
+  }
+
   render() {
     return (
       <div

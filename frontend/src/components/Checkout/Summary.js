@@ -156,5 +156,6 @@ class Summary extends React.Component {
     );
   }
 }
+        onClick={props.checkoutProducts}
 
 export default Summary;

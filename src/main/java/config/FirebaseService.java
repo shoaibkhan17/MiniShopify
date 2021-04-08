@@ -235,20 +235,13 @@ public class FirebaseService {
 					//subtract the checked out amount from the available quantity
 					product.setQuantity(product.getQuantity() - cartProductQuantity);
 					
-					//delete the product if it has no more quantity
-					if(product.getQuantity() == 0) {
-						firebaseDB.collection("products").document(cartProductID).delete();
-					}
 					//update firestore with new quantity
-					else {
-						DocumentReference productReference = firebaseDB.collection("products").document(cartProductID);
-						productReference.set(product);
-					}
+					DocumentReference productReference = firebaseDB.collection("products").document(cartProductID);
+					productReference.set(product);
 
 					//return the new product quantity with the product id
 					checkedOutItems.add(new CartItem(cartProductID, product.getQuantity()));
 				}
-
 			}
 		}
 		return checkedOutItems;
