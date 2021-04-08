@@ -1,7 +1,6 @@
 import React from "react";
 import AuthService from "../services/AuthService";
 import { Redirect } from "react-router";
-import { toast } from "bulma-toast";
 import {
   Grid,
   Typography,
@@ -10,6 +9,7 @@ import {
   Tooltip,
   InputAdornment,
   IconButton,
+  Snackbar,
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
@@ -19,6 +19,7 @@ import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import { connect } from "react-redux";
 import { setAuthenticated } from "../redux/actions";
 import { PRIMARY_THEME_COLOR } from "../constants/constants";
+import { Alert } from "@material-ui/lab";
 
 const theme = createMuiTheme({
   spacing: [0, 4, 8, 16, 32, 64],
@@ -38,14 +39,42 @@ class CreateAccount extends React.Component {
       redirectToSignIn: false,
       showPassword: false,
       registrationFailed: false,
+      message: "",
+      openNotification: false,
+      createAccountSuccess: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.showNotificationPop = this.showNotificationPop.bind(this);
   }
 
   toggleVisibility() {
     const visibility = this.state.showPassword;
     this.setState({ showPassword: !visibility });
+  }
+
+  handleClose() {
+    this.setState({ openNotification: false });
+  }
+
+  showNotificationPop() {
+    return (
+      <Snackbar
+        open={this.state.openNotification}
+        autoHideDuration={6000}
+        onClose={this.handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={this.handleClose}
+          severity={this.state.createAccountSuccess ? "success" : "error"}
+          variant="filled"
+        >
+          {this.state.message}
+        </Alert>
+      </Snackbar>
+    );
   }
 
   async handleSubmit() {
@@ -62,11 +91,10 @@ class CreateAccount extends React.Component {
         this.setState({ registrationFailed: true });
       }
 
-      toast({
+      this.setState({
         message: message,
-        type: success ? "is-primary" : "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
+        openNotification: true,
+        createAccountSuccess: success,
       });
     }
   }
@@ -74,6 +102,7 @@ class CreateAccount extends React.Component {
   render() {
     return (
       <div>
+        {this.showNotificationPop()}
         {this.state.redirectToSignIn && (
           <Redirect to={{ pathname: "/sign-in" }} />
         )}
@@ -129,7 +158,6 @@ class CreateAccount extends React.Component {
                 action={undefined}
               >
                 <Grid container style={{ flexGrow: 1 }}>
-                  {/* <Grid sm={6} item style={{ paddingRight: "10px" }}> */}
                   <Grid sm={12} item>
                     <TextField
                       InputProps={{
@@ -154,40 +182,10 @@ class CreateAccount extends React.Component {
                       autoFocus
                     />
                   </Grid>
-                  {/* <Grid sm={6} item style={{ paddingLeft: "10px" }}>
-                    <TextField
-                      helperText={
-                        this.state.registrationFailed
-                          ? "Account Already Exists"
-                          : ""
-                      }
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <AccountCircle htmlColor="rgb(0, 171, 85)" />
-                          </InputAdornment>
-                        ),
-                      }}
-                      value={this.state.username}
-                      onChange={(event) =>
-                        this.setState({ username: event.target.value })
-                      }
-                      error={this.state.registrationFailed}
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                      label="Username"
-                      name="username"
-                      required
-                      autoFocus
-                    />
-                  </Grid> */}
                 </Grid>
                 <TextField
                   helperText={
-                    this.state.registrationFailed
-                      ? "Account Already Exists"
-                      : ""
+                    this.state.registrationFailed ? "Incorrect Entry" : ""
                   }
                   InputProps={{
                     startAdornment: (
