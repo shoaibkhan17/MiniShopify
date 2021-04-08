@@ -18,6 +18,12 @@ class DisplayProducts extends React.Component {
     this.setState({ products: this.props.products });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.products !== prevProps.products) {
+      this.setState({products: this.props.products})
+    }
+  }
+
   handleChange(event) {
     this.setState({ searchValue: event.target.value });
     if (event.target.value === "") {
