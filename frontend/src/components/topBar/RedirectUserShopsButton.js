@@ -15,7 +15,7 @@ class RedirectUserShopsButton extends React.Component {
               fontVariant: "unicase",
             }}
             onClick={() => {
-              history.push("/home");
+              history.push("/my-shops");
             }}
           >
             My Shops

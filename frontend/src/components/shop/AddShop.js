@@ -46,6 +46,7 @@ class AddShop extends React.Component {
   }
 
   async addShop() {
+    console.log(this.state.name);
     if (this.state.name !== "" && this.state.description !== "") {
       var success = await ShopService.createShop(this.getShopData());
 

@@ -46,8 +46,7 @@ class ShopService {
     return axios
       .post(CREATE_SHOP_URL, createdShop, config)
       .then((res) => {
-        if (res.data) {
-          console.log(res.data);
+        if (res.data !== null && res.data !== "") {
           store.dispatch(createShop(res.data));
           return true;
         }

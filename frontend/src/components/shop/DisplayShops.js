@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { Grid, IconButton, TextField } from "@material-ui/core";
 import { setShops } from "../../redux/actions";
-import ShopService from "../../services/ShopService";
 import Shop from "./Shop";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddShop from "./AddShop";
@@ -10,9 +9,6 @@ import Select from "@material-ui/core/Select";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import firebase from "../../services/firebase.config";
 
-const mapStateToProps = (state) => {
-  return { shops: state.shops };
-};
 class DisplayShops extends React.Component {
   constructor(props) {
     super(props);
@@ -24,16 +20,15 @@ class DisplayShops extends React.Component {
       searchValue: "",
     };
 
-    this.getShops = this.getShops.bind(this);
-    this.addNewShop = this.addNewShop.bind(this);
-    this.closeAddShop = this.closeAddShop.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.setShopAndShopTags = this.setShopAndShopTags.bind(this);
   }
 
   componentDidMount() {
-    this.getShops();
+    if (this.props.shops) {
+      this.setShopAndShopTags();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -50,18 +45,6 @@ class DisplayShops extends React.Component {
       });
     });
     this.setState({ shops: this.props.shops, tags: Array.from(tagsList) });
-  }
-
-  addNewShop() {
-    this.setState({ addingShop: true });
-  }
-
-  closeAddShop() {
-    this.setState({ addingShop: false });
-  }
-
-  async getShops() {
-    await ShopService.getAllShops();
   }
 
   handleChange(event) {
@@ -125,11 +108,12 @@ class DisplayShops extends React.Component {
             this.state.shops.map((shop) => (
               <Grid item key={shop.shopID}>
                 <Shop
-                  canEditShop={
-                    firebase.auth().currentUser &&
-                    firebase.auth().currentUser.email === shop.ownerEmail
-                      ? true
-                      : false
+                  canEdit={
+                    this.props.canEdit
+                    // firebase.auth().currentUser &&
+                    // firebase.auth().currentUser.email === shop.ownerEmail
+                    //   ? true
+                    //   : false
                   }
                   canOpen={true}
                   shop={shop}
@@ -137,30 +121,9 @@ class DisplayShops extends React.Component {
               </Grid>
             ))}
         </Grid>
-
-        {this.state.addingShop && (
-          <AddShop
-            addingShop={this.state.addingShop}
-            onClose={this.closeAddShop}
-            ownerEmail={
-              firebase.auth().currentUser
-                ? firebase.auth().currentUser.email
-                : ""
-            }
-          />
-        )}
-
-        {firebase.auth().currentUser && (
-          <IconButton onClick={this.addNewShop}>
-            <AddCircleRoundedIcon
-              fontSize="large"
-              htmlColor={PRIMARY_THEME_COLOR}
-            />
-          </IconButton>
-        )}
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, { setShops })(DisplayShops);
+export default DisplayShops;
