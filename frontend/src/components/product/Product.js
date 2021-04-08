@@ -10,6 +10,7 @@ import {
   CardContent,
   Divider,
   Zoom,
+  Chip,
 } from "@material-ui/core";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
@@ -128,6 +129,9 @@ class Product extends React.Component {
                   }}
                 />
               </IconButton>
+            )}
+            {!this.props.canBuy && this.props.canOpen && (
+              <Chip label="OUT OF STOCK" color="secondary" />
             )}
           </CardContent>
         </Card>

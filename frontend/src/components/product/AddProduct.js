@@ -80,6 +80,7 @@ class AddProduct extends React.Component {
             <Product
               canEditProduct={false}
               canBuy={false}
+              canOpen={false}
               product={this.getProductData()}
             />
           </div>

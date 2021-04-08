@@ -63,7 +63,8 @@ class DisplayProducts extends React.Component {
             this.state.products.map((product) => (
               <Grid item key={product.productID}>
                 <Product
-                  canBuy={true}
+                  canBuy={product.quantity > 0 ? true : false}
+                  canOpen={true}
                   canEditProduct={
                     firebase.auth().currentUser &&
                     firebase.auth().currentUser.email === this.props.ownerEmail
