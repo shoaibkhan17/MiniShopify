@@ -22,9 +22,6 @@ import java.util.List;
 @SpringBootApplication(scanBasePackages = {"controllers", "config"})
 public class MiniShopifyApplication implements  CommandLineRunner {
 
-	@Autowired
-	FirebaseService firebaseService;
-	
     public static void main(String[] args) {
         SpringApplication.run(MiniShopifyApplication.class);
     }
@@ -32,34 +29,38 @@ public class MiniShopifyApplication implements  CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-//		String name = "Pineapple Store";
-//		String description = "A store to sell kiwi";
+//		String name = "Pineapple";
+//		String description = "A Pineapple";
 //		String picture = "https://images.unsplash.com/photo-1521997888043-aa9c827744f8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
-//		String userEmail = "demo@minishopify.com";
-//		ArrayList<String> tag =  new ArrayList<>(Arrays.asList("Kiwi", "Tropical", "Fruits", "Green"));
-		
-//		String name1 = "Banana Store";
-//		String description1 = "A store to sell bananas";
+//		String shopID = "5NlVezyfgEN3AeBbpKvI";
+//		int quantity = 2;
+//		int cost = 2;
+//		
+//		String name1 = "Mango";
+//		String description1 = "A Mango";
 //		String picture1 = "https://images.unsplash.com/photo-1591073113125-e46713c829ed?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=967&q=80D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80";
-//		String userEmail1 = "demo@minishopify.com";
-//		ArrayList<String> tag1 =  new ArrayList<>(Arrays.asList("Banana", "Fruits"));
+//		String shopID1 = "5NlVezyfgEN3AeBbpKvI";
+//		int quantity1 = 3;
+//		int cost1 = 4;
 //		
-//		String name2 = "Mango Store";
-//		String description2 = "A store to sell mangos";
-//		String picture2 = "https://images.unsplash.com/photo-1591073113125-e46713c829ed?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=967&q=80D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80";
-//		String userEmail2 = "demo@minishopify.com";
-//		ArrayList<String> tag2 =  new ArrayList<>(Arrays.asList("Mango"));
+//		String name2 = "Kiwi";
+//		String description2 = "A Kiwi";
+//		String picture2 = "https://images.unsplash.com/photo-1521997888043-aa9c827744f8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
+//		String shopID2 = "5NlVezyfgEN3AeBbpKvI";
+//		int quantity2 = 4;
+//		int cost2 = 6;
 //		
-//		String name3 = "Watermelon Store";
-//		String description3 = "A store to sell watermelon";
+//		String name3 = "Watermelon";
+//		String description3 = "A Watermelon";
 //		String picture3 = "https://images.unsplash.com/photo-1595475207225-428b62bda831?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80";
-//		String userEmail3 = "demo@minishopify.com";
-//		ArrayList<String> tag3 =  new ArrayList<>(Arrays.asList());
-		
-//		firebaseService.addShop(new Shop(name, description, picture, tag, userEmail));
-//		firebaseService.addShop(new Shop(name1, description1, picture1, tag1, userEmail1));
-//		firebaseService.addShop(new Shop(name2, description2, picture2, tag2, userEmail2));
-//		firebaseService.addShop(new Shop(name3, description3, picture3, tag3, userEmail3));
-		
+//		String shopID3 = "5NlVezyfgEN3AeBbpKvI";
+//		int quantity3 = 1;
+//		int cost3 = 3;
+//		
+//		//String name, String description, int quantity, double cost, String picture
+//		firebaseService.addProduct(new Product( name,  description,  quantity,  cost,  picture,shopID));
+//		firebaseService.addProduct(new Product( name1,  description1,  quantity1,  cost1,  picture1,shopID1));
+//		firebaseService.addProduct(new Product( name2,  description2,  quantity2,  cost2,  picture2,shopID2));
+//		firebaseService.addProduct(new Product( name3,  description3,  quantity3,  cost3,  picture3,shopID3));
 	}
 }

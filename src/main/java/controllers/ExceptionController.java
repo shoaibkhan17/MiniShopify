@@ -9,11 +9,11 @@ public class ExceptionController extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/{spring:[\\w'-]+}")
-                .setViewName("forward:/");
+//        registry.addViewController("/{spring:[\\w'-]+}")
+//                .setViewName("forward:/");
         registry.addViewController("/**/{spring:[\\w'-]+}")
-                .setViewName("forward:/");
-        registry.addViewController("/{spring:[\\w'-]+}/**{spring:?!(\\.js|\\.css)$}")
-                .setViewName("forward:/");
+                .setViewName("redirect:/");
+//        registry.addViewController("/{spring:[\\w'-]+}/**{spring:?!(\\.js|\\.css)$}")
+//                .setViewName("forward:/");
     }
 }

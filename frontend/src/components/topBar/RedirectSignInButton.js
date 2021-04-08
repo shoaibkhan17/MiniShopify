@@ -2,14 +2,18 @@ import { Button } from "@material-ui/core";
 import React from "react";
 import { Route } from "react-router-dom";
 
-class SignInButton extends React.Component {
+class RedirectSignInButton extends React.Component {
   render() {
     return (
       <Route
         render={({ history }) => (
           <Button
             variant="outlined"
-            style={{ color: "black", fontVariant: "unicase" }}
+            style={{
+              color: "white",
+              borderColor: "white",
+              fontVariant: "unicase",
+            }}
             onClick={() => {
               history.push("/sign-in");
             }}
@@ -22,4 +26,4 @@ class SignInButton extends React.Component {
   }
 }
 
-export default SignInButton;
+export default RedirectSignInButton;

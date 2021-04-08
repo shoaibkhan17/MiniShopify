@@ -3,3 +3,7 @@
 .classpath
 .project
 .idea
+
+.vscode/settings.json
+
+.factorypath

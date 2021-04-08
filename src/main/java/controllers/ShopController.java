@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.google.firebase.auth.FirebaseAuthException;
+
 import config.FirebaseService;
 import models.Product;
 import models.Shop;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +30,13 @@ public class ShopController {
 		return firebaseService.getShops();
     }
 	
-	@PostMapping("/createShop")
-    public ResponseEntity<String> createShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
-		boolean shopAdded = firebaseService.addShop(shop);
-		return new ResponseEntity<String>("Shop added: " + shopAdded, HttpStatus.OK);
+	@PostMapping("protected/createShop")
+    public Shop createShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
+		Shop shopAdded = firebaseService.addShop(shop);
+		return shopAdded;
     }
 	
-	@PostMapping("/createTestShop")
+	@PostMapping("protected/createTestShop")
     public ResponseEntity<String> createTestShop() throws ExecutionException, InterruptedException {
 		//test shop fields
 		String name = "Kamal Store";
@@ -50,32 +54,39 @@ public class ShopController {
 		return new ResponseEntity<String>("Shop added: " + true, HttpStatus.OK);
     }
 	
-	@PostMapping("/deleteShop")
-    public ResponseEntity<String> deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException {
+	@PostMapping("protected/deleteShop")
+    public boolean deleteShop(@RequestBody String shopID) throws ExecutionException, InterruptedException, FirebaseAuthException, IOException {
+		System.out.println(shopID);
 		shopID = shopID.substring(0, shopID.length() - 1);
-		boolean shopRemoved = firebaseService.deleteShop(shopID);
-		return new ResponseEntity<String>("Shop removed: " + shopRemoved, HttpStatus.OK);
+		return firebaseService.deleteShop(shopID);
     }
 
-	@PostMapping("/updateShop")
-    public ResponseEntity<String> updateShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
-		boolean shopUpdated = firebaseService.updateShop(shop);
-		return new ResponseEntity<String>("Shop updated: " + shopUpdated, HttpStatus.OK);
+	@PostMapping("protected/updateShop")
+    public ResponseEntity<Shop> updateShop(@RequestBody Shop shop) throws ExecutionException, InterruptedException {
+		Shop shopUpdated = firebaseService.updateShop(shop);
+		return new ResponseEntity<Shop>(shopUpdated, HttpStatus.OK);
     }
 	
-	@GetMapping("/getProducts")
-    public List<Product> getProducts(@RequestBody String ShopID) throws ExecutionException, InterruptedException {
-		return firebaseService.getProducts(ShopID);
+	@PostMapping("protected/updateProduct")
+	public Product updateProduct(@RequestBody Product product) throws ExecutionException, InterruptedException{
+		Product updatedProduct = firebaseService.updateProduct(product);
+		return updatedProduct;
+	}
+
+	@GetMapping("/getProducts/{shopID}")
+    public List<Product> getProducts(@PathVariable String shopID) throws ExecutionException, InterruptedException {
+		return firebaseService.getProducts(shopID);
     }
 	
-	@PostMapping("/addProduct")
-    public ResponseEntity<String> addProduct(@RequestBody Product product) throws ExecutionException, InterruptedException {
-		boolean productAdded = firebaseService.addProduct(product);
-		return new ResponseEntity<String>("Product added: " + productAdded, HttpStatus.OK);
+	@PostMapping("protected/addProduct")
+    public Product addProduct(@RequestBody Product product) throws ExecutionException, InterruptedException {
+		Product productAdded = firebaseService.addProduct(product);
+		return productAdded;
     }
 	
-	@PostMapping("/deleteProduct")
+	@PostMapping("protected/deleteProduct")
     public ResponseEntity<String> deleteProduct(@RequestBody String productID) throws ExecutionException, InterruptedException {
+		productID = productID.substring(0, productID.length() - 1);
 		boolean productDeleted = firebaseService.deleteProduct(productID);
 		return new ResponseEntity<String>("Product deleted: " + productDeleted, HttpStatus.OK);
     }

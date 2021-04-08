@@ -1,21 +1,15 @@
 package config;
 
 import java.io.IOException;
-import java.util.logging.Logger;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-
 import com.google.api.client.util.Strings;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 public class FirebaseAuthTokenFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -23,12 +17,7 @@ public class FirebaseAuthTokenFilter extends AbstractAuthenticationProcessingFil
 
     public FirebaseAuthTokenFilter() {
         super(new OrRequestMatcher(
-                new AntPathRequestMatcher("/api/shop/createShop"),
-                new AntPathRequestMatcher("/api/shop/updateShop"),
-                new AntPathRequestMatcher("/api/shop/deleteShop"),
-                new AntPathRequestMatcher("/api/shop/addProduct"),
-                new AntPathRequestMatcher("/api/shop/deleteProduct"),
-                new AntPathRequestMatcher("/api/shop/createTestShop")
+                new AntPathRequestMatcher("/api/shop/protected/**")
         ));
     }
 

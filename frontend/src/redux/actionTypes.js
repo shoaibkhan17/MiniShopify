@@ -1,3 +1,11 @@
 export const SET_AUTHENTICATE = "SET_AUTHENTICATE";
 export const SET_ID_TOKEN = "SET_ID_TOKEN";
 export const SET_SHOPS = "SET_SHOPS";
+export const DELETE_SHOP = "DELETE_SHOP";
+export const UPDATE_SHOP = "UPDATE_SHOP";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const ADD_PRODUCT = "ADD_PRODUCT";
+export const CREATE_SHOP = "CREATE_SHOP";
+export const SET_USER_SHOPS = "SET_USER_SHOPS";
+export const SET_PRODUCTS = "SET_PRODUCTS";

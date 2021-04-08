@@ -1,4 +1,17 @@
-import { SET_AUTHENTICATE, SET_ID_TOKEN, SET_SHOPS } from "./actionTypes";
+import {
+  SET_AUTHENTICATE,
+  SET_ID_TOKEN,
+  SET_SHOPS,
+  DELETE_SHOP,
+  SET_USER_SHOPS,
+  UPDATE_SHOP,
+  DELETE_PRODUCT,
+  UPDATE_PRODUCT,
+  SET_PRODUCTS,
+  ADD_PRODUCT,
+  CREATE_SHOP,
+} from "./actionTypes";
+import firebase from "../services/firebase.config";
 
 const { createStore } = require("redux");
 
@@ -28,6 +41,8 @@ const initialState = {
   isAuthenticated: false,
   idToken: "",
   shops: [],
+  products: [],
+  userShops: [],
 };
 
 const myReducer = (state = initialState, action) => {
@@ -43,6 +58,60 @@ const myReducer = (state = initialState, action) => {
 
   if (action.type === SET_SHOPS) {
     newState.shops = action.payload.shops;
+
+    const user = firebase.auth().currentUser;
+    if (user !== null) {
+      const userShops = action.payload.shops.filter(
+        (shop) => shop.ownerEmail === user.email
+      );
+      newState.userShops = userShops;
+    }
+  }
+
+  if (action.type === SET_PRODUCTS) {
+    newState.products = action.payload.products;
+  }
+
+  if (action.type === SET_USER_SHOPS) {
+    newState.userShops = action.payload.userShops;
+  }
+
+  if (action.type === DELETE_SHOP) {
+    const filteredList = newState.shops.filter(
+      (shop) => shop.shopID !== action.payload.shopID
+    );
+    newState.shops = filteredList;
+  }
+
+  if (action.type === UPDATE_SHOP) {
+    const filteredList = newState.shops.filter(
+      (shop) => shop.shopID !== action.payload.updatedShop.shopID
+    );
+    filteredList.push(action.payload.updatedShop);
+    newState.shops = filteredList;
+  }
+
+  if (action.type === DELETE_PRODUCT) {
+    const filteredList = newState.products.filter(
+      (product) => product.productID !== action.payload.productID
+    );
+    newState.products = filteredList;
+  }
+
+  if (action.type === ADD_PRODUCT) {
+    newState.products.push(action.payload.productAdded);
+  }
+
+  if (action.type === CREATE_SHOP) {
+    newState.shops.push(action.payload.createdShop);
+  }
+
+  if (action.type === UPDATE_PRODUCT) {
+    const filteredList = newState.products.filter(
+      (product) => product.productID !== action.payload.updatedProduct.productID
+    );
+    filteredList.push(action.payload.updatedProduct);
+    newState.products = filteredList;
   }
 
   return newState;

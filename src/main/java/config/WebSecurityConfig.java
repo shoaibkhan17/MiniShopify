@@ -26,8 +26,9 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	public static final List<String> publicAPIS = ImmutableList.of("/api/shop/getShops","/api/auth/signIn","/api/auth/createAccount", "/api/shop/getProducts");
+//	public static final List<String> publicAPIS = ImmutableList.of("/api/shop/getShops","/api/auth/signIn","/api/auth/createAccount", "/api/shop/getProducts");
 	public static final List<String> allowedOrigins = ImmutableList.of("http://localhost:3000", "https://minishopifyapp.herokuapp.com/");
+	public static final List<String> privateAPIS = ImmutableList.of("/api/shop/protected/**");
 
 	@Autowired
 	private FirebaseAuthProvider authenticationProvider;
@@ -79,8 +80,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// All urls must be authenticated (filter for token always fires (/**)
 				.authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
-				.antMatchers(publicAPIS.stream().toArray(String[]::new)).permitAll()
-				.anyRequest().permitAll()
+				// .antMatchers(publicAPIS.stream().toArray(String[]::new)).permitAll()
+				// .antMatchers("/").permitAll()
+				// .antMatchers("/static/**").permitAll()
+				// .anyRequest().authenticated()
+
+				// Allow all endpoints besides the private end points
+				.antMatchers("/**").permitAll()
+
+				// Authenticate these end points
+				.antMatchers(privateAPIS.stream().toArray(String[]::new)).authenticated()
 				.and()
 				// don't create session
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //.and()
