@@ -11,7 +11,14 @@ class DisplayProducts extends React.Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          width: "99vw",
+          height: "77vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
+      >
         <Grid
           container
           justify="center"
