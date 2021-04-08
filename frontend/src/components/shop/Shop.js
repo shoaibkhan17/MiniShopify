@@ -20,7 +20,7 @@ import EditShop from "./EditShop";
 import { Alert } from "@material-ui/lab";
 import { withRouter } from "react-router-dom";
 import { EMPTY_SHOP_IMG_URL } from "../../constants/constants";
-import firebase from "../../services/firebase.config";
+
 class Shop extends React.Component {
   constructor(props) {
     super(props);
@@ -94,7 +94,7 @@ class Shop extends React.Component {
     return (
       <div>
         {this.renderSnackBar()}
-        {this.props.canEditShop && this.state.currentShop && (
+        {this.props.canEdit && this.state.currentShop && (
           <EditShop
             selectedShop={this.state.currentShop}
             onClose={() => this.closeEditShop()}
@@ -115,7 +115,7 @@ class Shop extends React.Component {
             avatar={<StorefrontIcon color="primary" />}
             title={this.props.shop && this.props.shop.name}
             action={
-              this.props.canEditShop && (
+              this.props.canEdit && (
                 <Tooltip TransitionComponent={Zoom} title="Edit Shop">
                   <IconButton
                     onClick={() => this.openEditShop(this.props.shop)}

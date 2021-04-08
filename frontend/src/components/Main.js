@@ -41,6 +41,7 @@ class Main extends React.Component {
             />
 
             <Route path="/checkout" component={() => <Checkout />} />
+
             <Route path="/home" exact component={() => <Home />} />
 
             <Route path="/my-shops" component={() => <UserShops />} />

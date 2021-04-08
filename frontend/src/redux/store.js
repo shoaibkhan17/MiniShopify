@@ -77,10 +77,19 @@ const myReducer = (state = initialState, action) => {
   }
 
   if (action.type === DELETE_SHOP) {
-    const filteredList = newState.shops.filter(
+    const filteredShopList = newState.shops.filter(
       (shop) => shop.shopID !== action.payload.shopID
     );
-    newState.shops = filteredList;
+
+    const user = firebase.auth().currentUser;
+    if (user !== null) {
+      const userShops = filteredShopList.filter(
+        (shop) => shop.ownerEmail === user.email
+      );
+      newState.userShops = userShops;
+    }
+
+    newState.shops = filteredShopList;
   }
 
   if (action.type === UPDATE_SHOP) {
@@ -88,6 +97,15 @@ const myReducer = (state = initialState, action) => {
       (shop) => shop.shopID !== action.payload.updatedShop.shopID
     );
     filteredList.push(action.payload.updatedShop);
+
+    const user = firebase.auth().currentUser;
+    if (user !== null) {
+      const userShops = filteredList.filter(
+        (shop) => shop.ownerEmail === user.email
+      );
+      newState.userShops = userShops;
+    }
+
     newState.shops = filteredList;
   }
 
@@ -103,6 +121,7 @@ const myReducer = (state = initialState, action) => {
   }
 
   if (action.type === CREATE_SHOP) {
+    newState.userShops.push(action.payload.createdShop);
     newState.shops.push(action.payload.createdShop);
   }
 

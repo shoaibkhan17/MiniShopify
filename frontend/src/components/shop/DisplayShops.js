@@ -1,13 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Grid, IconButton, TextField } from "@material-ui/core";
-import { setShops } from "../../redux/actions";
+import { Grid, TextField } from "@material-ui/core";
 import Shop from "./Shop";
-import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
-import AddShop from "./AddShop";
 import Select from "@material-ui/core/Select";
-import { PRIMARY_THEME_COLOR } from "../../constants/constants";
-import firebase from "../../services/firebase.config";
 
 class DisplayShops extends React.Component {
   constructor(props) {
