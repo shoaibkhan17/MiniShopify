@@ -7,6 +7,7 @@ import { Grid, IconButton, Typography } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddProduct from "./AddProduct";
 import firebase from "../../services/firebase.config";
+import { setProducts } from "../../redux/actions";
 
 const mapStateToProps = (state) => {
   return { shops: state.shops, products: state.products };
@@ -26,6 +27,10 @@ class ShopProducts extends React.Component {
   }
 
   componentDidUpdate(prevProps, nextState) {}
+
+  componentWillUnmount() {
+    this.props.setProducts([]);
+  }
 
   componentDidMount() {
     this.getShopDetails();
@@ -113,4 +118,4 @@ class ShopProducts extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, {})(ShopProducts);
+export default connect(mapStateToProps, { setProducts })(ShopProducts);
