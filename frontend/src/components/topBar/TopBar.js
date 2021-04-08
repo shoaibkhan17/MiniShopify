@@ -10,7 +10,6 @@ import {
   MenuItem,
   Divider,
   Button,
-  Badge,
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -21,9 +20,9 @@ import SignInButton from "./RedirectSignInButton";
 import AuthService from "../../services/AuthService";
 import firebase from "../../services/firebase.config";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import RedirectHomeButton from "./RedirectHomeButton";
 import RedirectUserShopsButton from "./RedirectUserShopsButton";
+import CartButton from "./CartButton";
 
 const mapStateToProps = (state) => {
   return { isAuthenticated: state.isAuthenticated };
@@ -132,11 +131,7 @@ class TopBar extends React.Component {
             <RedirectHomeButton />
             {this.props.isAuthenticated && <RedirectUserShopsButton />}
             <Typography variant="h6" style={{ flexGrow: 1 }}></Typography>
-            <IconButton style={{ marginRight: "10px" }}>
-              <Badge badgeContent={1} color="primary">
-                <ShoppingCartIcon htmlColor="white" />
-              </Badge>
-            </IconButton>
+            <CartButton />
             {this.props.isAuthenticated && (
               <IconButton edge="end" color="inherit" onClick={this.openMenu}>
                 <AccountCircle fontSize="large" />

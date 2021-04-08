@@ -1,41 +1,38 @@
 import React from "react";
 import TopBar from "./topBar/TopBar";
 import { connect } from "react-redux";
-import DisplayShops from "./shop/DisplayShops";
-import { Button } from "@material-ui/core";
 import { setShops } from "../redux/actions";
+import BrowseShops from "./shop/BrowseShops";
 import ShopService from "../services/ShopService";
 
 const mapStateToProps = (state) => {
-  return { isAuthenticated: state.isAuthenticated };
+  return { isAuthenticated: state.isAuthenticated, shops: state.shops };
 };
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
 
-    this.onClick = this.onClick.bind(this);
-    this.addTestShop = this.addTestShop.bind(this);
+    this.getShops = this.getShops.bind(this);
   }
 
-  componentDidMount() {}
-
-  async addTestShop() {
-    var success = await ShopService.addTestShop();
-    if (success) {
-      await ShopService.getAllShops();
-    }
+  componentDidMount() {
+    this.getShops();
   }
 
-  onClick(shopName) {
-    console.log("open shop " + shopName);
+  async getShops() {
+    await ShopService.getAllShops();
   }
-
   render() {
     return (
       <div style={{ height: "100vh" }}>
         <TopBar />
-        <DisplayShops />
+        <BrowseShops
+          shops={this.props.shops}
+          canEdit={false}
+          title={"Browse Shops"}
+        />
       </div>
     );
   }

@@ -16,6 +16,8 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditProduct from "./EditProduct";
 import { EMPTY_PRODUCT_IMG_URL } from "../../constants/constants";
+import ShopService from "../../services/ShopService";
+import { addProductToCart } from "../../redux/actions";
 
 const mapStateToProps = (state) => {
   return { products: state.products };
@@ -33,6 +35,7 @@ class Product extends React.Component {
     this.openEditProduct = this.openEditProduct.bind(this);
     this.closeEditProduct = this.closeEditProduct.bind(this);
     this.getProductImg = this.getProductImg.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
 
   openEditProduct(product) {
@@ -41,6 +44,12 @@ class Product extends React.Component {
 
   closeEditProduct() {
     this.setState({ currentProduct: null });
+  }
+
+  addToCart() {
+    const obj = this.props.product;
+    obj.selectedQuantity = 1;
+    this.props.addProductToCart(obj);
   }
 
   componentDidUpdate(prevProps, nextState) {}
@@ -111,7 +120,7 @@ class Product extends React.Component {
               Quantity: {this.props.product && this.props.product.quantity}
             </Typography>
             {this.state.currentProduct === null && this.props.canBuy && (
-              <IconButton>
+              <IconButton onClick={this.addToCart}>
                 <AddShoppingCartIcon
                   style={{
                     color: "#43C701",
@@ -127,4 +136,4 @@ class Product extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, {})(Product);
+export default connect(mapStateToProps, { addProductToCart })(Product);

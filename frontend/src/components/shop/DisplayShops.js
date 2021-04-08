@@ -1,18 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Grid, IconButton, TextField } from "@material-ui/core";
-import { setShops } from "../../redux/actions";
-import ShopService from "../../services/ShopService";
+import { Grid, TextField, Typography } from "@material-ui/core";
 import Shop from "./Shop";
-import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
-import AddShop from "./AddShop";
 import Select from "@material-ui/core/Select";
-import { PRIMARY_THEME_COLOR } from "../../constants/constants";
-import firebase from "../../services/firebase.config";
 
-const mapStateToProps = (state) => {
-  return { shops: state.shops };
-};
 class DisplayShops extends React.Component {
   constructor(props) {
     super(props);
@@ -24,16 +14,17 @@ class DisplayShops extends React.Component {
       searchValue: "",
     };
 
-    this.getShops = this.getShops.bind(this);
-    this.addNewShop = this.addNewShop.bind(this);
-    this.closeAddShop = this.closeAddShop.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.setShopAndShopTags = this.setShopAndShopTags.bind(this);
+    this.displayShops = this.displayShops.bind(this);
+    this.displaySearchBar = this.displaySearchBar.bind(this);
   }
 
   componentDidMount() {
-    this.getShops();
+    if (this.props.shops) {
+      this.setShopAndShopTags();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -50,18 +41,6 @@ class DisplayShops extends React.Component {
       });
     });
     this.setState({ shops: this.props.shops, tags: Array.from(tagsList) });
-  }
-
-  addNewShop() {
-    this.setState({ addingShop: true });
-  }
-
-  closeAddShop() {
-    this.setState({ addingShop: false });
-  }
-
-  async getShops() {
-    await ShopService.getAllShops();
   }
 
   handleChange(event) {
@@ -88,9 +67,31 @@ class DisplayShops extends React.Component {
     }
   }
 
-  render() {
+  displayShops() {
     return (
-      <div>
+      <div
+        style={{
+          width: "99vw",
+          height: this.props.canEdit ? "70vh" : "77vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
+      >
+        <Grid container justify="center" spacing={3}>
+          {this.state.shops &&
+            this.state.shops.map((shop) => (
+              <Grid item key={shop.shopID}>
+                <Shop canEdit={this.props.canEdit} canOpen={true} shop={shop} />
+              </Grid>
+            ))}
+        </Grid>
+      </div>
+    );
+  }
+
+  displaySearchBar() {
+    return (
+      <div style={{ paddingTop: "20px", paddingBottom: "40px" }}>
         <TextField
           value={this.state.searchValue}
           onChange={(event) => {
@@ -112,55 +113,30 @@ class DisplayShops extends React.Component {
               </option>
             ))}
         </Select>
-        <Grid
-          container
-          justify="center"
-          spacing={3}
-          style={{
-            margin: "2%",
-            width: "96%",
-          }}
-        >
-          {this.state.shops &&
-            this.state.shops.map((shop) => (
-              <Grid item key={shop.shopID}>
-                <Shop
-                  canEditShop={
-                    firebase.auth().currentUser &&
-                    firebase.auth().currentUser.email === shop.ownerEmail
-                      ? true
-                      : false
-                  }
-                  canOpen={true}
-                  shop={shop}
-                />
-              </Grid>
-            ))}
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>
+            <Typography
+              variant="h5"
+              style={{ paddingTop: "20px", fontFamily: "cursive" }}
+            >
+              {this.props.title}
+            </Typography>
+          </Grid>
+
+          <Grid item>{this.displaySearchBar()}</Grid>
+
+          <Grid item>{this.displayShops()}</Grid>
         </Grid>
-
-        {this.state.addingShop && (
-          <AddShop
-            addingShop={this.state.addingShop}
-            onClose={this.closeAddShop}
-            ownerEmail={
-              firebase.auth().currentUser
-                ? firebase.auth().currentUser.email
-                : ""
-            }
-          />
-        )}
-
-        {firebase.auth().currentUser && (
-          <IconButton onClick={this.addNewShop}>
-            <AddCircleRoundedIcon
-              fontSize="large"
-              htmlColor={PRIMARY_THEME_COLOR}
-            />
-          </IconButton>
-        )}
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, { setShops })(DisplayShops);
+export default DisplayShops;

@@ -14,6 +14,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Shop from "./Shop";
 import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import ShopService from "../../services/ShopService";
+import firebase from "../../services/firebase.config";
 
 class AddShop extends React.Component {
   constructor(props) {
@@ -37,7 +38,9 @@ class AddShop extends React.Component {
 
   componentDidMount() {
     this.setState({
-      ownerEmail: this.props.ownerEmail,
+      ownerEmail: firebase.auth().currentUser
+        ? firebase.auth().currentUser.email
+        : "",
     });
   }
 
@@ -46,6 +49,7 @@ class AddShop extends React.Component {
   }
 
   async addShop() {
+    console.log(this.state.name);
     if (this.state.name !== "" && this.state.description !== "") {
       var success = await ShopService.createShop(this.getShopData());
 
@@ -53,7 +57,6 @@ class AddShop extends React.Component {
         this.props.onClose();
       }
     } else {
-      console.log("empty shop");
       this.setState({ missingFields: true });
     }
   }
@@ -95,7 +98,6 @@ class AddShop extends React.Component {
         onClose={this.props.onClose}
       >
         <DialogTitle>Add Shop Menu</DialogTitle>
-        {console.log(this.state.ownerEmail)}
         <DialogContent style={{ display: "flex" }}>
           <div
             style={{

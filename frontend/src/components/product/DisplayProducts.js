@@ -33,13 +33,23 @@ class DisplayProducts extends React.Component {
 
   render() {
     return (
-      <div>
-        <TextField
-          value={this.state.searchValue}
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
-        />
+      <div
+        style={{
+          width: "99vw",
+          height: "77vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
+      >
+        <div style={{ paddingTop: "20px", paddingBottom: "40px" }}>
+          <TextField
+            value={this.state.searchValue}
+            onChange={(event) => {
+              this.handleChange(event);
+            }}
+          />
+        </div>
+
         <Grid
           container
           justify="center"

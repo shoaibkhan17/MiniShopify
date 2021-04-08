@@ -1,11 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import TopBar from "../topBar/TopBar";
-import HomeIcon from "@material-ui/icons/Home";
-import { PRIMARY_THEME_COLOR } from "../../constants/constants";
 import ShopService from "../../services/ShopService";
 import DisplayProducts from "./DisplayProducts";
-import { IconButton, Typography, Breadcrumbs, Link } from "@material-ui/core";
+import { Grid, IconButton, Typography } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import AddProduct from "./AddProduct";
 import firebase from "../../services/firebase.config";
@@ -24,6 +22,7 @@ class ShopProducts extends React.Component {
     };
     this.getShopDetails = this.getShopDetails.bind(this);
     this.addProduct = this.addProduct.bind(this);
+    this.displayShopProducts = this.displayShopProducts.bind(this);
   }
 
   componentDidUpdate(prevProps, nextState) {}
@@ -54,53 +53,60 @@ class ShopProducts extends React.Component {
     await ShopService.getShopProducts(this.state.shopID);
   }
 
+  displayShopProducts() {
+    return (
+      <div>
+        <DisplayProducts
+          ownerEmail={this.state.myShop ? this.state.myShop.ownerEmail : ""}
+          products={this.props.products}
+        />
+        {this.state.addingProduct && (
+          <AddProduct
+            shopID={this.state.shopID}
+            addingProduct={this.state.addingProduct}
+            onClose={() => this.closeAddProduct()}
+          />
+        )}
+        {this.state.myShop &&
+          firebase.auth().currentUser &&
+          firebase.auth().currentUser.email ===
+            this.state.myShop.ownerEmail && (
+            <IconButton>
+              <AddCircleRoundedIcon
+                fontSize="large"
+                onClick={() => this.addProduct()}
+                style={{
+                  color: "#43C701",
+                }}
+              />
+            </IconButton>
+          )}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div style={{ height: "100vh" }}>
         <TopBar />
-        <div style={{ height: "75%" }}>
-          <Breadcrumbs style={{ paddingTop: "50px" }}>
-            <Link
-              style={{
-                color: PRIMARY_THEME_COLOR,
-                cursor: "pointer",
-                display: "flex",
-              }}
-            >
-              <HomeIcon style={{ width: 20, height: 20 }} />
-              Browse Shops
-            </Link>
-            <Typography color="textPrimary">
-              {this.state.myShop && this.state.myShop.name}
-            </Typography>
-          </Breadcrumbs>
+        <div style={{ height: "90%" }}>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item>
+              <Typography
+                variant="h5"
+                style={{ paddingTop: "20px", fontFamily: "cursive" }}
+              >
+                {this.state.myShop && this.state.myShop.name}
+              </Typography>
+            </Grid>
 
-          <div>{this.state.myShop && this.state.myShop.name}</div>
-          <DisplayProducts
-            ownerEmail={this.state.myShop ? this.state.myShop.ownerEmail : ""}
-            products={this.props.products}
-          />
-          {this.state.addingProduct && (
-            <AddProduct
-              shopID={this.state.shopID}
-              addingProduct={this.state.addingProduct}
-              onClose={() => this.closeAddProduct()}
-            />
-          )}
-          {this.state.myShop &&
-            firebase.auth().currentUser &&
-            firebase.auth().currentUser.email ===
-              this.state.myShop.ownerEmail && (
-              <IconButton>
-                <AddCircleRoundedIcon
-                  fontSize="large"
-                  onClick={() => this.addProduct()}
-                  style={{
-                    color: "#43C701",
-                  }}
-                />
-              </IconButton>
-            )}
+            <Grid item>{this.displayShopProducts()}</Grid>
+          </Grid>
         </div>
       </div>
     );
