@@ -9,6 +9,7 @@ import CreateAccount from "./CreateAccount";
 import SignIn from "./SignIn";
 import Home from "./Home";
 import { connect } from "react-redux";
+import Checkout from "./Checkout/Checkout";
 import ShopProducts from "./product/ShopProducts";
 
 const mapStateToProps = (state) => {
@@ -38,6 +39,7 @@ class Main extends React.Component {
               component={() => <CreateAccount />}
             />
 
+            <Route path="/checkout" component={() => <Checkout />} />
             <Route path="/home" exact component={() => <Home />} />
 
             <Route path="/shop/:shopID" component={ShopProducts} />
