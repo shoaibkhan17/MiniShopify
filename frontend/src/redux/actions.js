@@ -11,6 +11,7 @@ import {
   ADD_PRODUCT,
   CREATE_SHOP,
   ADD_PRODUCT_TO_CART,
+  DELETE_PRODUCT_FROM_CART,
 } from "./actionTypes";
 
 export const setAuthenticated = (flag) => ({
@@ -73,6 +74,13 @@ export const addProductToCart = (productAdded) => ({
   type: ADD_PRODUCT_TO_CART,
   payload: {
     productAdded: productAdded,
+  },
+});
+
+export const deleteProductFromCart = (productDeleted) => ({
+  type: DELETE_PRODUCT_FROM_CART,
+  payload: {
+    productDeleted: productDeleted,
   },
 });
 

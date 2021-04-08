@@ -11,6 +11,7 @@ import {
   ADD_PRODUCT,
   CREATE_SHOP,
   ADD_PRODUCT_TO_CART,
+  DELETE_PRODUCT_FROM_CART,
 } from "./actionTypes";
 import firebase from "../services/firebase.config";
 
@@ -95,6 +96,19 @@ const myReducer = (state = initialState, action) => {
         }
       });
     }
+  }
+
+  if (action.type === DELETE_PRODUCT_FROM_CART) {
+    const cartProduct = action.payload.productDeleted;
+    console.log("product to delete:" + cartProduct);
+
+     // Find the cart product in the cart list
+    const filteredList = newState.cartProducts.filter(
+      (product) => product.productID !== cartProduct.productID
+    );
+    
+    console.log("new cart products:" + filteredList);
+    newState.cartProducts = filteredList;
   }
 
   if (action.type === SET_USER_SHOPS) {

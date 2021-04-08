@@ -3,7 +3,7 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveIcon from "@material-ui/icons/Remove";
 import React from "react";
-import { addProductToCart } from "../../redux/actions";
+import {deleteProductFromCart } from "../../redux/actions";
 import { connect } from "react-redux";
 
 class CartItem extends React.Component {
@@ -13,6 +13,7 @@ class CartItem extends React.Component {
       selectedQuantity: 0,
     };
     this.updateQuantity = this.updateQuantity.bind(this);
+    this.removeProductFromCart = this.removeProductFromCart.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +26,10 @@ class CartItem extends React.Component {
       this.setState({ selectedQuantity: quantity + number });
       this.props.setTotal(this.props.total + this.props.item.cost * number);
     }
+  }
+
+  removeProductFromCart(){
+    this.props.deleteProductFromCart(this.props.item)
   }
 
   render() {
@@ -107,13 +112,7 @@ class CartItem extends React.Component {
         </Grid>
         <Grid item xs={1}>
           <IconButton
-          // onClick={() => {
-          //   const items = this.props.items.filter(
-          //     (_item) => _item.name != this.props.item.name
-          //   );
-
-          // this.props.setItems([...items]);
-          // }}
+          onClick={this.removeProductFromCart}
           >
             <DeleteIcon />
           </IconButton>
@@ -123,4 +122,4 @@ class CartItem extends React.Component {
   }
 }
 
-export default connect(undefined, { addProductToCart })(CartItem);
+export default connect(undefined, {deleteProductFromCart})(CartItem);
