@@ -3,8 +3,6 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveIcon from "@material-ui/icons/Remove";
 import React from "react";
-import {deleteProductFromCart } from "../../redux/actions";
-import { connect } from "react-redux";
 
 class CartItem extends React.Component {
   constructor(props) {
@@ -17,19 +15,25 @@ class CartItem extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ selectedQuantity: this.props.item.selectedQuantity });
+    this.setState({
+      selectedQuantity: this.props.cartProduct.selectedQuantity,
+    });
   }
 
   updateQuantity(number) {
     if (this.state.selectedQuantity + number > 0) {
       const quantity = this.state.selectedQuantity;
+      this.props.updateQuantity(
+        this.props.cartProduct,
+        quantity + number,
+        number
+      );
       this.setState({ selectedQuantity: quantity + number });
-      this.props.setTotal(this.props.total + this.props.item.cost * number);
     }
   }
 
-  removeProductFromCart(){
-    this.props.deleteProductFromCart(this.props.item)
+  removeProductFromCart() {
+    this.props.removeProduct(this.props.cartProduct);
   }
 
   render() {
@@ -55,9 +59,9 @@ class CartItem extends React.Component {
             alignItems: "center",
           }}
         >
-          <Avatar src={this.props.item.picture} />
+          <Avatar src={this.props.cartProduct.picture} />
           <Typography style={{ fontSize: "12px", paddingLeft: "5px" }}>
-            {this.props.item.name}
+            {this.props.cartProduct.name}
           </Typography>
         </Grid>
         <Grid
@@ -69,7 +73,7 @@ class CartItem extends React.Component {
           }}
         >
           <Typography style={{ fontSize: "12px" }}>
-            {this.props.item.cost}
+            {this.props.cartProduct.cost}
           </Typography>
         </Grid>
         <Grid
@@ -107,13 +111,11 @@ class CartItem extends React.Component {
           }}
         >
           <Typography style={{ fontSize: "12px" }}>
-            {this.state.selectedQuantity * this.props.item.cost}
+            {this.state.selectedQuantity * this.props.cartProduct.cost}
           </Typography>
         </Grid>
         <Grid item xs={1}>
-          <IconButton
-          onClick={this.removeProductFromCart}
-          >
+          <IconButton onClick={this.removeProductFromCart}>
             <DeleteIcon />
           </IconButton>
         </Grid>
@@ -122,4 +124,4 @@ class CartItem extends React.Component {
   }
 }
 
-export default connect(undefined, {deleteProductFromCart})(CartItem);
+export default CartItem;

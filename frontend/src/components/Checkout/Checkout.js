@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, CardContent, Grid, Typography } from "@material-ui/core";
 import EmptyCart from "./EmptyCart";
-import CartItem from "./CartItem";
+import CartItem from "./CartProduct";
 import Summary from "./Summary";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
+import { updateCart } from "../../redux/actions";
 
 const mapStateToProps = (state) => {
   return { cartProducts: state.cartProducts };
@@ -14,37 +15,61 @@ class Checkout extends React.Component {
     super(props);
     this.state = {
       total: 0,
-      items: [],
+      cartProducts: [],
     };
 
-    // this.setItems = this.setItems.bind(this);
     this.setTotal = this.setTotal.bind(this);
     this.calculateTotal = this.calculateTotal.bind(this);
+    this.updateQuantity = this.updateQuantity.bind(this);
+    this.setLocalCartCopy = this.setLocalCartCopy.bind(this);
+    this.removeProduct = this.removeProduct.bind(this);
   }
 
   componentDidMount() {
-    this.calculateTotal();
+    this.calculateTotal(this.props.cartProducts);
+    this.setLocalCartCopy(this.props.cartProducts);
+  }
+
+  setLocalCartCopy(cartProduct) {
+    this.setState({ cartProducts: cartProduct });
   }
 
   componentWillUnmount() {
-    console.log("unmounting");
-
-    console.log(this.props.cartProducts);
+    this.props.updateCart(this.state.cartProducts);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // if (this.props.cartProducts.length !== this.prevProps.cartProducts.length) {
-    //   this.setState({ items: this.props.cartProducts });
-    // }
-  }
-
-  calculateTotal() {
+  calculateTotal(cartProducts) {
     var total = 0;
-    const list = [];
-    this.props.cartProducts.forEach((item) => {
+    cartProducts.forEach((item) => {
       total += item.cost * item.selectedQuantity;
     });
     this.setState({ total: total });
+  }
+
+  removeProduct(product) {
+    const currentCartList = this.state.cartProducts;
+    const newCartList = currentCartList.filter(
+      (cartProduct) => cartProduct.productID !== product.productID
+    );
+    this.setState({ cartProducts: newCartList });
+    this.props.updateCart(newCartList);
+    this.this.calculateTotal(newCartList);
+  }
+
+  updateQuantity(product, selectedQuantity, number) {
+    const itemCost = product.cost;
+    const total = this.state.total;
+    this.setState({ total: total + itemCost * number });
+
+    const currentCartList = this.state.cartProducts;
+    currentCartList.forEach((item) => {
+      if (item.productID === product.productID) {
+        item.selectedQuantity = selectedQuantity;
+        return;
+      }
+    });
+
+    this.setState({ cartProducts: currentCartList });
   }
 
   setTotal(cost) {
@@ -81,9 +106,9 @@ class Checkout extends React.Component {
                 }}
                 variant="body1"
               >
-                {`Cart (${this.props.cartProducts.length} items)`}
+                {`Cart (${this.state.cartProducts.length} Products)`}
               </Typography>
-              {this.props.cartProducts.length === 0 ? (
+              {this.state.cartProducts.length === 0 ? (
                 <EmptyCart />
               ) : (
                 <>
@@ -149,15 +174,14 @@ class Checkout extends React.Component {
                       </Typography>
                     </Grid>
                   </Grid>
-                  {this.props.cartProducts.map((item) => {
+                  {this.state.cartProducts.map((cartProduct) => {
                     return (
                       <CartItem
-                        item={item}
-                        // selectedQuantity={item.selectedQuantity}
-                        // items={this.props.items}
+                        cartProduct={cartProduct}
+                        removeProduct={this.removeProduct}
                         total={this.state.total}
                         setTotal={this.setTotal}
-                        // setItems={this.setItems}
+                        updateQuantity={this.updateQuantity}
                       />
                     );
                   })}
@@ -167,11 +191,14 @@ class Checkout extends React.Component {
           </Card>
         </Grid>
         <Grid style={{ paddingLeft: "20px" }}>
-          <Summary items={this.props.cartProducts} total={this.state.total} />
+          <Summary
+            cartProducts={this.props.cartProducts}
+            total={this.state.total}
+          />
         </Grid>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, {})(Checkout);
+export default connect(mapStateToProps, { updateCart })(Checkout);
