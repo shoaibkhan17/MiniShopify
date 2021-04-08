@@ -8,6 +8,7 @@ import {
   updateShop,
   addProduct,
   createShop,
+  updateCart,
 } from "../redux/actions";
 import store from "../redux/store";
 
@@ -67,7 +68,7 @@ class ShopService {
       .post(CHECKOUT_CART_PRODUCTS_URL, checkoutProductsList, config)
       .then((res) => {
         if (res.data !== null && res.data !== "") {
-          store.dispatch()
+          store.dispatch(updateCart([]));
           return true;
         }
         return false;

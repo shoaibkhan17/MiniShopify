@@ -149,6 +149,7 @@ class Summary extends React.Component {
             backgroundColor: "green",
             color: "white",
           }}
+          onClick={this.props.checkoutProducts}
         >
           Checkout
         </Button>
@@ -156,6 +157,5 @@ class Summary extends React.Component {
     );
   }
 }
-        onClick={props.checkoutProducts}
 
 export default Summary;

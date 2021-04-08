@@ -15,7 +15,7 @@ const EmptyCart = () => {
         Cart is Empty
       </Typography>
       <Typography
-        variant="body5"
+        variant="body2"
         style={{ fontWeight: 200, paddingTop: "10px" }}
       >
         Look like you have no items in your shopping cart.
