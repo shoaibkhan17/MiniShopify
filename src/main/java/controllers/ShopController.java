@@ -74,8 +74,16 @@ public class ShopController {
 	}
 
 	@GetMapping("/getProducts/{shopID}")
-    public List<Product> getProducts(@PathVariable String shopID) throws ExecutionException, InterruptedException {
-		return firebaseService.getProducts(shopID);
+    public ResponseEntity<List<Product>> getProducts(@PathVariable String shopID) throws Exception {
+        List<Product> products = null;
+
+        if(firebaseService.doesShopExist(shopID)){
+            products = firebaseService.getProducts(shopID);
+            return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<List<Product>>(products, HttpStatus.BAD_REQUEST);
+        }
     }
 	
 	@PostMapping("protected/addProduct")

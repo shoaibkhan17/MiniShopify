@@ -48,6 +48,13 @@ public class FirebaseService {
 		return false;
 	}
 
+	public boolean doesShopExist(String shopID) throws Exception{
+        Firestore firebaseDB = FirestoreClient.getFirestore();
+        DocumentReference documentReference = firebaseDB.collection("shops").document(shopID);
+        DocumentSnapshot ds = documentReference.get().get();
+
+        return ds.exists();
+    }
 
 	public boolean deleteAllUsers() throws ExecutionException, InterruptedException, FirebaseAuthException, IOException{
 		ListUsersPage page = firebase.getAuth().listUsers(null);
