@@ -18,6 +18,15 @@ class Summary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.calculateTotal = this.calculateTotal.bind(this);
+  }
+
+  calculateTotal() {
+    var total = 0;
+    if (this.props.total !== 0) {
+      total = (this.props.total * 1.13 + SHIPPING_COST).toFixed(2);
+    }
+    return total;
   }
 
   render() {
@@ -59,7 +68,7 @@ class Summary extends React.Component {
                   variant="body1"
                   style={{ fontSize: "15px", fontWeight: "bold" }}
                 >
-                  {this.props.total}
+                  {this.props.total.toFixed(2)}
                 </Typography>
               </Grid>
             </Grid>
@@ -141,7 +150,7 @@ class Summary extends React.Component {
                   variant="body1"
                   style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
                 >
-                  {(this.props.total * 1.13 + SHIPPING_COST).toFixed(2)}
+                  {this.calculateTotal()}
                 </Typography>
               </Grid>
             </Grid>

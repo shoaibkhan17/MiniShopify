@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardContent, Grid, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Grid,
+  Snackbar,
+  Typography,
+} from "@material-ui/core";
 import EmptyCart from "./EmptyCart";
 import CartItem from "./CartProduct";
 import Summary from "./Summary";
@@ -7,6 +13,7 @@ import { connect } from "react-redux";
 import { updateCart } from "../../redux/actions";
 import ShopService from "../../services/ShopService";
 import TopBar from "../topBar/TopBar";
+import { Alert } from "@material-ui/lab";
 
 const mapStateToProps = (state) => {
   return { cartProducts: state.cartProducts };
@@ -18,6 +25,8 @@ class Checkout extends React.Component {
     this.state = {
       total: 0,
       cartProducts: [],
+      success: false,
+      openNotification: false,
     };
 
     this.setTotal = this.setTotal.bind(this);
@@ -28,6 +37,8 @@ class Checkout extends React.Component {
     this.checkoutProducts = this.checkoutProducts.bind(this);
     this.cart = this.cart.bind(this);
     this.displayFilledCart = this.displayFilledCart.bind(this);
+    this.showNotificationPop = this.showNotificationPop.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -101,6 +112,32 @@ class Checkout extends React.Component {
 
     const success = await ShopService.checkoutCartProducts(
       checkoutProductsList
+    );
+    this.setState({ success: success, openNotification: true });
+  }
+
+  handleClose() {
+    this.setState({ openNotification: false });
+  }
+
+  showNotificationPop() {
+    return (
+      <Snackbar
+        open={this.state.openNotification}
+        autoHideDuration={6000}
+        onClose={this.handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={this.handleClose}
+          severity={this.state.success ? "success" : "error"}
+          variant="filled"
+        >
+          {this.state.success
+            ? "Products Successfully Purchased!"
+            : "Unable to purchase the products. Please try again later."}
+        </Alert>
+      </Snackbar>
     );
   }
 
@@ -220,6 +257,7 @@ class Checkout extends React.Component {
     return (
       <div style={{ height: "100vh", overflow: "hidden" }}>
         <TopBar inCart={true} />
+        {this.showNotificationPop()}
         <div style={{ height: "50vh", paddingTop: "5%" }}>
           <Grid
             container
