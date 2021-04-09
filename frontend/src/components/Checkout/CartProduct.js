@@ -21,7 +21,10 @@ class CartItem extends React.Component {
   }
 
   updateQuantity(number) {
-    if (this.state.selectedQuantity + number > 0) {
+    if (
+      this.state.selectedQuantity + number > 0 &&
+      this.state.selectedQuantity + number <= this.props.cartProduct.quantity
+    ) {
       const quantity = this.state.selectedQuantity;
       this.props.updateQuantity(
         this.props.cartProduct,
