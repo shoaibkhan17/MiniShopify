@@ -115,7 +115,7 @@ class Shop extends React.Component {
             avatar={<StorefrontIcon color="primary" />}
             title={this.props.shop && this.props.shop.name}
             action={
-              this.props.canEdit && (
+              this.props.canEdit ? (
                 <Tooltip TransitionComponent={Zoom} title="Edit Shop">
                   <IconButton
                     onClick={() => this.openEditShop(this.props.shop)}
@@ -123,6 +123,8 @@ class Shop extends React.Component {
                     <MoreVertIcon color="secondary" />
                   </IconButton>
                 </Tooltip>
+              ) : (
+                <MoreVertIcon htmlColor="white" />
               )
             }
           />

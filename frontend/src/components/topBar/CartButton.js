@@ -21,7 +21,9 @@ class CartButton extends React.Component {
               style={{ marginRight: "10px" }}
             >
               <Badge
-                badgeContent={this.props.cartProducts.length}
+                badgeContent={
+                  this.props.cartProducts && this.props.cartProducts.length
+                }
                 color="primary"
               >
                 <ShoppingCartIcon htmlColor="white" />
