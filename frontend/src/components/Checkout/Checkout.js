@@ -27,10 +27,12 @@ class Checkout extends React.Component {
     this.removeProduct = this.removeProduct.bind(this);
     this.checkoutProducts = this.checkoutProducts.bind(this);
     this.cart = this.cart.bind(this);
+    this.displayFilledCart = this.displayFilledCart.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.cartProducts.length !== prevProps.cartProducts.length) {
+      this.calculateTotal(this.props.cartProducts);
       this.setLocalCartCopy(this.props.cartProducts);
     }
   }
@@ -102,6 +104,82 @@ class Checkout extends React.Component {
     );
   }
 
+  displayFilledCart() {
+    return (
+      <div style={{ height: "50vh" }}>
+        <Grid
+          container
+          style={{
+            backgroundColor: "#EEF1F1",
+            height: "40px",
+            width: "100%",
+            borderRadius: "5px",
+            alignItems: "center",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            marginTop: "10px",
+          }}
+        >
+          <Grid
+            item
+            xs={5}
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Typography style={{ fontSize: "12px" }}>Products</Typography>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Typography style={{ fontSize: "12px" }}>Price</Typography>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Typography style={{ fontSize: "12px" }}>Quantity</Typography>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Typography style={{ fontSize: "12px" }}>Total</Typography>
+          </Grid>
+        </Grid>
+
+        <div style={{ overflowY: "auto", height: "48vh" }}>
+          {this.state.cartProducts.map((cartProduct) => {
+            return (
+              <CartItem
+                key={cartProduct.productID}
+                cartProduct={cartProduct}
+                removeProduct={this.removeProduct}
+                total={this.state.total}
+                setTotal={this.setTotal}
+                updateQuantity={this.updateQuantity}
+              />
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   cart() {
     return (
       <Grid>
@@ -121,85 +199,14 @@ class Checkout extends React.Component {
                 display: "flex",
                 justifyContent: "flex-start",
               }}
-              variant="body1"
+              variant="h6"
             >
               {`Cart (${this.state.cartProducts.length} Products)`}
             </Typography>
             {this.state.cartProducts.length === 0 ? (
               <EmptyCart />
             ) : (
-              <>
-                <Grid
-                  container
-                  style={{
-                    backgroundColor: "#EEF1F1",
-                    height: "40px",
-                    width: "100%",
-                    borderRadius: "5px",
-                    alignItems: "center",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <Grid
-                    item
-                    xs={5}
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Typography style={{ fontSize: "12px" }}>
-                      Products
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Typography style={{ fontSize: "12px" }}>Price</Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Typography style={{ fontSize: "12px" }}>
-                      Quantity
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Typography style={{ fontSize: "12px" }}>Total</Typography>
-                  </Grid>
-                </Grid>
-                {this.state.cartProducts.map((cartProduct) => {
-                  return (
-                    <CartItem
-                      key={cartProduct.productID}
-                      cartProduct={cartProduct}
-                      removeProduct={this.removeProduct}
-                      total={this.state.total}
-                      setTotal={this.setTotal}
-                      updateQuantity={this.updateQuantity}
-                    />
-                  );
-                })}
-              </>
+              this.displayFilledCart()
             )}
           </CardContent>
         </Card>

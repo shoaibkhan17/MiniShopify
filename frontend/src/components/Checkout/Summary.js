@@ -2,11 +2,17 @@ import {
   Button,
   Card,
   CardContent,
+  createMuiTheme,
   Divider,
   Grid,
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { SHIPPING_COST, PRIMARY_THEME_COLOR } from "../../constants/constants";
+
+const theme = createMuiTheme({
+  spacing: [0, 4, 8, 16, 32, 64],
+});
 
 class Summary extends React.Component {
   constructor(props) {
@@ -29,7 +35,7 @@ class Summary extends React.Component {
         >
           <CardContent>
             <Grid container>
-              <Typography variant="body1">Cart Summary</Typography>
+              <Typography variant="h6">Cart Summary</Typography>
             </Grid>
             <Grid container style={{ paddingTop: "15px" }}>
               <Grid
@@ -39,7 +45,7 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "lighter" }}
+                  style={{ fontSize: "15px", fontWeight: "lighter" }}
                 >
                   Sub Total
                 </Typography>
@@ -51,7 +57,7 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "bold" }}
+                  style={{ fontSize: "15px", fontWeight: "bold" }}
                 >
                   {this.props.total}
                 </Typography>
@@ -65,7 +71,7 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "lighter" }}
+                  style={{ fontSize: "15px", fontWeight: "lighter" }}
                 >
                   Tax
                 </Typography>
@@ -77,7 +83,7 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "bold" }}
+                  style={{ fontSize: "15px", fontWeight: "bold" }}
                 >
                   13%
                 </Typography>
@@ -94,7 +100,7 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "lighter" }}
+                  style={{ fontSize: "15px", fontWeight: "lighter" }}
                 >
                   Shipping
                 </Typography>
@@ -106,9 +112,9 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "bold" }}
+                  style={{ fontSize: "15px", fontWeight: "bold" }}
                 >
-                  -
+                  {SHIPPING_COST}
                 </Typography>
               </Grid>
             </Grid>
@@ -121,7 +127,7 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "lighter" }}
+                  style={{ fontSize: "15px", fontWeight: "lighter" }}
                 >
                   Total
                 </Typography>
@@ -133,9 +139,9 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "9px", fontWeight: "bold", color: "red" }}
+                  style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
                 >
-                  {(this.props.total * 1.13).toFixed(2)}
+                  {(this.props.total * 1.13 + SHIPPING_COST).toFixed(2)}
                 </Typography>
               </Grid>
             </Grid>
@@ -143,11 +149,13 @@ class Summary extends React.Component {
         </Card>
         <Button
           fullWidth
-          variant="outlined"
+          variant="contained"
+          color="primary"
           style={{
-            marginTop: "20px",
-            backgroundColor: "green",
-            color: "white",
+            padding: "10px",
+            margin: theme.spacing(3, 0, 2),
+            backgroundColor: PRIMARY_THEME_COLOR,
+            borderRadius: "12px",
           }}
           onClick={this.props.checkoutProducts}
         >

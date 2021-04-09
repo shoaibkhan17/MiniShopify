@@ -111,7 +111,9 @@ class CartItem extends React.Component {
           }}
         >
           <Typography style={{ fontSize: "12px" }}>
-            {this.state.selectedQuantity * this.props.cartProduct.cost}
+            {(
+              this.state.selectedQuantity * this.props.cartProduct.cost
+            ).toFixed(2)}
           </Typography>
         </Grid>
         <Grid item xs={1}>
