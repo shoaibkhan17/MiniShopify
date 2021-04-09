@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid, TextField, Typography } from "@material-ui/core";
+import { Grid, Select, TextField, Typography } from "@material-ui/core";
 import Shop from "./Shop";
-import Select from "@material-ui/core/Select";
+import SearchIcon from "@material-ui/icons/Search";
 
 class DisplayShops extends React.Component {
   constructor(props) {
@@ -48,8 +48,9 @@ class DisplayShops extends React.Component {
     if (event.target.value === "") {
       this.setState({ shops: this.props.shops });
     } else {
-      const filteredData = this.props.shops.filter(
-        (shop) => shop.name === event.target.value
+      const searchedValue = event.target.value.toLowerCase();
+      const filteredData = this.props.shops.filter((shop) =>
+        shop.name.toLowerCase().includes(searchedValue)
       );
       this.setState({ shops: filteredData });
     }
@@ -91,28 +92,46 @@ class DisplayShops extends React.Component {
 
   displaySearchBar() {
     return (
-      <div style={{ paddingTop: "20px", paddingBottom: "40px" }}>
-        <TextField
-          value={this.state.searchValue}
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
-        />
-        <Select
-          value={this.state.selectedTag}
-          native
-          onChange={(event) => {
-            this.handleSelectChange(event);
-          }}
-        >
-          <option aria-label="None" value="" />
-          {this.state.tags &&
-            this.state.tags.map((tag) => (
-              <option key={tag} value={tag}>
-                {tag}
-              </option>
-            ))}
-        </Select>
+      <div style={{ paddingTop: "10px", paddingBottom: "40px" }}>
+        <Grid container spacing={1} alignItems="flex-end">
+          <Grid item>
+            <SearchIcon />
+          </Grid>
+          <Grid item>
+            <TextField
+              value={this.state.searchValue}
+              label="Search"
+              onChange={(event) => {
+                this.handleChange(event);
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <Typography
+              variant="body1"
+              style={{ paddingLeft: "20px", paddingBottom: "5px" }}
+            >
+              Filter Tags:
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Select
+              value={this.state.selectedTag}
+              native
+              onChange={(event) => {
+                this.handleSelectChange(event);
+              }}
+            >
+              <option aria-label="Filter Shops" value="" />
+              {this.state.tags &&
+                this.state.tags.map((tag) => (
+                  <option key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+            </Select>
+          </Grid>
+        </Grid>
       </div>
     );
   }
