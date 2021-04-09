@@ -185,7 +185,9 @@ class Checkout extends React.Component {
               justifyContent: "flex-start",
             }}
           >
-            <Typography style={{ fontSize: "12px" }}>Quantity</Typography>
+            <Typography style={{ fontSize: "12px", paddingLeft: "18%" }}>
+              Quantity
+            </Typography>
           </Grid>
           <Grid
             item
@@ -231,15 +233,32 @@ class Checkout extends React.Component {
           }}
         >
           <CardContent>
-            <Typography
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-              variant="h6"
-            >
-              {`Cart (${this.state.cartProducts.length} Products)`}
-            </Typography>
+            <Grid container spacing={1}>
+              <Grid item>
+                <Typography
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                  }}
+                  variant="h6"
+                >
+                  Cart
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    color: "rgb(99, 115, 129)",
+                  }}
+                  variant="h6"
+                >
+                  {`(${this.state.cartProducts.length} Products)`}
+                </Typography>
+              </Grid>
+            </Grid>
+
             {this.state.cartProducts.length === 0 ? (
               <EmptyCart />
             ) : (

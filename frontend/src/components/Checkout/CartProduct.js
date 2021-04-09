@@ -45,7 +45,6 @@ class CartItem extends React.Component {
         container
         style={{
           backgroundColor: "#FAFAFA",
-          height: "50px",
           width: "100%",
           alignItems: "center",
           paddingLeft: "10px",
@@ -76,44 +75,60 @@ class CartItem extends React.Component {
           }}
         >
           <Typography style={{ fontSize: "12px" }}>
-            {this.props.cartProduct.cost}
+            ${this.props.cartProduct.cost}
           </Typography>
         </Grid>
-        <Grid
-          item
-          xs={2}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            borderRadius: "5px",
-            backgroundColor: "#EEF1F1",
-            height: "20px",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
-            onClick={() => {
-              this.updateQuantity(-1);
-            }}
+        <Grid item>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
           >
-            <RemoveIcon fontSize="small" />
-          </IconButton>
-          <Typography style={{ fontSize: "12px" }}>
-            {this.state.selectedQuantity}
-          </Typography>
-          <IconButton onClick={() => this.updateQuantity(1)}>
-            <AddIcon fontSize="small" />
-          </IconButton>
+            <Grid
+              item
+              xs={2}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                borderRadius: "5px",
+                alignItems: "center",
+              }}
+            >
+              <IconButton
+                onClick={() => {
+                  this.updateQuantity(-1);
+                }}
+              >
+                <RemoveIcon fontSize="small" />
+              </IconButton>
+              <Typography style={{ fontSize: "12px", width: "10px" }}>
+                {this.state.selectedQuantity}
+              </Typography>
+              <IconButton onClick={() => this.updateQuantity(1)}>
+                <AddIcon fontSize="small" />
+              </IconButton>
+            </Grid>
+
+            <Grid item>
+              <Typography variant="body2">
+                Available: {this.props.cartProduct.quantity}
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
+
         <Grid
           item
           xs={2}
           style={{
             display: "flex",
             justifyContent: "center",
+            paddingLeft: "7%",
           }}
         >
           <Typography style={{ fontSize: "12px" }}>
+            $
             {(
               this.state.selectedQuantity * this.props.cartProduct.cost
             ).toFixed(2)}
@@ -121,7 +136,7 @@ class CartItem extends React.Component {
         </Grid>
         <Grid item xs={1}>
           <IconButton onClick={this.removeProductFromCart}>
-            <DeleteIcon />
+            <DeleteIcon color="secondary" />
           </IconButton>
         </Grid>
       </Grid>
