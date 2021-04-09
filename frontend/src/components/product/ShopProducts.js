@@ -95,9 +95,7 @@ class ShopProducts extends React.Component {
             <AddCircleRoundedIcon
               fontSize="large"
               onClick={() => this.addProduct()}
-              style={{
-                color: "#43C701",
-              }}
+              htmlColor="black"
             />
           </IconButton>
         )}

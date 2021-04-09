@@ -29,7 +29,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="BackgroundHome">
         <Router>
           <Switch>
             <Route path="/sign-in" exact component={() => <SignIn />} />

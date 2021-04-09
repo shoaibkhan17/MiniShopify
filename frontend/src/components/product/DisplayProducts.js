@@ -42,11 +42,12 @@ class DisplayProducts extends React.Component {
     return (
       <Grid
         container
+        direction="row"
         justify="center"
+        alignItems="center"
         spacing={3}
         style={{
-          margin: "2%",
-          width: "96%",
+          paddingTop: "2%",
         }}
       >
         {this.state.products &&

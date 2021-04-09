@@ -41,10 +41,7 @@ class UserShops extends React.Component {
         />
 
         <IconButton onClick={this.addNewShop}>
-          <AddCircleRoundedIcon
-            fontSize="large"
-            htmlColor={PRIMARY_THEME_COLOR}
-          />
+          <AddCircleRoundedIcon fontSize="large" htmlColor={"black"} />
         </IconButton>
 
         {this.state.addingShop && (
