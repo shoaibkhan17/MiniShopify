@@ -54,7 +54,11 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "15px", fontWeight: "lighter" }}
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: "lighter",
+                    color: "rgb(99, 115, 129)",
+                  }}
                 >
                   Sub Total
                 </Typography>
@@ -68,7 +72,10 @@ class Summary extends React.Component {
                   variant="body1"
                   style={{ fontSize: "15px", fontWeight: "bold" }}
                 >
-                  {this.props.total.toFixed(2)}
+                  $
+                  {this.props.total !== 0
+                    ? this.props.total.toFixed(2)
+                    : this.props.total}
                 </Typography>
               </Grid>
             </Grid>
@@ -80,7 +87,11 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "15px", fontWeight: "lighter" }}
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: "lighter",
+                    color: "rgb(99, 115, 129)",
+                  }}
                 >
                   Tax
                 </Typography>
@@ -109,7 +120,11 @@ class Summary extends React.Component {
               >
                 <Typography
                   variant="body1"
-                  style={{ fontSize: "15px", fontWeight: "lighter" }}
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: "lighter",
+                    color: "rgb(99, 115, 129)",
+                  }}
                 >
                   Shipping
                 </Typography>
@@ -134,10 +149,7 @@ class Summary extends React.Component {
                 xs={6}
                 style={{ display: "flex", justifyContent: "flex-start" }}
               >
-                <Typography
-                  variant="body1"
-                  style={{ fontSize: "15px", fontWeight: "lighter" }}
-                >
+                <Typography variant="body1" style={{ fontSize: "15px" }}>
                   Total
                 </Typography>
               </Grid>
@@ -150,7 +162,7 @@ class Summary extends React.Component {
                   variant="body1"
                   style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
                 >
-                  {this.calculateTotal()}
+                  ${this.calculateTotal()}
                 </Typography>
               </Grid>
             </Grid>

@@ -4,12 +4,6 @@ object-assign
 @license MIT
 */
 
-/*!
- * bulma-toast 2.2.0 
- * (c) 2018-present @rfoel <rafaelfr@outlook.com> 
- * Released under the MIT License.
- */
-
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 

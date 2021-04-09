@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
 import Product from "./Product";
+import SearchIcon from "@material-ui/icons/Search";
 
 class DisplayProducts extends React.Component {
   constructor(props) {
@@ -30,11 +31,11 @@ class DisplayProducts extends React.Component {
     if (event.target.value === "") {
       this.setState({ products: this.props.products });
     } else {
-      const filteredData = this.props.products.filter(
-        (product) => product.name === event.target.value
+      const searchedValue = event.target.value.toLowerCase();
+      const filteredData = this.props.products.filter((product) =>
+        product.name.toLowerCase().includes(searchedValue)
       );
       this.setState({ products: filteredData });
-      console.log(filteredData);
     }
   }
 
@@ -68,12 +69,20 @@ class DisplayProducts extends React.Component {
   displaySearchBar() {
     return (
       <div style={{ paddingTop: "20px", paddingBottom: "30px" }}>
-        <TextField
-          value={this.state.searchValue}
-          onChange={(event) => {
-            this.handleChange(event);
-          }}
-        />
+        <Grid container spacing={1} alignItems="flex-end">
+          <Grid item>
+            <SearchIcon />
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Search"
+              value={this.state.searchValue}
+              onChange={(event) => {
+                this.handleChange(event);
+              }}
+            />
+          </Grid>
+        </Grid>
       </div>
     );
   }
