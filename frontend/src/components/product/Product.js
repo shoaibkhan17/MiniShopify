@@ -76,9 +76,8 @@ class Product extends React.Component {
         )}
         <Card
           style={{
-            minWidth: "300px",
-            maxWidth: "300px",
-            minHeight: "300px",
+            width: "300px",
+            minHeight: "457px",
             boxShadow:
               "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px",
             borderRadius: "16px",
