@@ -104,7 +104,7 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="BackgroundAuth">
         {this.showNotificationPop()}
         {this.state.redirectToCreateAccount && (
           <Redirect to={{ pathname: "/create-account" }} />

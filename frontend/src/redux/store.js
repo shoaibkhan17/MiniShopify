@@ -96,7 +96,13 @@ const myReducer = (state = initialState, action) => {
     else {
       newState.cartProducts.forEach((product) => {
         if (product.productID === cartProduct.productID) {
-          product.selectedQuantity += cartProduct.selectedQuantity;
+          if (
+            product.selectedQuantity + cartProduct.selectedQuantity <=
+            product.quantity
+          ) {
+            product.selectedQuantity += cartProduct.selectedQuantity;
+          }
+          return;
         }
       });
     }

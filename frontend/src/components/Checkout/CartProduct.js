@@ -21,7 +21,10 @@ class CartItem extends React.Component {
   }
 
   updateQuantity(number) {
-    if (this.state.selectedQuantity + number > 0) {
+    if (
+      this.state.selectedQuantity + number > 0 &&
+      this.state.selectedQuantity + number <= this.props.cartProduct.quantity
+    ) {
       const quantity = this.state.selectedQuantity;
       this.props.updateQuantity(
         this.props.cartProduct,
@@ -111,7 +114,9 @@ class CartItem extends React.Component {
           }}
         >
           <Typography style={{ fontSize: "12px" }}>
-            {this.state.selectedQuantity * this.props.cartProduct.cost}
+            {(
+              this.state.selectedQuantity * this.props.cartProduct.cost
+            ).toFixed(2)}
           </Typography>
         </Grid>
         <Grid item xs={1}>

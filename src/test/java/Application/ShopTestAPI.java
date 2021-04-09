@@ -69,6 +69,14 @@ public class ShopTestAPI {
 		shopJsonBody.put("tags", shop1.getTags());
 	}
 
+	@Test
+    public void testInvalidGetShopProducts() throws Exception{
+        String invalidShopID = "2";
+         mvc.perform(get("/api/shop/getProducts/" + invalidShopID))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+	
 	/**
 	 * Get all shops, check if the list of shops returned from firestore is not null.
 	 * @throws ExecutionException

@@ -34,8 +34,6 @@ class AuthService {
         store.dispatch(setAuthenticated(false));
         store.dispatch(setIdToken(""));
         store.dispatch(setUserShops([]));
-        store.dispatch(setShops([]));
-        store.dispatch(setProducts([]));
         return true;
       })
       .catch((error) => {

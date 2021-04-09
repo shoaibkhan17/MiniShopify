@@ -26,7 +26,11 @@ class Home extends React.Component {
   }
   render() {
     return (
-      <div style={{ height: "100vh" }}>
+      <div
+        style={{
+          height: "100vh",
+        }}
+      >
         <TopBar />
         <BrowseShops
           shops={this.props.shops}

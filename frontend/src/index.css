@@ -24,6 +24,12 @@ body {
     url(./fonts/our-generation.regular.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "gettingBetter";
+  src: local("gettingBetter"),
+    url(./fonts/getting-better.regular.ttf) format("truetype");
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

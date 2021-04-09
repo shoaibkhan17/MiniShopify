@@ -126,7 +126,10 @@ class TopBar extends React.Component {
   render() {
     return (
       <div style={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ background: PRIMARY_THEME_COLOR }}>
+        <AppBar
+          position="static"
+          style={{ background: "rgba(21, 67, 96, 0.5)" }}
+        >
           <Toolbar>
             <RedirectHomeButton />
             {this.props.isAuthenticated && <RedirectUserShopsButton />}
